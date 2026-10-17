@@ -10,7 +10,9 @@ class GGUFEngine(BudgetEngine):
     def __init__(self,private,vision_batch_tokens=512):
         self.protocol=json.loads((ROOT/'config/budget-protocol.json').read_text());self.config=self.protocol['candidate']
         self.registry=json.loads((ROOT/'config/rules.json').read_text(encoding='utf-8'));self.precision='Q4_K_M+F16-projector'
-        self.server=NativeServer(private,vision_batch_tokens=vision_batch_tokens);self.server.start();self.telemetry=[];self.gate_calls=[];self.meter=DeviceMeter()
+        self.server=self.make_server(private,vision_batch_tokens);self.server.start();self.telemetry=[];self.gate_calls=[];self.meter=DeviceMeter()
+    def make_server(self,private,vision_batch_tokens):
+        return NativeServer(private,vision_batch_tokens=vision_batch_tokens)
     def close(self):self.meter.stop();self.server.close()
     def reset_resources(self):self.meter.start()
     def resource_metrics(self):return self.meter.stop()

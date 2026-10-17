@@ -53,14 +53,15 @@ def run_phase(engine,phase,selected,out,config,load):
     if target.exists():raise RuntimeError('This frozen phase was already completed; no repeated selection')
     folder=out/phase
     if folder.exists():raise RuntimeError('An interrupted phase exists; inspect its status before any retry')
-    folder.mkdir();truth=[];pred=[];gate=[];latency=[];failures={};unchanged=True;errors=[];rejected_detail=0;gate_calls=0
+    folder.mkdir();truth=[];pred=[];gate=[];latency=[];failures={};unchanged=True;errors=[];rejected_detail=0;gate_calls=0;device_peaks=[]
     for i,row in enumerate(selected):
         private=folder/f'{i:03d}';private.mkdir();path=Path(row['path']);tick=time.monotonic()
         before=digest(path)
         try:
             result=engine.analyze(path,f'private-gate-{i}',private)
             (private/'result.json').write_text(json.dumps(result,ensure_ascii=False),encoding='utf-8')
-            m=json.loads((private/'metrics.json').read_text());coarse=bool(m['gate_calls'][0]['visible_violation'])
+            m=json.loads((private/'metrics.json').read_text());coarse=bool(m.get('coarse_gate_candidate',m['gate_calls'][0]['visible_violation']))
+            if type(m.get('gpu_device_used_peak_observed_mib')) in [int,float]:device_peaks.append(m['gpu_device_used_peak_observed_mib'])
             truth.append(row['target']);pred.append(int(result['verdict']=='violation'));gate.append(int(coarse));gate_calls+=len(m['gate_calls'])
             rejected_detail+=int(coarse and not pred[-1])
             if pred[-1] and row['target'] and row['label_sec'] is not None:errors.append(min(abs(e['timecode_sec']-row['label_sec']) for e in result['violations']))
@@ -82,6 +83,7 @@ def run_phase(engine,phase,selected,out,config,load):
             'checks':checks,'passed_control':all(checks.values()),'model_load_sec':load,
             'engine_latency_mean_sec':statistics.mean(latency),'engine_latency_max_sec':max(latency),'latency_scope':'Complete engine calls, excluding upload, queue and model load',
             'gate_generation_calls':gate_calls,'coarse_positive_without_final_event':rejected_detail,
+            'gpu_device_used_peak_observed_mib':max(device_peaks) if device_peaks else None,
             'timestamp_matched_positive_count':len(errors),'timestamp_mae_sec':statistics.mean(errors) if errors else None,
             'vram_allocated_peak_mib':engine.torch.cuda.max_memory_allocated()/2**20 if hasattr(engine,'torch') else None,
             'runtime_torch':str(engine.torch.__version__) if hasattr(engine,'torch') else None,

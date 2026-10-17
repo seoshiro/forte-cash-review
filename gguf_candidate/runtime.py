@@ -30,9 +30,11 @@ class DeviceMeter:
                 'gpu_memory_samples':len(self.values),'gpu_memory_scope':'Device-wide sampled usage; includes other processes; not per-process allocation'}
 
 class NativeServer:
-    def __init__(self,private,vision_batch_tokens=512):
+    def __init__(self,private,vision_batch_tokens=512,image_max_tokens=256):
         if vision_batch_tokens not in (512,2048):raise ValueError('Unexpected registered vision batch')
+        if image_max_tokens not in (256,1024):raise ValueError('Unexpected registered image budget')
         self.vision_batch_tokens=vision_batch_tokens
+        self.image_max_tokens=image_max_tokens
         self.private=Path(private);self.private.mkdir(parents=True,exist_ok=True);self.process=None
         cfg=json.loads((ROOT/'config/gguf-artifacts.json').read_text());ready=ROOT/'.private/gguf-preflight/safe-summary.json'
         if not ready.is_file() or json.loads(ready.read_text()).get('status')!='artifacts_verified_not_benchmarked':raise RuntimeError('Verified native artifacts are not ready')
@@ -52,7 +54,7 @@ class NativeServer:
         args=[str(self.exe),'--offline','--model',str(self.models['text']),'--mmproj',str(self.models['projector']),
               '--device','CUDA0','--mmproj-device','CUDA0','--gpu-layers','all','--fit','off',
               '--ctx-size','4096','--parallel','1','--threads','4','--batch-size','512','--ubatch-size','128',
-              '--image-min-tokens','64','--image-max-tokens','256','--mtmd-batch-max-tokens',str(self.vision_batch_tokens),
+              '--image-min-tokens','64','--image-max-tokens',str(self.image_max_tokens),'--mtmd-batch-max-tokens',str(self.vision_batch_tokens),
               '--host','127.0.0.1','--port',str(self.port),'--no-webui','--no-agent','--no-ui-mcp-proxy',
               '--cors-origins','http://127.0.0.1','--no-cors-credentials','--api-key',TEST_KEY,'--log-disable']
         env={k:v for k,v in os.environ.items() if not k.startswith(('LLAMA_','MTMD_','HF_'))}
