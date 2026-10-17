@@ -10,7 +10,7 @@ The isolated XCLIP research API works end to end with actual local weights on ge
 | Positive evidence path | Controlled fixed-feature research path and real official synthetic worker passed actual source JPEG/variable-PTS/auth checks; learned positive selection and evidence relevance remain unverified |
 | Fixed hard-negative diagnostic | Registered once; baseline reproduced; same TN6/FP6/FN2/TP12 and F1 0.75; point MAE 9.25 vs 8.833333 seconds; useful gate failed; branch closed |
 | Reliability | External process monitor, hard exits/deadlines/orphan cleanup/report-write fault tests; observed PID publication race fixed atomically |
-| Unit/integration tests | 191 passed, zero failures, JUnit33.327 seconds; existing non-blocking TestClient deprecation warning |
+| Unit/integration tests | 250 passed, zero failures, JUnit32.032 seconds; existing non-blocking TestClient deprecation warning |
 | Historical hybrid diagnosis | Initial readiness timeout plus verified sandbox loopback denial; recovery's actual exit code/cause unrecorded and unknown; no completed prerequisite or TRAIN gate |
 | External-access preparation | Local health reachable in synthetic mode; all redirects blocked and tested; neither cloudflared nor ngrok found on PATH; no tunnel installed/started |
 
@@ -25,3 +25,5 @@ Remaining priority: a valid semantic classifier with measured benefit, real new-
 Cloud-chat bank-video explanations supplied separately were not opened or imported, and remain excluded from every training/prompt/evaluation/documentation path. Quarantined manual annotations remain excluded. A separate user-claimed local notes file was found through filename/metadata; its one reviewed local inspection did not establish safe TRAIN separation. The whole file remains quarantined and unused, with no text emitted. See `user-hypotheses-policy.md`. No originals are deleted.
 
 Read [local-readiness.md](local-readiness.md), [working-checkpoint.md](working-checkpoint.md), [execution-reliability.md](execution-reliability.md), [xclip-hard-negative.md](xclip-hard-negative.md) and [xclip-experimental-api.md](xclip-experimental-api.md) before continuing. Preserve failed attempts and registrations; do not repeat a closed semantic gate or use held-out data to rescue a score.
+
+The next fixed text-discrimination probe completed technically: literal-copy9/9, numeric geometry9/27, all36 valid normal-stop/render-verified responses, no technical errors or truncation. Geometry selected the first stated definition in all27 cases and changed with prompt order; schema/enum changes did not change paired responses. Images were correctly not run. This identifies an observed ordering pattern, not its root cause or a fix. The concrete next unrun choice is a bounded facts/binding/orthogonal-order decomposition; see `qwen-text-discrimination.md`. No bank-semantic gate was passed.

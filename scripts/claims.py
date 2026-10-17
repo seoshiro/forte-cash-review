@@ -129,6 +129,8 @@ sources+=list((root/'qwen-action-probe/run').glob('terminal-safe-summary.json'))
 sources+=list((root/'qwen-static-audit').glob('safe-summary.json'))
 sources+=list((root/'runtime-template-audit').glob('*safe-summary.json'))
 sources+=list((root/'runtime-template-audit/run').glob('terminal-safe-summary.json'))
+sources+=list((root/'qwen-text-discrimination').glob('*safe-summary.json'))
+sources+=list((root/'qwen-text-discrimination/run').glob('terminal-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -142,6 +144,8 @@ def numeric(prefix,value,sample,source):
         if 'xclip-spatial-control' in source:limitation='One fixed reused-TRAIN group OOF spatial ablation; no expert ROI, independent quality or type/rule validation; monitor time is not API latency'
         if 'qwen-action-probe' in source:limitation='Three generated geometric cases per cell; diagnostic counts, not bank-action quality or model-capacity evidence; actual image token counts may differ'
         if 'runtime-template-audit' in source:limitation='Synthetic no-generation template rendering or public-header calculation only; original strict props identity check failed from terminal LF normalization; no action quality, schema grammar or vision embedding validation'
+        if 'qwen-text-discrimination' in source:limitation='One fixed synthetic text discrimination control; conditional images only after strict text gate. Monitor counts one compound assertion, not calls; no bank, capacity or causal backend claim'
+        if 'geometry_first_prompt_rule_or_allowed_token_selection' in prefix:limitation+='; legacy metric name counts first-definition semantics only, not allowed-list selection'
         add(prefix,value,'see metric name',sample,source,limitation)
     elif isinstance(value,dict):
         for key,v in value.items():numeric(prefix+'_'+key,v,sample,source)
@@ -174,6 +178,7 @@ for f in sources:
     if f.parent.name=='qwen-action-probe':sample='synthetic'
     if f.parent.name=='qwen-static-audit':sample='technical'
     if f.parent.name=='runtime-template-audit':sample='synthetic' if f.name in ['safe-summary.json','tests-safe-summary.json'] else 'technical'
+    if f.parent.name=='qwen-text-discrimination':sample='synthetic'
     if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:sample='technical' if f.parent.parent.name=='xclip-spatial-control' else 'synthetic'
     if f.parent.name.startswith('oracle-diagnostic'):sample='synthetic' if f.name.startswith('synthetic') else 'train'
     if f.parent.name=='clarifications':sample='technical'
@@ -187,7 +192,9 @@ for f in sources:
     if f.parent.name in ['reliability','xclip-api-synthetic-smoke']:prefix+='_'+f.stem
     if f.parent.name=='xclip-positive-plumbing':prefix+='_'+f.stem
     if f.parent.name=='runtime-template-audit':prefix+='_'+f.stem
+    if f.parent.name=='qwen-text-discrimination':prefix+='_'+f.stem
     if f.parent.name=='run' and f.parent.parent.name=='runtime-template-audit':sample='synthetic';prefix='runtime-template-audit_monitor'
+    if f.parent.name=='run' and f.parent.parent.name=='qwen-text-discrimination':sample='synthetic';prefix='qwen-text-discrimination_monitor'
     if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:prefix=f.parent.parent.name+'_monitor'
     for k,v in record.items():
         if k not in ['results','reports']:numeric(prefix+'_'+k,v,sample,str(f))
@@ -229,6 +236,10 @@ def configured(prefix,value,source):
             add(prefix,value,'configured value','XCLIP-SPATIAL-01',source,'Pre-registered one-run spatial geometry/budget/target; not a measured result');return
         if prefix.startswith('qwen_action_probe'):
             add(prefix,value,'configured value','QWEN-ACTION-CONTROL-01',source,'Pre-registered fully synthetic diagnostic; no bank-action or capacity claim');return
+        if prefix.startswith('qwen_text_discrimination'):
+            add(prefix,value,'configured value','QWEN-TEXT-DISCRIMINATION-01',source,'One frozen synthetic input/decoding discrimination protocol; configured counts/budgets are not measured quality');return
+        if prefix.startswith('qwen_decomposition_draft'):
+            add(prefix,value,'draft configured/planning value','unregistered next choice',source,'Unrun draft; time estimate is unmeasured source-reviewer planning, not a promise or achieved runtime');return
         if prefix.startswith('hybrid_protocol'):
             add(prefix,value,'configured value','HYBRID-R22-01',source,'Pre-registered synthetic-gated limited-rule hypothesis, not measured quality');return
         add(prefix,value,'configured value','QVT-01' if prefix.startswith('qvt_protocol') else 'ORACLE-01R1' if prefix.startswith('oracle_protocol') else 'PANEL-01' if prefix.startswith('panel_protocol') else 'GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
@@ -250,6 +261,8 @@ configured('xclip_artifacts',json.loads(Path('config/xclip-artifacts.json').read
 configured('xclip_hardneg_protocol',json.loads(Path('config/xclip-hardneg-protocol.json').read_text()),'config/xclip-hardneg-protocol.json')
 configured('xclip_spatial_protocol',json.loads(Path('config/xclip-spatial-protocol.json').read_text()),'config/xclip-spatial-protocol.json')
 configured('qwen_action_probe',json.loads(Path('config/qwen-action-probe.json').read_text()),'config/qwen-action-probe.json')
+configured('qwen_text_discrimination',json.loads(Path('config/qwen-text-discrimination.json').read_text()),'config/qwen-text-discrimination.json')
+configured('qwen_decomposition_draft',json.loads(Path('config/qwen-decomposition-draft.json').read_text()),'config/qwen-decomposition-draft.json')
 configured('hybrid_protocol',json.loads(Path('config/hybrid-protocol.json').read_text()),'config/hybrid-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)

@@ -1,0 +1,10 @@
+{
+  "status":"DRAFT_UNREGISTERED_UNRUN",
+  "scope":"Proposed next choice after the completed text-discrimination diagnostic; not a fix or passed control",
+  "format":"JSONplain only; no schema, images, bank data or dataset splits",
+  "proposed_calls":{"numeric_boolean_facts":3,"symbolic_fact_to_label_binding":3,"orthogonal_definition_and_allowed_list_order":12,"total":18},
+  "proposed_wall_cap_sec":240,
+  "planning_estimate_minutes":{"minimum":20,"maximum":30},
+  "estimate_provenance":"Source-only reviewer planning estimate; unmeasured implementation/review/run effort, not a runtime guarantee",
+  "decision":"Separate arithmetic, symbolic binding and two prompt orders before a backend comparison; preserve baseline and require a new registration"
+}

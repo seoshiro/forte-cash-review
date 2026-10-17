@@ -1,0 +1,29 @@
+{
+  "protocol_id": "QWEN-TEXT-DISCRIMINATION-01",
+  "scope": "Synthetic input discrimination only; no bank data, notes or dataset splits",
+  "actions": ["exit", "enter", "stay"],
+  "labels": ["ALPHA", "BETA", "GAMMA"],
+  "maps": [{"exit":"ALPHA","enter":"BETA","stay":"GAMMA"},{"exit":"GAMMA","enter":"ALPHA","stay":"BETA"}],
+  "text_cells": [
+    {"id":"read_bare","family":"readback","map":0,"mode":"bare"},
+    {"id":"read_json","family":"readback","map":0,"mode":"json"},
+    {"id":"read_schema","family":"readback","map":0,"mode":"schema"},
+    {"id":"geom0_bare","family":"geometry","map":0,"mode":"bare"},
+    {"id":"geom0_json","family":"geometry","map":0,"mode":"json"},
+    {"id":"geom0_schema","family":"geometry","map":0,"mode":"schema"},
+    {"id":"geom1_bare","family":"geometry","map":1,"mode":"bare"},
+    {"id":"geom1_json","family":"geometry","map":1,"mode":"json"},
+    {"id":"geom1_schema","family":"geometry","map":1,"mode":"schema"},
+    {"id":"geom0_schema_rotated","family":"geometry","map":0,"mode":"schema","rotate_enum":true},
+    {"id":"geom0_bare_reordered","family":"geometry","map":0,"mode":"bare","reorder_prompt":true},
+    {"id":"geom0_json_reordered","family":"geometry","map":0,"mode":"json","reorder_prompt":true}
+  ],
+  "geometry":{"frame_side":256,"frames":4,"boundary_xyxy":[24,24,180,232],"disk_radius":9,"exit_x":[70,110,165,220],"stay_x":[70,95,125,150],"y":120},
+  "inference":{"max_tokens":48,"temperature":0,"seed":26101731,"image_min_tokens":64,"image_max_tokens":1024,"ctx_size":4096,"text_request_sec":8,"image_request_sec":15,"jpeg_quality":95},
+  "budget":{"wall_sec":480,"startup_sec":60,"text_phase_sec_from_ready":240,"image_phase_sec_from_text_gate":180,"text_calls":36,"conditional_image_calls":18,"runs":1},
+  "text_gate":"All 36 actual text responses correct, strict expected format, normal stop, verified rendering and no technical errors. Otherwise no images. Truncation means semantics NOT_ASSESSED, not model incapacity.",
+  "image_gate":"Only after text gate: original generated four-frame EXIT/ENTER/STAY, both label maps, bare/JSON/schema, 18 calls. Same scoring; no bank/action/legal transfer claim.",
+  "supervisor_scope":"One compound quality assertion evaluated after actual calls; monitor completed_cases is NOT call count. Actual completed calls are separately aggregated. Technical errors keep assertion NOT_ASSESSED and partial counts.",
+  "stop":"No retry, adaptive prompt edits, extra seeds, TRAIN/TUNE/HOLDOUT, private answer reads or second GPU worker. Preserve frozen baseline.",
+  "not_identified":["Bare versus JSON changes requested output format; JSON plain versus schema isolates response_format", "Successful template presence does not prove the numerical backend uses input", "A tiny synthetic control is not human-action, bank-event, new-camera or legal validation"]
+}
