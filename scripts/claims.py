@@ -26,6 +26,7 @@ sources+=list(root.glob('mirror-probe-safe-summary.json'))
 sources+=list(root.glob('download-probe-safe-summary.json'))
 sources+=list(root.glob('download-test-safe-summary.json'))
 sources+=list((root/'centered-proposal').glob('safe-summary.json'))
+sources+=list(root.glob('reconnect-download-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
     elif isinstance(value,dict):
