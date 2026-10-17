@@ -93,10 +93,17 @@ sources+=list((root/'qvt-control').glob('safe-summary.json'))
 sources+=list((root/'qvt-control').glob('technical-safe-summary.json'))
 sources+=list((root/'qvt-control').glob('synthetic-safe-summary.json'))
 sources+=list((root/'qvt-control').glob('protocol-deviation-safe-summary.json'))
+sources+=list((root/'prototype-cache').glob('safe-summary.json'))
+sources+=list((root/'prototype-cache').glob('review-safe-summary.json'))
+sources+=list(root.glob('mechanics-review-safe-summary.json'))
+sources+=list(root.glob('ecc-review-safe-summary.json'))
+sources+=list(root.glob('ecc-installation-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
-    if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
+    if isinstance(value,(int,float)) and not isinstance(value,bool):
+        limitation='Original registration omitted feature-cache digests; reused TRAIN exploratory diagnostic; not independent or release evidence' if 'prototype-cache' in source else 'Internal measurement; not official jury score'
+        add(prefix,value,'see metric name',sample,source,limitation)
     elif isinstance(value,dict):
         for key,v in value.items():numeric(prefix+'_'+key,v,sample,source)
     elif isinstance(value,list):
@@ -114,12 +121,14 @@ for f in sources:
     if f.parent.name=='manual-review':sample='technical'
     if f.parent.name=='api-final-review':sample='technical'
     if f.parent.name=='qvt-control':sample='synthetic' if f.name.startswith('synthetic') else 'train'
+    if f.parent.name=='prototype-cache':sample='train' if f.name=='safe-summary.json' else 'technical'
     if f.parent.name.startswith('oracle-diagnostic'):sample='synthetic' if f.name.startswith('synthetic') else 'train'
     if f.parent.name=='clarifications':sample='technical'
     prefix=f.stem if f.parent==root else f.parent.name
     if f.parent.name=='panel-control':prefix+='_'+f.stem
     if f.parent.name.startswith('oracle-diagnostic'):prefix+='_'+f.stem
     if f.parent.name=='qvt-control':prefix+='_'+f.stem
+    if f.parent.name=='prototype-cache':prefix+='_'+f.stem
     for k,v in record.items():
         if k not in ['results','reports']:numeric(prefix+'_'+k,v,sample,str(f))
     metrics=record.get('results',record.get('reports',{}))
@@ -127,15 +136,21 @@ for f in sources:
         metric_split='train' if strategy.startswith('train_') else 'tune'
         if f.parent.name.startswith('oracle-diagnostic'):metric_split='train'
         if f.parent.name=='qvt-control':metric_split='train'
+        if f.parent.name=='prototype-cache':metric_split='train'
         numeric(f.parent.name+'_'+strategy,result,metric_split,str(f))
         cm=result.get('confusion_matrix_tn_fp_fn_tp')
         if cm:
             for k,v in zip(['tn','fp','fn','tp'],[cm[0][0],cm[0][1],cm[1][0],cm[1][1]]):
                 limitation='Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence' if f.parent.name=='qvt-control' else 'Train is in-sample; tune is exploratory; preliminary scene groups'
+                if f.parent.name=='prototype-cache':limitation='Reused TRAIN group OOF; original feature-cache digest inventory missing; not release evidence'
                 add(f.parent.name+'_'+strategy+'_'+k,v,'videos',metric_split,str(f),limitation)
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
 def configured(prefix,value,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):
+        if prefix.startswith(('motion_draft','xclip_draft')):
+            add(prefix,value,'draft configured value','draft experiment',source,'Unregistered/unrun draft, not a measured result or acceptance evidence');return
+        if prefix.startswith('prototype_cache_protocol'):
+            add(prefix,value,'configured value','PROTO-CACHE-01',source,'Original fixed diagnostic configuration, not measured quality; original cache digests omitted');return
         add(prefix,value,'configured value','QVT-01' if prefix.startswith('qvt_protocol') else 'ORACLE-01R1' if prefix.startswith('oracle_protocol') else 'PANEL-01' if prefix.startswith('panel_protocol') else 'GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
     elif isinstance(value,dict):
         for k,v in value.items():configured(prefix+'_'+k,v,source)
@@ -147,6 +162,9 @@ configured('gguf_protocol',json.loads(Path('config/gguf-protocol.json').read_tex
 configured('panel_protocol',json.loads(Path('config/panel-protocol.json').read_text()),'config/panel-protocol.json')
 configured('oracle_protocol',json.loads(Path('config/oracle-diagnostic.json').read_text()),'config/oracle-diagnostic.json')
 configured('qvt_protocol',json.loads(Path('config/qvt-protocol.json').read_text()),'config/qvt-protocol.json')
+configured('motion_draft',json.loads(Path('config/motion-protocol.json').read_text()),'config/motion-protocol.json')
+configured('xclip_draft',json.loads(Path('config/xclip-draft.json').read_text()),'config/xclip-draft.json')
+configured('prototype_cache_protocol',json.loads(Path('config/prototype-cache-protocol.json').read_text()),'config/prototype-cache-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)
 print(json.dumps({'claim_rows':len(rows),'hardware':env}))

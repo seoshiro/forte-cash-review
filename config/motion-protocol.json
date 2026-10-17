@@ -1,0 +1,68 @@
+{
+  "protocol_id": "MOTION-BAG-01",
+  "registration_status": "draft_not_launched",
+  "awaiting_read_only_research_findings": true,
+  "hypothesis": "On fixed low-dimensional motion/state observations, training directly for a video verdict may reduce the false positives induced by max pooling a point-supervised window classifier. No semantic or legal inference follows from motion alone.",
+  "scope": "TRAIN-only binary proposal research; not a rule/type detector or submission engine",
+  "selection": {
+    "split": "train",
+    "manifest_rows_expected": 27,
+    "unique_contents_expected": 26,
+    "auto_groups_expected": 24,
+    "deduplication": "one learning/evaluation unit per exact SHA256, independent of label; abort on TRAIN conflicting binary or point labels; preserve all source rows and frozen split"
+  },
+  "features": {
+    "frame_step_sec": 0.5,
+    "decode_max_side": 192,
+    "analysis_size": 96,
+    "grid_size": 3,
+    "global_brightness_correction": "subtract valid-content median pixel difference from each adjacent-frame signed difference; exclude padding",
+    "spatial_pooling": "valid-content pixels only; preserve aspect ratio; reject changing geometry",
+    "motion": "mean absolute corrected luma difference per grid cell, 9 values",
+    "state": "fraction of cell pixels differing from within-video temporal median by more than 0.10, 9 values",
+    "state_threshold": 0.10,
+    "active_motion_threshold": 0.02,
+    "window_features": 18,
+    "bag_pooling": "mean, standard deviation and 90th percentile of each window feature (54), plus 6 fixed temporal/global statistics",
+    "bag_extra_statistics": ["active fraction", "longest active run fraction", "longest quiet run fraction", "lag-one motion correlation", "mean regional concentration", "90th percentile regional concentration"],
+    "bag_features": 60,
+    "pretrained_models": false,
+    "face_or_audio_processing": false,
+    "names_labels_times_used_by_feature_extractor": false
+  },
+  "head": {
+    "classifier": "StandardScaler + L2 LogisticRegression",
+    "C": 0.1,
+    "solver": "liblinear",
+    "seed": 26101761,
+    "max_iter": 2000,
+    "threshold": 0.5,
+    "validation": "leave one entire automatic TRAIN group out; scaling fitted only inside fold",
+    "bag_weights": "equal total class mass; each unique video one training item",
+    "window_supervision": "nearest fixed-grid window to official positive point; all windows from official negatives; other positive windows unlabeled",
+    "window_weights": "equal video mass within each class, equal total class mass",
+    "window_verdict": "maximum window score",
+    "bag_verdict": "single video score; no window maximum",
+    "time_localization": "not validated by bag head; maximum motion is only a technical candidate, not a semantic event"
+  },
+  "budget": {
+    "wall_sec": 600,
+    "max_feature_latency_sec": 30,
+    "max_process_rss_mib": 1500,
+    "gpu_used": false,
+    "new_downloads": false,
+    "maximum_train_runs": 1,
+    "maximum_tune_runs": 0
+  },
+  "acceptance": {
+    "bag_recall_min": 1.0,
+    "bag_specificity_min": 0.5,
+    "bag_balanced_accuracy_min": 0.75,
+    "bag_f1_min": 0.8,
+    "bag_balanced_accuracy_advantage_over_window_min": 0.10,
+    "zero_technical_failures": true,
+    "all_sources_unchanged": true
+  },
+  "stop": "One fixed run, no feature/threshold/seed search. Failed TRAIN gate rejects the branch. Even a pass is binary proposal evidence only: no production type, rule or evidence claims without verified observations and all applicability/exclusion conditions. TUNE/HOLDOUT closed in this protocol.",
+  "limitations": ["Motion/state changes are not cash actions", "Automatic groups can miss scene families", "Previously explored TRAIN is not an independent final estimate", "No event type or expert rule mapping in official labels", "No actual alternate-camera generalization measured"]
+}

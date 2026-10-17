@@ -1,0 +1,54 @@
+# Mechanics audit and next hypothesis
+
+## What QVT actually tested
+
+QVT-01 used the frozen visual encoder of the existing Qwen3-VL-2B weights, not its language model or a pretrained video encoder. Each frame's merged tokens were averaged, L2-normalized, projected by one fixed Gaussian matrix to 128 dimensions and L2-normalized. Static input was the current vector; temporal input concatenated current, previous-current and next-current vectors (384 dimensions). Boundary frames repeated. The head was StandardScaler plus L2 logistic regression, liblinear, C=0.01, threshold=0.5. Scaling was inside the held-out-group fold; explicit weights gave equal class mass and equal video mass within a class. Video verdict used the maximum window probability.
+
+This feature mean discards spatial relations. Neighbor differences are not a learned action representation. The Gaussian projection was fixed, not selected on results. Increasing head capacity on this sample is not justified.
+
+## Mechanical findings
+
+scripts/diagnose_qvt_mechanics.py reproduced the historical fixed heads on the private cache. It emitted only a fixed aggregate schema. It did not read manual annotations, observations, media or raw logs, and did not tune a parameter. Evidence: .private/qvt-mechanics/safe-summary.json. The first audit inspected all official workbook labels for integrity; it did not run HOLDOUT media inference/model evaluation or use HOLDOUT labels for model selection. That historical audit is preserved separately. The revised audit restricts supervision comparisons to TRAIN and explicitly distinguishes these scopes rather than making an unqualified claim that labels were never read.
+
+- All official target tokens are recognized; 22 positives and 20 negatives. Manifest targets and point timestamps match the original workbook, whose SHA matches the frozen split. Negative timestamps are missing, not zero. Unicode X normalization and the 68-second parser case pass.
+- Probability column is class one, and >=0.5 means positive. Recomputed predictions and argmax timestamps exactly reproduce the stored results. Class total-weight discrepancy is below 6e-15. Fold scaler means match their training inputs within 9e-8. The same feature function supplies training and inference.
+- Cached features are finite; frame L2 norms differ from one by less than 6e-8. PTS are monotonic/in-range; maximum grid offset is 0.03334 seconds. The farthest official positive TRAIN point is one second from the fixed grid. Timing arithmetic is not an explanation of the binary collapse.
+- No exact SHA or automatic group crosses a split. Whole held-out groups are absent from fit. This does not certify that automatic groups capture all scene families.
+- Temporal negative windows: 90/189 exceed the fixed threshold; max aggregation produces positives in all 12 negative videos. Static negative windows: 91/189 exceed it, producing positives in 10/12 videos. Max pooling is mechanically correct but increases the burden of false window alarms. Window-balanced supervision does not calibrate a video-level probability.
+
+## Duplicate bookkeeping repair
+
+The historical QVT ordering removed one duplicate negative row during technical-probe ordering, accidentally reporting 26 actual items against 27 registered manifest rows. Its original script/results remain unchanged and rejected. This has not been silently re-scored.
+
+New research selection in cashreview/research_split.py explicitly selects one unit per exact SHA before ordering; preserves multiplicity and all source rows; checks split/group consistency; and aborts on conflicting TRAIN binary or point supervision. The current TRAIN set validates as 27 original rows, 26 contents, 24 automatic groups. This is a count/learning-unit repair, not a newly discovered group leak.
+
+Across the official manifest, both duplicate cohorts agree on binary labels. One positive cohort has differing point timestamps. That can represent multiple valid event points rather than an error; no timestamp or label was corrected. It is outside the TRAIN duplicate cohort and needs an official interpretation before a future localization assessment. No per-video identifiers or rows are disclosed.
+
+## Competing explanations and discriminating tests
+
+| Hypothesis | Evidence for / against | Distinguishing test and consequence |
+|---|---|---|
+| Native image transport or generation polarity loses information | Earlier multi-image synthetic position failures support investigating transport. A single montage repaired those synthetic failures but still missed real positives. The JSON-schema envelope was separately corrected before ORACLE-01R1. Historical bugs do not establish a b11712 defect. | If returning to the legal gate, run synthetic-only interleaved separators, text-only explicit positive/negative pairs and constrained/unconstrained polarity. Inspect valid-token scores before the sampler where supported. Synthetic success rules out only the tested mechanics; forced JSON labels do not establish confidence or bank semantics. Do not update runtime speculatively. |
+| Weak frame representation loses the action/context | QVT temporal features underperform static features; global token mean and differences are not temporal attention. A functioning encoder and fast runtime do not prove action recognition. | A genuinely temporal frozen encoder can be compared with repeated-center-frame inputs using the same head/windows. An ordered-frame gain would support temporal representation; equality would weaken that explanation. No type/rule mapping follows. |
+| Window supervision / max pooling / high-dimensional head is the main rescue opportunity | Almost half of negative windows pass the logistic threshold and video max amplifies them. This explains the aggregation behavior, but may coexist with weak representations. | First use fixed cosine centroids on the existing cache, no scaler or trained dense head. Strong grouped AUC with weak fixed-threshold quality would suggest calibration; weak AUC argues against a head-only rescue. Do not pick a better threshold from this diagnostic. |
+
+PROTO-CACHE-01 registered code/config/dataset digests before reading the feature arrays, but its original registration omitted feature-cache digests. Thus the original frozen-sources flag covers code/config only; historical cache immutability was not proven. The old registration/results are preserved, not rerun or retrospectively upgraded. The code was repaired for future registrations to inventory and verify exact cache inputs, and a synthetic mutation test checks this gate. One nearest-grid positive vector per official positive video and one mean vector per negative video contribute equally to their class centroid; both centroids are fitted inside each group fold. Score is cosine-positive minus cosine-negative, video max, fixed zero threshold. No new encoder inference or download occurred. It completed in 0.093 seconds:
+
+| Cached arm | TN/FP/FN/TP | F1 | Balanced accuracy | Video ROC AUC |
+|---|---|---:|---:|---:|
+| Static | 4/8/2/12 | 0.7059 | 0.5952 | 0.5774 |
+| Temporal | 3/9/2/12 | 0.6857 | 0.5536 | 0.5238 |
+
+Neither meets the fixed AUC signal gate of 0.75. This weakens a head-only rescue of these QVT representations. It does not prove that a different genuinely temporal encoder must fail. Evidence: config/prototype-cache-protocol.json, .private/prototype-cache/safe-summary.json; private per-video values were not emitted. These are exploratory reused-TRAIN diagnostics, not independent final metrics.
+
+## One preferred next representation branch
+
+Prefer a bounded frozen X-CLIP temporal-representation test over a larger QVT classifier or more legal prompts. The [official Microsoft weight card](https://huggingface.co/microsoft/xclip-base-patch32) declares MIT and describes eight 224x224 frames; [VideoX code](https://github.com/microsoft/VideoX/blob/master/LICENSE) is MIT. Use Transformers' [get_video_features](https://huggingface.co/docs/transformers/model_doc/xclip), existing patched runtime and Safetensors only. Pin the exact revision, LFS digest, processor and source configuration before downloading only the required artifacts. No download or X-CLIP inference has occurred in this checkpoint. No code is borrowed from unlicensed adapters, and noncommercial VideoMAE weights are excluded.
+
+The proposed single controlled change is a pretrained temporal representation, retaining equal-video cosine centroids and fixed threshold. Register two-second windows / one-second stride / eight PTS-selected frames, ordered versus repeated-center ablation, grouped TRAIN folds, and all prototype/scaling fitting inside folds. Official positive points supervise only TRAIN prototypes; other positive windows remain unlabeled. Inference scans the fixed full-video grid without labels, names or oracle centers. A repeated-center ablation tests the claimed temporal contribution; no head/threshold search follows.
+
+Suggested hard budget before launch: 30 minutes total, with a synthetic mechanics probe and duration-selected TRAIN speed/memory preflight first. Abort before full extraction if longest-TRAIN complete ordered+repeated extraction cannot fit 220 seconds, reserved VRAM exceeds 5000 MiB or process RSS exceeds 6000 MiB. Loading/download costs and complete extraction cost must be measured, not inferred from file size. Stop on source changes or errors. TRAIN acceptance should preserve recall=1, specificity>=0.5, F1>=0.8, balanced accuracy>=0.75, plus ordered advantage>=0.05 balanced accuracy over repeated-center and no latency-budget breach. TUNE/HOLDOUT stay closed until a fixed useful TRAIN result. These numbers are draft targets, not measurements or a registration yet.
+
+The CPU-only MOTION-BAG-01 alternative is prepared as a draft with synthetic tests, but no real-data feature extraction or fitting has run. It uses fixed brightness-corrected 3x3 motion/state observations, then compares a point-window/max head with a 60-feature video-bag head. ECC-derived review found that padding could produce motion under uniform brightness changes. A non-square synthetic regression failed before the fix; valid-content masking now excludes padding from brightness estimation and pooling. Its ten-minute budget is configured in config/motion-protocol.json. Keep it parked while comparing the public temporal-model evidence, rather than running several branches at once.
+
+Neither branch can truthfully manufacture mandatory event types, rules or evidence descriptions from a binary score. Rule output still requires a locally verified specific observation, all applicability conditions and exclusions, and genuine evidence. Motion maxima or prototype similarity are candidate priorities only. The official-label-only detector research continues independently of the quarantined non-expert manual form.

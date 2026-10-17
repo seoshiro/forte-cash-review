@@ -1,0 +1,21 @@
+{
+  "protocol_id": "PROTO-CACHE-01",
+  "scope": "Exploratory TRAIN-only ranking diagnostic on existing frozen QVT cache; not a detector release or XCLIP quality claim",
+  "features": ["QVT static 128D", "QVT temporal 384D"],
+  "selection": "26 exact-unique TRAIN contents, 24 automatic groups; exact duplicates contribute one unit, no label-dependent exclusion",
+  "positive_centroid": "normalize the mean of normalized nearest-fixed-grid point representations, equal video weight",
+  "negative_centroid": "normalize the mean of per-negative-video mean normalized window representations, equal video weight",
+  "score": "cosine to positive centroid minus cosine to negative centroid",
+  "video_score": "maximum fixed-grid window margin",
+  "threshold": 0.0,
+  "scaler": "none; L2 normalization only",
+  "validation": "leave entire TRAIN auto group out; both centroids fit only on remaining groups",
+  "ranking_signal_gate_auc_min": 0.75,
+  "budget_wall_sec": 60,
+  "parameter_search": false,
+  "new_encoder_inference": false,
+  "new_downloads": false,
+  "tune_run": false,
+  "holdout_closed": true,
+  "interpretation": "No ranking signal would weaken a cached-feature/head-only rescue. It would not prove that a genuinely temporal pretrained encoder cannot work. AUC alone does not satisfy fixed-threshold recall/specificity or legal event output."
+}
