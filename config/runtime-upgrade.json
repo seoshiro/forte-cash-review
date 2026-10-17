@@ -1,0 +1,25 @@
+{
+  "torch": "2.14.1+cu130",
+  "torchvision": "0.29.1+cu130",
+  "minimum_driver_api": 13000,
+  "environment": ".venv-patched",
+  "sources": [
+    "https://download.pytorch.org/whl/cu130/torch/",
+    "https://download.pytorch.org/whl/cu130/torchvision/"
+  ],
+  "artifacts": [
+    {
+      "url": "https://download-r2.pytorch.org/whl/cu130/torch-2.14.1%2Bcu130-cp312-cp312-win_amd64.whl",
+      "filename": "torch-2.14.1+cu130-cp312-cp312-win_amd64.whl",
+      "bytes": 1990608063,
+      "sha256": "0a09031e93632d14ef49553acd6211ece3ae9cdc0969a369b8c24e3cc4d15be9"
+    },
+    {
+      "url": "https://download-r2.pytorch.org/whl/cu130/torchvision-0.29.1%2Bcu130-cp312-cp312-win_amd64.whl",
+      "filename": "torchvision-0.29.1+cu130-cp312-cp312-win_amd64.whl",
+      "bytes": 6566385,
+      "sha256": "14d3195e5e657fef46d08de0d3470da03a983fa383d8aa279e36e47e95d991c6"
+    }
+  ],
+  "status": "Prepared from official metadata; not installed or benchmarked. Does not imply that every possible vulnerability is fixed."
+}

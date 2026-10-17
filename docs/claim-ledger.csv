@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,262834884608,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,262456717312,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 cpu-baseline_train_videos,27,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_tune_videos,9,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_load_sec,0.4529999999940628,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -425,3 +425,7 @@ startup-safe-summary_cuda_availability_sec,2.0,see metric name,technical,not app
 source-integrity-safe-summary_checked_source_videos,36,see metric name,technical,not applicable,.private\source-integrity-safe-summary.json,local calculation,Internal measurement; not official jury score
 source-integrity-safe-summary_changed_sources,0,see metric name,technical,not applicable,.private\source-integrity-safe-summary.json,local calculation,Internal measurement; not official jury score
 source-integrity-safe-summary_missing_sources,0,see metric name,technical,not applicable,.private\source-integrity-safe-summary.json,local calculation,Internal measurement; not official jury score
+updated-cuda-candidates_selected_artifacts_0_bytes,1990608063,see metric name,technical,not applicable,.private\updated-cuda-candidates.json,local calculation,Internal measurement; not official jury score
+updated-cuda-candidates_selected_artifacts_1_bytes,6566385,see metric name,technical,not applicable,.private\updated-cuda-candidates.json,local calculation,Internal measurement; not official jury score
+updated-cuda-candidates_driver_api_return_code,0,see metric name,technical,not applicable,.private\updated-cuda-candidates.json,local calculation,Internal measurement; not official jury score
+updated-cuda-candidates_driver_api_version,13030,see metric name,technical,not applicable,.private\updated-cuda-candidates.json,local calculation,Internal measurement; not official jury score
