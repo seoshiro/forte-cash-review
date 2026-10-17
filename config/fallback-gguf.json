@@ -1,0 +1,17 @@
+{
+  "status":"prepared_candidate_not_downloaded_or_benchmarked",
+  "weights_repo":"Qwen/Qwen3-VL-2B-Instruct-GGUF",
+  "language_model":"Qwen3VL-2B-Instruct-Q4_K_M.gguf",
+  "vision_projector":"mmproj-Qwen3VL-2B-Instruct-F16.gguf",
+  "weights_license":"Apache-2.0, official Qwen model card",
+  "runtime":"portable llama.cpp Windows build; inspect official release checksum and --help before use",
+  "runtime_license":"MIT",
+  "purpose":"Avoid dependency on downloading the full PyTorch CUDA wheel if network remains slow. CPU/GPU performance must be measured first.",
+  "network_scope":"Preparation only. No new listener, tunnel, credentials or installation executed by this config.",
+  "privacy":"Only local ordered frames and timestamps; no audio, faces/identity, cloud inference or cloud capture of real outputs.",
+  "sources":[
+    "https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct-GGUF/tree/main",
+    "https://raw.githubusercontent.com/ggml-org/llama.cpp/master/tools/mtmd/README.md",
+    "https://raw.githubusercontent.com/ggml-org/llama.cpp/master/LICENSE"
+  ]
+}
