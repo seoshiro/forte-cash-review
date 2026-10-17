@@ -1,5 +1,7 @@
 # Local synthetic demonstration and launcher
 
+Prepared for team **TerenOi**; the product remains «Контур».
+
 The repaired PowerShell launcher uses `.venv-patched` and delegates to the maintained Python entrypoint. It no longer runs the historical environment or duplicates synthetic whitelist construction. The existing Python entrypoint binds loopback, sets offline environment flags and creates both artificial MOV fixtures. No permanent environment, key or OS policy is changed.
 
 From the project directory, use a process-local test value:

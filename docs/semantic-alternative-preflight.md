@@ -1,6 +1,6 @@
 # Testable alternatives if primitive facts fail
 
-No alternative below is adopted or claimed to fit the machine from a model name. The subsequent [class audit and one bounded CPU control](cpu-facts-preflight.md) are complete: RT-DETR was rejected as a semantic replacement before weights; CPU primitive accuracy did not improve and its text gate failed. Preserve XCLIP and every closed bank/images/held-out gate. No new model weights were downloaded.
+No alternative below is adopted or claimed to fit the machine from a model name. The [class audit and one bounded CPU control](cpu-facts-preflight.md) are complete: RT-DETR was rejected as a semantic replacement before weights; CPU primitive accuracy did not improve and its text gate failed. That stage downloaded no new weights. A later [different-VLM stage](internvl-visual-control.md) pinned and measured InternVL on actual synthetic images; its visual gate also failed, so no TRAIN pilot followed. Preserve XCLIP and every closed candidate/held-out boundary.
 
 ## Bounded backend comparison without a new download
 

@@ -1,0 +1,79 @@
+{
+  "model": "OpenGVLab/InternVL3_5-1B-HF",
+  "revision": "9191dbccf312b537016f041b25d61c72e7c5c9f3",
+  "weight_license": "apache-2.0",
+  "runtime": "Transformers native InternVL; trust_remote_code false; SDPA; bf16 CUDA",
+  "runtime_license": "Apache-2.0",
+  "artifacts": [
+    {
+      "filename": "added_tokens.json",
+      "bytes": 913,
+      "sha256": null
+    },
+    {
+      "filename": "chat_template.jinja",
+      "bytes": 481,
+      "sha256": null
+    },
+    {
+      "filename": "config.json",
+      "bytes": 2807,
+      "sha256": null
+    },
+    {
+      "filename": "generation_config.json",
+      "bytes": 121,
+      "sha256": null
+    },
+    {
+      "filename": "merges.txt",
+      "bytes": 1671853,
+      "sha256": null
+    },
+    {
+      "filename": "model.safetensors",
+      "bytes": 2121890856,
+      "sha256": "11effd1da2fc0929957d56de4129d1e7d2aed044ea878d40bf83e95b63d38b39"
+    },
+    {
+      "filename": "preprocessor_config.json",
+      "bytes": 666,
+      "sha256": null
+    },
+    {
+      "filename": "processor_config.json",
+      "bytes": 72,
+      "sha256": null
+    },
+    {
+      "filename": "special_tokens_map.json",
+      "bytes": 877,
+      "sha256": null
+    },
+    {
+      "filename": "tokenizer.json",
+      "bytes": 11424484,
+      "sha256": "7b9d18660f656ae5a87df2d5d6ed990e80f292d3473c1a35cae8259a5d28cd67"
+    },
+    {
+      "filename": "tokenizer_config.json",
+      "bytes": 7614,
+      "sha256": null
+    },
+    {
+      "filename": "video_preprocessor_config.json",
+      "bytes": 1345,
+      "sha256": null
+    },
+    {
+      "filename": "vocab.json",
+      "bytes": 2776833,
+      "sha256": null
+    }
+  ],
+  "weight_bytes": 2121890856,
+  "max_download_bytes": 2700000000,
+  "min_available_ram_before_download_bytes": 5700579328,
+  "ram_total_bytes": 16438312960,
+  "resources_are_preflight_not_fit_proof": true
+}

@@ -1,0 +1,13 @@
+{
+  "protocol_id":"INTERNVL-VISUAL-01",
+  "model":"OpenGVLab/InternVL3_5-1B-HF",
+  "hypothesis":"A different locally executed VLM can distinguish visible region departure, arrival and staying from ordered images; image absence must not produce an invented movement.",
+  "synthetic":{"layouts":[0,1],"states":["EXIT","ENTER","STAY"],"frames":4,"side":448,"region_xyxy":[40,90,290,390],"exit_x":[100,180,250,360],"stay_x":[100,150,200,250],"figure_y":245,"controls":8},
+  "inference":{"dtype":"bfloat16","attention":"sdpa","device":"cuda:0","max_new_tokens":48,"do_sample":false,"seed":26101731,"max_image_patches":1,"max_input_tokens":3072,"synthetic_call_sec":30,"pilot_call_sec":45},
+  "resources":{"ram_before_load_bytes":4294967296,"available_ram_floor_bytes":1610612736,"worker_rss_cap_bytes":4831838208,"torch_reserved_cap_bytes":5242880000,"device_used_cap_mib":5600,"minimum_free_vram_before_load_mib":4800,"poll_sec":0.5,"low_ram_consecutive_samples":2},
+  "budget":{"total_sec":900,"startup_sec":120,"pilot_phase_sec":480,"pilot_video_sec":70,"runs":1},
+  "synthetic_gate":"All six visual responses and two no-image conditions exact valid format with EOS, no technical/resource failure. Complete the eight fixed controls even on normal wrong answers; no retries or numeric-text prerequisite.",
+  "pilot":{"sources":6,"per_binary_label":3,"selection":"Sorted SHA256 within label0 then label1, skip already used automatic groups; freeze selected sources privately before inference; interleave final selection by SHA256","frames":8,"sampling":"Uniform normalized video positions 0.05..0.95, sequential PTS-aware decode, full field letterboxed; label point never selects frames","predicate":"Visible departure of a person initially located at a workstation, with another person still near it; no identity, cashier role, service completion or legal conclusion","unknown":"Separate UNKNOWN outcome and coverage; never silently convert to no_violation","continuation_gate":"Technical completion6/6; unknown<=1; departure YES in at least2/3 positive-label videos and at most1/3 negative-label videos; max upload-excluded decode+inference time<=70s. Proxy association only, not action/type/legal accuracy or release."},
+  "privacy":"Native Transformers trust_remote_code false, offline process guard, no audio/face ID/cloud inference. Raw model responses/logs never persisted. Only aggregate reports emitted; structured pilot rows remain private and unread by cloud tools.",
+  "limits":"Different VLM weights/vision/training, but shared Qwen3 language-model family. Synthetic success does not validate people/roles/rules. TRAIN reused and automatic groups unreviewed; TUNE/HOLDOUT closed. No production model/threshold/registry change."
+}

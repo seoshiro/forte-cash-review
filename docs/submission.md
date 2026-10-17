@@ -1,6 +1,8 @@
 Active user completion target: 18 October 2026, 11:00 Astana (UTC+05:00), equivalent to 06:00 UTC. The official deadline remains 12:00 Astana / 07:00 UTC. The earlier 06:00 Astana preference was cancelled. Prioritize detector quality and end-to-end readiness before this user target. Further IMG_5448 review was cancelled; existing private files are retained.
 
-# Комплект сдачи — заполняется только после проверок
+# Комплект сдачи команды TerenOi — заполняется только после проверок
+
+Название команды: **TerenOi**. Продукт: «Контур». Написание команды сохранять в титуле, форме и материалах защиты; это не переименование продукта или репозитория. Форма не отправлена.
 
 UI URL: НЕ ПОЛУЧЕН. API URL: НЕ ПОЛУЧЕН. Постоянный API-ключ: НЕ СОЗДАН. Подтверждение приёма: НЕТ. Канал фактической передачи: НЕ УТОЧНЁН.
 

@@ -137,6 +137,11 @@ sources+=list((root/'submission-matrix').glob('*safe-summary.json'))
 sources+=list((root/'rtdetr-class-audit').glob('safe-summary.json'))
 sources+=list((root/'qwen-cpu-facts').glob('*safe-summary.json'))
 sources+=list((root/'qwen-cpu-facts/run').glob('terminal-safe-summary.json'))
+sources+=list((root/'internvl-prepare').glob('*safe-summary.json'))
+sources+=list((root/'internvl-control').glob('*safe-summary.json'))
+sources+=list((root/'internvl-control/run').glob('terminal-safe-summary.json'))
+sources+=list((root/'internvl-control/run').glob('resource-safe-summary.json'))
+if not (root/'internvl-control/safe-summary.json').exists():sources+=list((root/'internvl-control/run').glob('internvl-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -155,6 +160,8 @@ def numeric(prefix,value,sample,source):
         if 'submission-matrix' in source:limitation='Official criterion maxima/configured deadlines or synthetic launcher mechanics only; no awarded score, model quality, public availability or submission claim'
         if 'rtdetr-class-audit' in source:limitation='Public pinned COCO class-map inspection only; no weights downloaded, forward pass, primitive annotations or bank-rule applicability'
         if 'qwen-cpu-facts' in source:limitation='One fixed requested-CPU synthetic fact control, conditional images only after exact text gate; sampled RSS/device-wide VRAM; historical comparison does not isolate backend cause or establish bank quality'
+        if 'internvl-prepare' in source:limitation='Public pinned artifact preparation/RAM snapshot or generated-image processor check; no model quality. Final download duration is resume/finalization only after a preserved initial budget failure'
+        if 'internvl-control' in source:limitation='One fixed visual-first synthetic control and conditional reused-TRAIN proxy pilot; no independent action/type/rule truth. Worker RSS/system/device samples differ from Torch high-water; monitor counts one compound assertion, not model calls'
         if 'geometry_first_prompt_rule_or_allowed_token_selection' in prefix:limitation+='; legacy metric name counts first-definition semantics only, not allowed-list selection'
         add(prefix,value,'see metric name',sample,source,limitation)
     elif isinstance(value,dict):
@@ -193,6 +200,8 @@ for f in sources:
     if f.parent.name=='submission-matrix':sample='technical'
     if f.parent.name=='rtdetr-class-audit':sample='technical'
     if f.parent.name=='qwen-cpu-facts':sample='technical' if f.name=='post-cleanup-memory-safe-summary.json' else 'synthetic'
+    if f.parent.name=='internvl-prepare':sample='synthetic' if f.name.startswith('processor') else 'technical'
+    if f.parent.name=='internvl-control':sample='technical' if f.name=='post-cleanup-memory-safe-summary.json' else 'synthetic'
     if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:sample='technical' if f.parent.parent.name=='xclip-spatial-control' else 'synthetic'
     if f.parent.name.startswith('oracle-diagnostic'):sample='synthetic' if f.name.startswith('synthetic') else 'train'
     if f.parent.name=='clarifications':sample='technical'
@@ -209,13 +218,17 @@ for f in sources:
     if f.parent.name=='qwen-text-discrimination':prefix+='_'+f.stem
     if f.parent.name in ['qwen-decomposition','submission-matrix']:prefix+='_'+f.stem
     if f.parent.name=='qwen-cpu-facts':prefix+='_'+f.stem
+    if f.parent.name in ['internvl-prepare','internvl-control']:prefix+='_'+f.stem
     if f.parent.name=='run' and f.parent.parent.name=='runtime-template-audit':sample='synthetic';prefix='runtime-template-audit_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-text-discrimination':sample='synthetic';prefix='qwen-text-discrimination_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-decomposition':sample='synthetic';prefix='qwen-decomposition_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-cpu-facts':sample='synthetic';prefix='qwen-cpu-facts_monitor'
+    if f.parent.name=='run' and f.parent.parent.name=='internvl-control':sample='technical';prefix='internvl-control_'+f.stem
     if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:prefix=f.parent.parent.name+'_monitor'
     for k,v in record.items():
-        if k not in ['results','reports']:numeric(prefix+'_'+k,v,sample,str(f))
+        if k not in ['results','reports']:
+            metric_sample='train' if k=='pilot' and (f.parent.name=='internvl-control' or f.parent.parent.name=='internvl-control') else sample
+            numeric(prefix+'_'+k,v,metric_sample,str(f))
     metrics=record.get('results',record.get('reports',{}))
     for strategy,result in metrics.items():
         metric_split='train' if strategy.startswith('train_') else 'tune'
@@ -264,6 +277,10 @@ def configured(prefix,value,source):
             add(prefix,value,'official maximum/configured planning value','submission preparation',source,'Criterion maximum is not an awarded score; deadlines are supplied organizer/user targets, not confirmed acceptance');return
         if prefix.startswith('qwen_cpu_facts_protocol'):
             add(prefix,value,'configured value','QWEN-CPU-FACTS-01',source,'Fixed requested CPU backend and synthetic-only gates/budgets; not measured capacity, bank quality or causal backend identification');return
+        if prefix.startswith('internvl_protocol'):
+            add(prefix,value,'configured value','INTERNVL-VISUAL-01',source,'One frozen visual-first control/conditional TRAIN proxy thresholds and resource budgets; not measured quality or an official score');return
+        if prefix.startswith('internvl_artifacts'):
+            add(prefix,value,'artifact/preflight value','technical',source,'Official pinned artifact sizes or recorded selection RAM snapshot; not measured inference fit, speed or quality');return
         if prefix.startswith('hybrid_protocol'):
             add(prefix,value,'configured value','HYBRID-R22-01',source,'Pre-registered synthetic-gated limited-rule hypothesis, not measured quality');return
         add(prefix,value,'configured value','QVT-01' if prefix.startswith('qvt_protocol') else 'ORACLE-01R1' if prefix.startswith('oracle_protocol') else 'PANEL-01' if prefix.startswith('panel_protocol') else 'GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
@@ -290,6 +307,8 @@ configured('qwen_decomposition_draft',json.loads(Path('config/qwen-decomposition
 configured('qwen_decomposition_protocol',json.loads(Path('config/qwen-decomposition-protocol.json').read_text()),'config/qwen-decomposition-protocol.json')
 configured('submission_criteria',json.loads(Path('config/submission-criteria.json').read_text()),'config/submission-criteria.json')
 configured('qwen_cpu_facts_protocol',json.loads(Path('config/qwen-cpu-facts-protocol.json').read_text()),'config/qwen-cpu-facts-protocol.json')
+configured('internvl_protocol',json.loads(Path('config/internvl-protocol.json').read_text()),'config/internvl-protocol.json')
+configured('internvl_artifacts',json.loads(Path('config/internvl-artifacts.json').read_text()),'config/internvl-artifacts.json')
 configured('hybrid_protocol',json.loads(Path('config/hybrid-protocol.json').read_text()),'config/hybrid-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)

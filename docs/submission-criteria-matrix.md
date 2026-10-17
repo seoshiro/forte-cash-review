@@ -1,5 +1,7 @@
 # Submission readiness against the actual criteria
 
+Team: **TerenOi**. Use this exact spelling on the title and prepared submission materials. This document does not submit the form or rename the product/repository.
+
 The product is a local research build, with no accepted semantic classifier and no public jury service. This matrix assigns **no estimated jury score**. Official weights below come from the supplied brief/FAQ; internal experimental metrics are not the organizer's score. The user's working deadline is **18 October06:00 UTC**; the supplied official deadline is07:00 UTC. Work must meet the earlier user deadline.
 
 | Criterion / maximum | What actually works | What remains unconfirmed or blocked | Honest presentation material |
