@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,262102667264,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,261895925760,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 benchmark_sample_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_json_success_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_model_load_sec,23.25,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -566,6 +566,21 @@ experiment-count-safe-summary_registered_train_only_syntax_repairs_max,1,see met
 experiment-count-safe-summary_candidate_tune_evaluations_per_configuration_max,1,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
 experiment-count-safe-summary_completed_cpu_tune_configurations,8,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
 experiment-count-safe-summary_qwen_uniform_tune_runs_started,1,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_tune_requested,9,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_tune_valid_completed,5,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_tune_invalid_stored,0,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_technical_failed_so_far,0,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_completed_engine_latency_mean_sec,370.4313999999984,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_completed_engine_latency_max_sec,419.26600000000326,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_completed_engine_over_300_sec,4,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_tune_remaining,4,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_tune_eta_remaining_min,24.69542666666656,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_train_requested,27,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+status-eta-safe-summary_train_duration_projection_min,166.6941299999993,see metric name,technical,not applicable,.private\status-eta-safe-summary.json,local calculation,Internal measurement; not official jury score
+budget-preflight-safe-summary_passed,4,see metric name,technical,not applicable,.private\budget-preflight-safe-summary.json,local calculation,Internal measurement; not official jury score
+budget-preflight-safe-summary_test_suite_sec,1.4,see metric name,technical,not applicable,.private\budget-preflight-safe-summary.json,local calculation,Internal measurement; not official jury score
+budget-preflight-safe-summary_failures,0,see metric name,technical,not applicable,.private\budget-preflight-safe-summary.json,local calculation,Internal measurement; not official jury score
+budget-preflight-safe-summary_errors,0,see metric name,technical,not applicable,.private\budget-preflight-safe-summary.json,local calculation,Internal measurement; not official jury score
 budget_protocol_baseline_frames,12,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_new_tokens,512,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_side,448,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"

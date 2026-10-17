@@ -44,6 +44,8 @@ sources+=list(root.glob('generation-contract-safe-summary.json'))
 sources+=list(root.glob('runtime-guard-safe-summary.json'))
 sources+=list(root.glob('budget-registration-safe-summary.json'))
 sources+=list(root.glob('experiment-count-safe-summary.json'))
+sources+=list(root.glob('status-eta-safe-summary.json'))
+sources+=list(root.glob('budget-preflight-safe-summary.json'))
 sources+=list((root/'model-api-qa').glob('*/safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
