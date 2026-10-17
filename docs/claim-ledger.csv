@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,250874093568,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,250866987008,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 benchmark_sample_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_json_success_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_model_load_sec,23.25,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -1357,6 +1357,105 @@ api-final-review_manual_review_checkpoint_selected_train_cases,8,see metric name
 api-final-review_manual_review_checkpoint_saved_cases,3,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
 api-final-review_manual_review_checkpoint_remaining_cases,5,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
 api-final-review_real_video_inference_runs,0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+annotation-provenance-safe-summary_selected_cases,8,see metric name,technical,not applicable,.private\annotation-provenance-safe-summary.json,local calculation,Internal measurement; not official jury score
+annotation-provenance-safe-summary_saved_cases,5,see metric name,technical,not applicable,.private\annotation-provenance-safe-summary.json,local calculation,Internal measurement; not official jury score
+annotation-provenance-safe-summary_remaining_cases,3,see metric name,technical,not applicable,.private\annotation-provenance-safe-summary.json,local calculation,Internal measurement; not official jury score
+annotation-provenance-safe-summary_provenance_counts_fresh_local_review_attested,0,see metric name,technical,not applicable,.private\annotation-provenance-safe-summary.json,local calculation,Internal measurement; not official jury score
+annotation-provenance-safe-summary_provenance_counts_possibly_cloud_assisted,0,see metric name,technical,not applicable,.private\annotation-provenance-safe-summary.json,local calculation,Internal measurement; not official jury score
+annotation-provenance-safe-summary_provenance_counts_unknown,8,see metric name,technical,not applicable,.private\annotation-provenance-safe-summary.json,local calculation,Internal measurement; not official jury score
+annotation-provenance-safe-summary_manual_annotation_model_runs_started,0,see metric name,technical,not applicable,.private\annotation-provenance-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-tests-safe-summary_tests,81,see metric name,technical,not applicable,.private\qvt-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-tests-safe-summary_failures,0,see metric name,technical,not applicable,.private\qvt-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-tests-safe-summary_errors,0,see metric name,technical,not applicable,.private\qvt-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-tests-safe-summary_elapsed_sec,18.913,see metric name,technical,not applicable,.private\qvt-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_safe-summary_train_videos,26,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_safe-summary_train_groups,24,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_safe-summary_load_sec,29.719000000011874,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_safe-summary_experiment_wall_sec,185.15700000000652,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_safe-summary_feature_latency_mean_sec,5.8371538461528525,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_safe-summary_feature_latency_max_sec,15.405999999988126,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_safe-summary_torch_reserved_peak_mib,868.0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_safe-summary_process_rss_mib,2265.83984375,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_safe-summary_sampled_frames_total,360,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_safe-summary_technical_failures,0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_videos,26,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_confusion_matrix_tn_fp_fn_tp_0_0,2,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_confusion_matrix_tn_fp_fn_tp_0_1,10,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_confusion_matrix_tn_fp_fn_tp_1_0,1,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_confusion_matrix_tn_fp_fn_tp_1_1,13,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_precision,0.5652173913043478,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_recall,0.9285714285714286,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_f1,0.7027027027027027,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_specificity,0.16666666666666666,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_balanced_accuracy,0.5476190476190477,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_timestamp_matched_positive_videos,13,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_timestamp_mae_sec,6.230769230769231,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_timestamp_median_error_sec,7.0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_static_tn,2,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_static_fp,10,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_static_fn,1,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_static_tp,13,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_temporal_videos,26,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_confusion_matrix_tn_fp_fn_tp_0_0,0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_confusion_matrix_tn_fp_fn_tp_0_1,12,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_confusion_matrix_tn_fp_fn_tp_1_0,1,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_confusion_matrix_tn_fp_fn_tp_1_1,13,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_precision,0.52,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_recall,0.9285714285714286,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_f1,0.6666666666666666,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_specificity,0.0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_balanced_accuracy,0.4642857142857143,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_timestamp_matched_positive_videos,13,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_timestamp_mae_sec,5.923076923076923,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_timestamp_median_error_sec,5.0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_temporal_tn,0,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_temporal_fp,12,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_temporal_fn,1,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_temporal_tp,13,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_constant_negative_videos,26,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_confusion_matrix_tn_fp_fn_tp_0_0,12,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_confusion_matrix_tn_fp_fn_tp_1_0,14,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_precision,0.0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_recall,0.0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_f1,0.0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_specificity,1.0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_balanced_accuracy,0.5,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_timestamp_matched_positive_videos,0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_negative_tn,12,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_constant_negative_fp,0,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_constant_negative_fn,14,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_constant_negative_tp,0,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_constant_positive_videos,26,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_confusion_matrix_tn_fp_fn_tp_0_0,0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_confusion_matrix_tn_fp_fn_tp_0_1,12,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_confusion_matrix_tn_fp_fn_tp_1_0,0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_confusion_matrix_tn_fp_fn_tp_1_1,14,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_precision,0.5384615384615384,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_recall,1.0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_f1,0.7,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_specificity,0.0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_balanced_accuracy,0.5,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_timestamp_matched_positive_videos,0,see metric name,train,train,.private\qvt-control\safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_constant_positive_tn,0,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_constant_positive_fp,12,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_constant_positive_fn,0,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_constant_positive_tp,14,videos,train,train,.private\qvt-control\safe-summary.json,local calculation,Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence
+qvt-control_technical-safe-summary_probe_videos,3,see metric name,train,train,.private\qvt-control\technical-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_technical-safe-summary_load_sec,29.719000000011874,see metric name,train,train,.private\qvt-control\technical-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_technical-safe-summary_visual_parameters,406957056,see metric name,train,train,.private\qvt-control\technical-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_technical-safe-summary_language_parameters_loaded,0,see metric name,train,train,.private\qvt-control\technical-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_technical-safe-summary_feature_latency_mean_sec,7.68766666665518,see metric name,train,train,.private\qvt-control\technical-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_technical-safe-summary_feature_latency_max_sec,15.405999999988126,see metric name,train,train,.private\qvt-control\technical-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_technical-safe-summary_frames_total,55,see metric name,train,train,.private\qvt-control\technical-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_technical-safe-summary_torch_reserved_peak_mib,868.0,see metric name,train,train,.private\qvt-control\technical-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_technical-safe-summary_process_rss_mib,2264.265625,see metric name,train,train,.private\qvt-control\technical-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_synthetic-safe-summary_synthetic_cases,3,see metric name,synthetic,not applicable,.private\qvt-control\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_synthetic-safe-summary_elapsed_sec,1.9840000000258442,see metric name,synthetic,not applicable,.private\qvt-control\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_protocol-deviation-safe-summary_registered_manifest_train_rows,27,see metric name,train,train,.private\qvt-control\protocol-deviation-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_protocol-deviation-safe-summary_actual_feature_content_items,26,see metric name,train,train,.private\qvt-control\protocol-deviation-safe-summary.json,local calculation,Internal measurement; not official jury score
+qvt-control_protocol-deviation-safe-summary_registered_auto_groups,24,see metric name,train,train,.private\qvt-control\protocol-deviation-safe-summary.json,local calculation,Internal measurement; not official jury score
 budget_protocol_baseline_frames,12,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_new_tokens,512,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_side,448,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
@@ -1478,3 +1577,27 @@ oracle_protocol_head_threshold,0.5,configured value,ORACLE-01R1,not applicable,c
 oracle_protocol_head_max_iter,1000,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
 oracle_protocol_max_request_sec,90,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
 oracle_protocol_max_total_inference_sec,1800,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_features_frame_step_sec,2.0,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_features_max_side,384,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_features_min_pixels,65536,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_features_max_pixels,147456,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_features_batch_frames,2,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_features_projection_dim,128,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_features_projection_seed,26101752,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_head_C,0.01,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_head_max_iter,2000,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_head_seed,26101752,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_head_threshold,0.5,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_budget_total_wall_sec,1500,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_budget_preflight_train_videos,3,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_budget_max_feature_latency_sec,90,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_budget_max_torch_reserved_mib,5000,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_budget_max_process_rss_mib,6000,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_budget_maximum_train_runs,1,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_budget_maximum_tune_runs,1,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_acceptance_technical_failures,0,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_acceptance_train_group_oof_recall_min,1.0,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_acceptance_train_group_oof_specificity_min,0.5,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_acceptance_train_group_oof_balanced_accuracy_min,0.75,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_acceptance_train_group_oof_f1_min,0.8,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+qvt_protocol_acceptance_train_timestamp_mae_max_sec,3.0,configured value,QVT-01,not applicable,config/qvt-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"

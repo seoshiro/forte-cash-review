@@ -1,0 +1,17 @@
+# QVT-01: bounded official-only experiment
+
+Manual annotation work is stopped and quarantined. No completion or user cash-procedure expertise is required. No annotation contents or external AI answers will be read. Official binary/point labels are the only supervision and evaluation source.
+
+The prior DINO window classifier already used temporal differences and point supervision. Repeating it without a new hypothesis is not useful. QVT-01 tests the visual encoder from the already downloaded, hash-verified Qwen3-VL-2B model, without loading the language model or generating descriptions. Code and weights are Apache-2.0: [official model card](https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct), pinned revision in config/qvt-protocol.json; installed Transformers code carries Apache-2.0. No new weights or accelerator packages are required.
+
+Hypothesis: local supervised visual representations may retain a useful signal that the legal generation gate failed to expose. This is uncertain; Qwen's generic visual pretraining is not evidence of cash-action recognition. Compare static frame features with a fixed temporal neighborhood using identical frames, classifier, threshold and group folds. Only the representation differs. A fixed projection limits feature size without fitting to labels.
+
+The full protocol is config/qvt-protocol.json. Register source, split, dataset and parameter digests before real inference. Sample the same two-second PTS-aware grid at training and inference. Official positive point labels select the nearest training-grid center; remaining windows in positive videos are unlabeled. All negative-video centers are negative supervision, with equal video/class weight. The inference function receives features and PTS only, never names, labels or oracle centers.
+
+Use all 27 TRAIN videos in 24 automatic groups, leave one entire group out and fit scaling inside each fold. One fixed L2 logistic head per arm/fold, C=0.01, threshold=0.5; no post-result search. Report confusion matrices, precision/recall/F1/specificity/balanced accuracy, timestamp error for matched positives and both constant controls. These are exploratory internal metrics on previously used TRAIN, not an official or independent final score. Duplicate grouping is automatic and may miss scene families.
+
+Budget: one run, 25 minutes. First run generated-color/shape mechanics and three duration-selected TRAIN technical probes, including longest TRAIN. Require each video below 90 seconds, torch reserved memory below 5000 MiB and process RSS below 6000 MiB. Stop on incompatibility, source change or budget failure.
+
+TRAIN acceptance preserves the earlier no-miss gate: recall 1.0, specificity >=0.5, balanced accuracy >=0.75, F1 >=0.8, timestamp MAE <=3 seconds, zero technical failures and unchanged sources. The temporal arm must improve balanced accuracy by >=0.05 or timestamp MAE by >=1 second without F1 regression. Both constants must be beaten. Only after this fixed gate passes may one unchanged TUNE run occur; holdout stays closed.
+
+Even passing binary quality does not make this a complete service: official labels provide no type or rule mapping. The proposal timestamp is not proof of a required action or omission. Actual evidence relevance, event types and all verified applicability/exclusion conditions remain release blockers until established by local non-cloud evidence. Do not fabricate rule links to classifier labels or deploy a constant fallback.
