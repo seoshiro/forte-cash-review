@@ -23,7 +23,7 @@ def main():
         for name in objects[oid]:
             path=Path(name);parts=[p.lower() for p in path.parts]
             if path.suffix.lower() in forbidden_ext and name not in SAFE_PUBLIC_ASSETS:reason.append('forbidden_artifact_type')
-            if path.suffix.lower()=='.csv' and name!='docs/claim-ledger.csv':reason.append('non_code_csv')
+            if path.suffix.lower()=='.csv' and not re.fullmatch(r'docs/claim-ledger(?:-[0-9]{2})?\.csv',name):reason.append('non_code_csv')
             if any(p in {'.private','models','.runtime','.cache','.aws'} or p.startswith('.venv') for p in parts):reason.append('private_artifact_path')
         if size>1024*1024:reason.append('oversized_blob')
         if total_bytes+size>64*1024*1024:reason.append('bounded_audit_limit')

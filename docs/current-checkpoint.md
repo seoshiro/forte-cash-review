@@ -1,6 +1,10 @@
-> Latest authorization: the user explicitly approved a free Cloudflare tunnel to this service and a separate permanent jury key at 2026-10-17 22:02:55 UTC. Prior pending/awaiting-bank wording below is historical and superseded. Execution still depends on local readiness and security preflight; no tunnel/key exists yet. Keep secrets local, use no paid features, do not submit the form. A repository is requested after completion; default private after publication audits. The reported bank approval is user-reported, not a verified organizer quotation.
+> Latest authorization: the user explicitly approved a free Cloudflare tunnel to this service and a separate permanent jury key at 2026-10-17 22:02:55 UTC. Prior pending/awaiting-bank wording below is historical and superseded. A separate synthetic-only HTTPS/auth test has now passed and its tunnel/origin were stopped with external rollback verified. No active competition URL or permanent jury key exists. Current evidence: [TUNE](xclip-tune.md), [access](external-access-preflight.md), [semantic inventory](semantic-capability-inventory.md). Older status statements below are historical where superseded. Keep secrets local, use no paid features, do not submit the form. A repository is requested after completion; default private after publication audits. The reported bank approval is user-reported, not a verified organizer quotation.
 
 # Current local checkpoint
+
+Latest completed work: one frozen TUNE assessment (9 original videos / 8 unique contents, TN1/FP3/FN4/TP1, F1 0.222222; TP-point MAE 3 seconds with n=1). All completed; HOLDOUT remains closed. Full local cold-worker wall median 29.938 s, p95 41.4782 s, max 42.547 s; not HTTP latency. Synthetic public HTTPS/auth/owner isolation/JPEG/corrupt/busy checks and cleanup/rollback passed. The full synthetic/unit suite passed 301 tests. There is no accepted semantic detector; the competition service is not ready. See the linked reports above and [claim ledger](claim-ledger-index.md).
+
+## Prior checkpoint retained for context
 
 Team: **TerenOi**. Product and repository names are unchanged. No form has been submitted.
 

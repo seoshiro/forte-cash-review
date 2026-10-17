@@ -1,27 +1,35 @@
-> Latest authorization: the user explicitly approved a free Cloudflare tunnel to this service and a separate permanent jury key at 2026-10-17 22:02:55 UTC. Prior pending/awaiting-bank wording below is historical and superseded. Execution still depends on local readiness and security preflight; no tunnel/key exists yet. Keep secrets local, use no paid features, do not submit the form. A repository is requested after completion; default private after publication audits. The reported bank approval is user-reported, not a verified organizer quotation.
+# Authorized external-access checkpoint
 
-# Prepared external-access procedure; execution deferred
+The user approved a free Cloudflare tunnel to this service and a separate permanent jury key at **2026-10-17 22:02:55 UTC**. The parent then explicitly authorized an independent synthetic-only infrastructure test. That test is complete; the tunnel and its origin are now stopped. No permanent jury key was created and nothing was submitted.
 
-The user will wait for ForteBank's answer from09:00 Astana on18 October. Current authorization is local-only. No tunnel, firewall change, permanent credential, push, remote repository or submission is authorized now. The official brief still requires a public UI URL, public `/api/v1` API and a jury key. A local repository, installer or experimental binary endpoint does not satisfy those requirements.
+## What was actually tested
 
-The parent gave a planning estimate of30-60 minutes for connecting and externally checking an already-ready local build after an allowed tunnel is approved. This is an unmeasured estimate, not a guarantee or permission. Do not spend the quality/availability reserve on desktop packaging. Deadline and delivery decisions are recorded in `official-announcements.md` and `local-readiness.md`.
+The bounded run used a separate loopback origin, separate private job store, generated geometric MOV fixtures, and separate locally generated demo owner keys. Hash allowlisting rejects every other input before decoding/model use. Bank videos, annotations and model inference were not used.
 
-## Safe checks available now
+Public HTTPS checks passed for the UI shell and required API routes: missing/wrong-key rejection, unknown-job handling, owner isolation on job/detail routes, strict synthetic results, source JPEG/PTS equality, corrupt MOV returning failed, and a close second upload returning 429 with Retry-After. Private paths, API docs and experimental routes are blocked. Raw connector logs are discarded without storage; only the temporary hostname is parsed locally. Keys remain encrypted using Windows DPAPI USER scope and never enter source, argv, logs, query strings or public JavaScript.
 
-Run `.venv-patched\Scripts\python.exe scripts/preflight_local_access.py --port 8765`. It checks only local loopback `/healthz`, bypasses proxy variables, refuses all redirects before making another request and reports a bounded technical summary plus tunnel executable availability. It never reads jobs, media, results or credentials and never starts a tunnel. A reachable synthetic UI proves local health only. It cannot prove competition readiness or public reachability.
+Aggregate evidence: **2 completed synthetic jobs, 3 source-JPEG checks**. Upload-to-result mean **11.8595 s**, maximum **11.922 s**, with an intentional **10 s synthetic delay** to exercise concurrent admission. The whole technical monitor took **41.719 s**. These are infrastructure timings, not model speed or competition quality.
 
-Before release, run `scripts/audit_repo.py` and `scripts/audit_git_history.py`. Review the actual source-only inventory. No real media, frames, labels, annotations, model outputs, job folders, credentials or model binaries may be published. Preserve private originals locally.
+The authoritative PASS depends on worker completion, owned-process cleanup and an external observation that the stopped origin no longer answers. All passed. `.private/access-synthetic/safe-summary.json` and `rollback-safe-summary.json` hold safe aggregate evidence. The private endpoint file marks `active_expected=false`. No public service is currently claimed from this run.
 
-## Actions after the separate decision
+## Route, terms and rollback
 
-1. Resolve competition readiness first: an accepted semantic detector, type/rule mapping, real new-input checks, required JSON and processing within five minutes. The binary research mode deliberately blocks official endpoints; do not relabel it as ready merely to expose a URL.
-2. Reconfirm the allowed access route and its terms/cost. Keep inference on this Windows machine. Do not enable cloud AI, analytics, third-party upload processing or public artifact directories. Prefer a temporary named process/session with loopback origin and a clear stop procedure. Do not alter firewall or persistent grants as a workaround.
-3. Immediately before each sensitive action, obtain the narrow authorization. Prepared wording for the access action: "Разрешить запуск бесплатного HTTPS-туннеля к локальному сервису на время проверки жюри, без изменения firewall, системной защиты и постоянных сетевых разрешений?" Prepared wording for the key action: "Разрешить создать постоянный API-ключ жюри, сохранить его только локально на сервере и передать вам по согласованному приватному каналу?" These are templates for the later decision; no credential is generated now. Any route requiring a new persistent grant needs explicit approval of that particular grant before use.
-4. Create a dedicated private production job store, restricted owner keys, one bounded worker and cleanup policy. Ensure the key never enters public JavaScript, source control, URL/query string, console output or shared screenshots. Use a separate synthetic fixture for exposure checks. Keep health metadata minimal and disable public interactive API docs unless intentionally authorized.
-5. Through the external HTTPS address, verify missing/wrong key rejection on both official routes; unknown and other-owner jobs; synthetic upload/status/schema; actual JPEG decoding and source timestamp correspondence; corrupt MOV; close uploads/busy response; longest supported input; full upload-to-result latency. Do not expose actual judge media or semantic responses to cloud developer tools. Perform real-data checks only with local models and the local human viewer, releasing aggregate results only.
-6. Test offline local inference separately from external reachability. Disabling the internet is incompatible with checking a tunnel's availability; neither substitutes for the other. Do not claim either check without evidence.
-7. Record the final URL, API base, safe aggregate checks and operating window. Confirm AC power, sleep behavior without changing OS policy, model warmup, remaining disk and owner availability. Document restarting and stopping the exact owned processes. The parent/user submits only after direct authorization; no organizer message or form submission is performed automatically.
+Pinned portable connector: **cloudflared 2026.10.1**, official Windows x64 artifact, SHA256 `4d2490e74082c5d48dbfedaf92576fa5bd1702379ab88eb7faa0cfbe8dc891b6`; [artifact identity](../config/cloudflared-artifact.json). Code: [preparation](../scripts/prepare_cloudflared.py), [synthetic origin](../scripts/serve_synthetic_access.py), [bounded smoke](../scripts/synthetic_tunnel_smoke.py).
 
-Any unreachable URL, expired tunnel, credential failure, unverified semantic output or latency over the five-minute limit remains a submission blocker. A fallback demo is supplemental and must not be called a working judge API.
+[Official Quick Tunnel documentation](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/) was checked on 17 October 2026. A temporary endpoint needs no account/domain and ends when its process stops. Quick Tunnels are for testing/development, have no uptime guarantee, change hostname on restart and do not support SSE. No paid resource, trial, billing/card action, account login, named tunnel, DNS record, persistent Cloudflare credential or new persistent grant was created. OS firewall, WARP, system services and security settings were not changed.
 
-The parent subsequently confirmed that the user connected Cloudflare and its harmless read-only account check succeeded. This fact was not independently rechecked by the executor. Only free features are allowed; it does not authorize a public tunnel, persistent grants, permanent key or bank-data transmission. Current work stays local.
+The origin binds only loopback; connector metrics bind loopback too. The explicit empty config avoids default account configuration, and an existing explicit certificate path fails closed. An owned Windows Job bounds and cleans up descendants. Restarting creates a new temporary URL and requires another explicit bounded operational action; do not reuse the stopped URL as a submission address.
+
+To reproduce this synthetic test locally after preparation:
+
+~~~powershell
+.\.venv-patched\Scripts\python.exe scripts/synthetic_tunnel_smoke.py run
+~~~
+
+This command temporarily exposes only its separate synthetic origin and stops it automatically. It does not start the bank service. `show_synthetic_access_key.py` is a user-invoked local GUI for the demo key; do not execute it through cloud capture or treat that key as a jury key.
+
+## Remaining release work
+
+An accepted semantic detector, type/rule mapping, real new-input validation, reliable operating window and separately verified offline inference remain unresolved. The synthetic pilot does not satisfy those requirements. The permitted permanent jury key is still uncreated; when the service is ready, create/store it locally and hand it over only through the agreed private user channel. Keep it out of cloud context and code-only publication. New persistent grants or routes beyond existing authorization need a narrow decision immediately before the action. No organizer messages or form submission are authorized here.
+
+Run repository/history audits and source review before any remote publication. Keep the official research API fail-closed until its semantic requirements pass. [Capability inventory](semantic-capability-inventory.md), [measurements](xclip-tune.md), [claim ledger](claim-ledger-index.md).

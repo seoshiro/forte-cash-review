@@ -15,7 +15,7 @@ for name in files:
         digests[name]=hashlib.sha256(data).hexdigest()
         continue
     ok=p.suffix.lower() in allowed_ext or p.name in ['.gitignore','LICENSE','NOTICE','Start-TRAIN-review.cmd']
-    if p.suffix.lower()=='.csv' and name!='docs/claim-ledger.csv':ok=False
+    if p.suffix.lower()=='.csv' and not re.fullmatch(r'docs/claim-ledger(?:-[0-9]{2})?\.csv',name):ok=False
     if any(part.lower() in {'.private','models','.runtime','.cache','.aws'} or part.lower().startswith('.venv') for part in Path(name).parts):ok=False
     if p.stat().st_size>1024*1024:ok=False
     try:text=p.read_text(encoding='utf-8')

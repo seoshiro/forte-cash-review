@@ -1,6 +1,6 @@
-> Latest authorization: the user explicitly approved a free Cloudflare tunnel to this service and a separate permanent jury key at 2026-10-17 22:02:55 UTC. Prior pending/awaiting-bank wording below is historical and superseded. Execution still depends on local readiness and security preflight; no tunnel/key exists yet. Keep secrets local, use no paid features, do not submit the form. A repository is requested after completion; default private after publication audits. The reported bank approval is user-reported, not a verified organizer quotation.
+> Latest authorization: the user explicitly approved a free Cloudflare tunnel to this service and a separate permanent jury key at 2026-10-17 22:02:55 UTC. Prior pending/awaiting-bank wording below is historical and superseded. A separate synthetic-only HTTPS/auth test has now passed and its tunnel/origin were stopped with external rollback verified. No active competition URL or permanent jury key exists. Current evidence: [TUNE](xclip-tune.md), [access](external-access-preflight.md), [semantic inventory](semantic-capability-inventory.md). Older status statements below are historical where superseded. Keep secrets local, use no paid features, do not submit the form. A repository is requested after completion; default private after publication audits. The reported bank approval is user-reported, not a verified organizer quotation.
 
-# Local build and remaining submission requirements
+# Historical local readiness; latest assessment linked above
 
 Current decision: local development and a code-only local Git repository. No remote repository, push, public service, tunnel, permanent key or form submission. No original/private artifacts are deleted.
 

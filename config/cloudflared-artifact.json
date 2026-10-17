@@ -1,0 +1,10 @@
+{
+  "version": "2026.10.1",
+  "asset": "cloudflared-windows-amd64.exe",
+  "url": "https://github.com/cloudflare/cloudflared/releases/download/2026.10.1/cloudflared-windows-amd64.exe",
+  "bytes": 55325120,
+  "sha256": "4d2490e74082c5d48dbfedaf92576fa5bd1702379ab88eb7faa0cfbe8dc891b6",
+  "provenance": "Official Cloudflare GitHub releases API, published2026-10-15T17:15:26Z; asset SHA256 from official asset digest",
+  "license": "Apache-2.0 upstream cloudflare/cloudflared; portable binary excluded from Git",
+  "route": "Anonymous temporary Quick Tunnel for isolated synthetic-only origin; no account, service install, DNS, WARP, paid plan, card or trial"
+}

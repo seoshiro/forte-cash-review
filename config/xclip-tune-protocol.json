@@ -1,0 +1,11 @@
+{
+  "protocol_id": "XCLIP-TUNE-01",
+  "authorization": "One newly authorized assessment of the preserved cosine candidate on9 original TUNE videos; HOLDOUT closed; no tuning or rescue search",
+  "candidate": {"pack": ".private/xclip-experimental-v2", "schema_version": 2, "arm": "ordered", "pooling": "max", "threshold": 0.0, "prototype_sha256": "98e918daef003f0d4ce824b54f3d632b1d1a1dd517c568ab8d388fdf66d168b6", "feature_protocol": "config/xclip-protocol.json", "inference": "Unchanged ExperimentalEngine.analyze, including cold worker load, current extraction and conditional candidate JPEG path"},
+  "selection": {"split": "tune", "original_videos": 9, "order": "source SHA256 ascending; names/order/labels never model inputs", "duplicate_policy": "Report exact-unique count; evaluate all9 original rows and never refit on TUNE"},
+  "runtime": {"job_budget_sec": 295, "full_wall_limit_sec": 300, "cpu_threads": 4, "minimum_system_available_mib_before": 3072, "minimum_system_available_mib_during": 1024, "max_process_peak_working_set_mib": 6000, "max_torch_reserved_mib": 5000, "max_device_used_mib_before": 1200},
+  "runtime_limits_scope": "Owned child deadline is enforced; full driver hash/copy/persistence wall threshold is retrospective, not a hard I/O stop. System-RAM guards are discrete checks before/after load and inference batches, not continuous allocation guarantees",
+  "metrics": ["TN/FP/FN/TP and F1 only for completed results, with completed denominator", "Failures/refusals separately, including their positive/negative truth counts; not silently negative", "TP-only source candidate-frame point MAE/median with explicit count", "Aggregate full wall distribution min,p25,median,p75,p95,max,mean,sum; no per-video output", "Every wall includes source identity check/copy, cold process/import/model load, extraction/scoring/JPEG/schema, process cleanup and local persistence"],
+  "retention": "Private copied inputs/results/candidate JPEGs and per-video timings stay local and excluded from every public ledger/tool output; console aggregate only",
+  "stop": "One attempt marker and one per-video owned process only. No repeat after quality, no parameter/prompt/window changes, no TUNE-derived prototype fit, no HOLDOUT, type/rule mapping or competition-release claim"
+}

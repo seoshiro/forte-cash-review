@@ -22,6 +22,7 @@ __pycache__/
 *.xlsx
 *.csv
 !docs/claim-ledger.csv
+!docs/claim-ledger-[0-9][0-9].csv
 *.jsonl
 *.safetensors
 *.bin

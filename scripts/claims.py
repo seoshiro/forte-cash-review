@@ -145,6 +145,12 @@ if not (root/'internvl-control/safe-summary.json').exists():sources+=list((root/
 sources+=list((root/'xclip-linear-control').glob('*safe-summary.json'))
 sources+=list((root/'xclip-linear-control/run').glob('terminal-safe-summary.json'))
 sources+=list((root/'readme-validation').glob('safe-summary.json'))
+for name in ['safe-summary.json','calculation-safe-summary.json','tests-safe-summary.json']:
+    sources+=list((root/'xclip-tune-control').glob(name))
+for name in ['safe-summary.json','rollback-safe-summary.json','process-cleanup-safe-summary.json','calculation-safe-summary.json']:
+    sources+=list((root/'access-synthetic').glob(name))
+sources+=list((root/'cloudflared-prepare').glob('safe-summary.json'))
+sources+=list((root/'release').glob('capability-inventory-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -167,6 +173,10 @@ def numeric(prefix,value,sample,source):
         if 'internvl-control' in source:limitation='One fixed visual-first synthetic control and conditional reused-TRAIN proxy pilot; no independent action/type/rule truth. Worker RSS/system/device samples differ from Torch high-water; monitor counts one compound assertion, not model calls'
         if 'xclip-linear-control' in source:limitation='One frozen cache-only reused-TRAIN LOGO discriminative XCLIP head; automatic groups unreviewed. CPU costs exclude encoder/decoding/API; point error is not semantic localization. No independent/type/rule/evidence validation'
         if 'readme-validation' in source:limitation='Generated MOV and localhost launcher/API mechanics only; no model detection, bank inputs, public availability or submission claim'
+        if 'xclip-tune-control' in source:limitation='One frozen TUNE assessment:9 original videos/8 exact contents, no refit or retry; TP-only point error n1. Local cold worker wall excludes HTTP upload; no semantic type/rule/evidence or final-test claim'
+        if 'access-synthetic' in source:limitation='Synthetic-only temporary HTTPS/auth/isolation and rollback test with intentional delay; no bank inputs/model quality or persistent public availability'
+        if 'cloudflared-prepare' in source:limitation='Pinned portable connector preparation only; artifact download time is not service latency'
+        if 'capability-inventory-safe-summary' in source:limitation='Public code/config inventory and explicit acceptance state only; no legal currency/applicability or visual recognition validation'
         if 'geometry_first_prompt_rule_or_allowed_token_selection' in prefix:limitation+='; legacy metric name counts first-definition semantics only, not allowed-list selection'
         add(prefix,value,'see metric name',sample,source,limitation)
     elif isinstance(value,dict):
@@ -195,6 +205,10 @@ for f in sources:
     if f.parent.name in ['reliability','xclip-experimental-v2','access-preflight']:sample='synthetic' if f.name=='tests-safe-summary.json' else 'technical'
     if f.parent.name=='xclip-api-synthetic-smoke':sample='synthetic'
     if f.parent.name=='xclip-hardneg-control':sample='train'
+    if f.parent.name=='xclip-tune-control':sample='tune' if f.name!='tests-safe-summary.json' else 'synthetic'
+    if f.parent.name=='access-synthetic':sample='synthetic'
+    if f.parent.name=='cloudflared-prepare':sample='technical'
+    if f.name=='capability-inventory-safe-summary.json':sample='technical'
     if f.parent.name=='xclip-positive-plumbing':sample='synthetic'
     if f.parent.name=='xclip-spatial-control':sample='train'
     if f.parent.name=='qwen-action-probe':sample='synthetic'
@@ -227,6 +241,7 @@ for f in sources:
     if f.parent.name=='qwen-cpu-facts':prefix+='_'+f.stem
     if f.parent.name in ['internvl-prepare','internvl-control']:prefix+='_'+f.stem
     if f.parent.name=='xclip-linear-control':prefix+='_'+f.stem
+    if f.parent.name in ['xclip-tune-control','access-synthetic','cloudflared-prepare']:prefix+='_'+f.stem
     if f.parent.name=='run' and f.parent.parent.name=='runtime-template-audit':sample='synthetic';prefix='runtime-template-audit_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-text-discrimination':sample='synthetic';prefix='qwen-text-discrimination_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-decomposition':sample='synthetic';prefix='qwen-decomposition_monitor'
@@ -324,6 +339,6 @@ configured('internvl_protocol',json.loads(Path('config/internvl-protocol.json').
 configured('internvl_artifacts',json.loads(Path('config/internvl-artifacts.json').read_text()),'config/internvl-artifacts.json')
 configured('xclip_linear_protocol',json.loads(Path('config/xclip-linear-protocol.json').read_text()),'config/xclip-linear-protocol.json')
 configured('hybrid_protocol',json.loads(Path('config/hybrid-protocol.json').read_text()),'config/hybrid-protocol.json')
-with out.open('w',newline='',encoding='utf-8') as fp:
-    w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)
-print(json.dumps({'claim_rows':len(rows),'hardware':env}))
+from ledger_chunks import write_parts
+parts=write_parts(out.parent,rows)
+print(json.dumps({'claim_rows':len(rows),'ledger_parts':parts,'hardware':env}))

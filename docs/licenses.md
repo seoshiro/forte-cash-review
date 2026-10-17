@@ -10,8 +10,9 @@
 | DINOv2-small, эксперимент | Apache-2.0 | Apache-2.0 | [Официальная model card](https://huggingface.co/facebook/dinov2-small), [LICENSE](https://github.com/facebookresearch/dinov2/blob/main/LICENSE), проверенный SHA256 в models/dinov2-small/provenance.json. |
 | Transformers | Apache-2.0 | отдельно | [Официальный LICENSE](https://github.com/huggingface/transformers/blob/main/LICENSE), metadata установленного пакета. |
 | LM Format Enforcer | MIT | нет | [Официальный репозиторий](https://github.com/noamgat/lm-format-enforcer), версия 0.11.3, текст лицензии docs/lmfe-license.txt. Небольшой адаптер tokenizer-data API сохраняет attribution Noam Gat; upstream интеграция опубликованного wheel несовместима с Transformers 5. |
-| llama.cpp, резерв | MIT | отдельно | [Официальный LICENSE](https://github.com/ggml-org/llama.cpp/blob/master/LICENSE). Portable binary закреплён release/digest; модель с ним не запускалась. |
-| Qwen GGUF, конфигурация | runtime MIT | Apache-2.0 | [Официальный репозиторий Qwen](https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct-GGUF). Эти веса пока не скачаны. |
+| llama.cpp b11712 | MIT | отдельно | [Официальный LICENSE](https://github.com/ggml-org/llama.cpp/blob/master/LICENSE). Фактически исследованный portable CUDA 12.4 runtime; ветка не прошла semantic gates. Пины в config/gguf-artifacts.json. |
+| Qwen3-VL-4B-Instruct-GGUF | runtime MIT | Apache-2.0 | [Официальный репозиторий Qwen](https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct-GGUF). Исследованная ветка, не принятый detector; revision 1cd86afb9a95c410a6038ab3b40d8b578c892266, Q4_K_M и F16 mmproj закреплены в config/gguf-artifacts.json. |
+| cloudflared 2026.10.1 | Apache-2.0 | нет | [Upstream LICENSE](https://github.com/cloudflare/cloudflared/blob/master/LICENSE). Portable connector использован для отдельного synthetic-only HTTPS/rollback, исключён из Git. Пин в config/cloudflared-artifact.json. |
 
 Лицензии указанных моделей разрешают коммерческое использование при соблюдении условий. При распространении сохранять copyright, LICENSE и upstream NOTICE, когда он имеется. Проверка кода не заменяет проверку весов.
 
