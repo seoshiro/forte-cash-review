@@ -1,0 +1,73 @@
+{
+  "protocol_id": "XCLIP-PROTO-01",
+  "hypothesis": "A frozen pretrained temporal representation, unlike pooled image tokens/differences, may expose action signal with a low-capacity cosine prototype head; fixed persistence may reduce multiple-window false positives.",
+  "scope": "Official TRAIN-only binary proposal and temporal representation experiment, not a type/rule detector",
+  "model_artifacts": "config/xclip-artifacts.json, exact local provenance and SHA verified before registration",
+  "runtime": "existing isolated .venv-patched, requirements-patched-lock.txt; no system dependency changes",
+  "features": {
+    "frames_per_window": 8,
+    "image_size": 224,
+    "window_duration_sec": 2.0,
+    "window_stride_sec": 1.0,
+    "end_margin_sec": 0.05,
+    "pts_match_tolerance_sec": 0.000101,
+    "append_last_window_if_gap_exceeds_sec": 0.25,
+    "decode_max_side": 384,
+    "processor": "official pinned AutoImageProcessor, aspect-preserving resize and center crop, ImageNet normalization from official config",
+    "dtype": "float16",
+    "attention": "sdpa",
+    "batch_windows": 2,
+    "vector_dim": 512,
+    "ordered": "eight decoded-PTS frames in chronological order",
+    "repeated": "the already processed frame at index four repeated eight times; same processor/crop",
+    "output": "get_video_features().pooler_output, L2 normalized; frozen eval weights, no generated text",
+    "no_label_or_name_input": true
+  },
+  "supervision": {
+    "train_manifest_rows": 27,
+    "train_unique_contents": 26,
+    "train_auto_groups": 24,
+    "selection": "one exact-SHA unit before ordering; fail on TRAIN duplicate supervision conflict; preserve original split and multiplicity",
+    "positive_centroid": "normalize mean nearest-fixed-grid point vectors, one per positive TRAIN video",
+    "negative_centroid": "normalize mean of per-negative-video mean normalized window vectors, equal video mass",
+    "other_positive_windows": "unlabeled, never automatically negative",
+    "scaler": "none",
+    "validation": "leave one entire existing TRAIN group out; all prototype fitting inside fold",
+    "classifier_training": "no deep head, fine tuning or class-frequency-derived threshold"
+  },
+  "decision": {
+    "margin": "cosine to positive centroid minus cosine to negative centroid",
+    "threshold": 0.0,
+    "max": "maximum window margin, argmax window center as candidate",
+    "persistence": "maximum of adjacent pair minimum margins; requires two adjacent windows at threshold; mean of pair centers as candidate",
+    "primary_arm": "ordered_persistence",
+    "comparators": ["ordered_max", "repeated_persistence", "repeated_max", "constant_positive", "constant_negative"],
+    "all_arms_reported": true,
+    "multiple_windows": "max is uncalibrated for video risk; fixed persistence is an a priori comparator, no post-result threshold selection"
+  },
+  "budget": {
+    "compute_wall_sec_after_weights_ready": 1800,
+    "max_complete_feature_cost_longest_train_sec": 220,
+    "max_torch_reserved_mib": 5000,
+    "max_process_rss_mib": 6000,
+    "technical_probe_videos": 3,
+    "technical_probe_selection": "shortest, median and longest unique TRAIN duration; label blind",
+    "maximum_train_runs": 1,
+    "maximum_tune_runs": 0,
+    "new_paid_resources": false
+  },
+  "acceptance": {
+    "ordered_persistence_recall_min": 1.0,
+    "ordered_persistence_specificity_min": 0.5,
+    "ordered_persistence_f1_min": 0.8,
+    "ordered_persistence_balanced_accuracy_min": 0.75,
+    "ordered_vs_repeated_persistence_balanced_accuracy_gain_min": 0.05,
+    "persistence_must_not_increase_fn_vs_ordered_max": true,
+    "persistence_fp_reduction_min": 1,
+    "technical_failures": 0,
+    "all_sources_unchanged": true,
+    "cache_digests_verified_before_and_after_groupcv": true
+  },
+  "limits": ["Center crop can exclude peripheral content", "Generic video pretraining does not establish cash-action recognition", "Point annotations are nonexhaustive", "Automatic groups can miss scene families", "Reused TRAIN OOF is exploratory, not independent final quality", "A binary pass does not establish type/rule/evidence relevance"],
+  "stop": "One fixed run; no head/seed/feature/threshold tuning after results. Failed technical or TRAIN gate rejects branch. No TUNE/HOLDOUT inference in this protocol. No deployment or legal event fabrication."
+}

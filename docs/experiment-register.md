@@ -16,3 +16,6 @@ BUDGET-01 был заменён на BUDGET-01R1 до первой модель�
 
 
 QVT-01, 17 October 2026: official-label-only Qwen visual-encoder static/temporal heads, fixed 2-second PTS grid, grouped TRAIN OOF. Rejected; temporal TN/FP/FN/TP=0/12/1/13, static=2/10/1/13. Detailed aggregate evidence and pre-result duplicate-row protocol deviation: docs/qvt-results.md. TUNE not run; HOLDOUT closed. Non-expert potentially cloud-influenced manual proposals are quarantined, not read and not a completion prerequisite. No further feature work or random model sweep initiated.
+
+
+XCLIP-PROTO-01: frozen MIT X-CLIP, group OOF on 26 unique TRAIN contents / 24 existing groups, all four ordered/repeated x max/persistence arms reported. Primary TN/FP/FN/TP=6/6/2/12, F1=.75, BA=.6786, point MAE8.75sec n12. Rejected: FN2 and no FP reduction from persistence. No TUNE/HOLDOUT inference. Source/cache verified. Full results, provenance and resource cost: docs/xclip-candidate.md. Participant deployment-chat ambiguity separately pending official clarification in docs/deployment-clarification.md; no key/tunnel/deploy created.

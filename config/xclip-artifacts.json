@@ -1,0 +1,11 @@
+{
+  "repo": "microsoft/xclip-base-patch32",
+  "revision": "a2e27a78a2b5d802e894b8a1ef14f3a8ce490963",
+  "weights_license": "MIT",
+  "code_license": "Apache-2.0 Transformers implementation; upstream Microsoft VideoX MIT",
+  "weight_file": "model.safetensors",
+  "weight_bytes": 786414772,
+  "weight_sha256": "abf286e8cdd0612761c3e42d3a55eca998382dfa67a04a0f3fdcdfa4f150cdbb",
+  "small_files": ["config.json", "preprocessor_config.json", "README.md"],
+  "download_budget_sec": 1200
+}
