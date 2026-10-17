@@ -1,0 +1,46 @@
+{
+  "protocol_id": "BUDGET-01",
+  "registered_before_candidate_train_or_tune": true,
+  "quality_hypothesis": "One bounded coarse pass and one refinement retain video verdict quality while reducing full request latency and memory pressure",
+  "baseline": {"strategy": "uniform", "frames": 12, "max_new_tokens": 512, "max_side": 448, "threshold": 0.8},
+  "candidate": {
+    "strategy": "bounded_refine",
+    "coarse_frames": 8,
+    "max_coarse_passes": 1,
+    "max_refinements": 1,
+    "refine_frames": 4,
+    "refine_radius_sec": 3,
+    "max_new_tokens_coarse": 384,
+    "max_new_tokens_refine": 192,
+    "max_side": 384,
+    "processor_max_pixels": 131072,
+    "threshold": 0.8,
+    "max_events_coarse": 3,
+    "max_events_refine": 1,
+    "observation_max_chars": 64,
+    "limitation_max_chars": 32,
+    "evidence_decoding": "single PTS-aware pass for all accepted events",
+    "release_inactive_allocator_cache_after_observation": true,
+    "other_coarse_events": "retain independently qualifying events; refine highest-confidence event only and discard it if not confirmed"
+  },
+  "technical_gate": {
+    "synthetic_schema_required": true,
+    "train_probe_count": 3,
+    "max_train_only_syntax_repairs": 1,
+    "request_target_max_sec": 240,
+    "absolute_api_deadline_sec": 295,
+    "engine_analysis_deadline_sec": 220,
+    "frame_equality_required": true
+  },
+  "quality_gate": {"tune_evaluations_per_configuration": 1, "f1_at_least_baseline": true, "false_positives_at_most_baseline": true, "localization_report_required": true},
+  "runtime_policy": {
+    "active_baseline_unchanged": true,
+    "new_environment_only_after_active_workload_stops": true,
+    "nf4_optional_only_after_official_wheel_license_and_kernel_preflight": true,
+    "nf4_comparison_is_additional_disclosed_comparison": true,
+    "precision_change_requires_new_quality_measurement": true
+  },
+  "stopping_rule": "One architecture candidate. No threshold/rule/model selection using repeated TUNE. If gates fail, report failure and retain the measured baseline; no holdout access.",
+  "holdout_access": false,
+  "limitations": "The candidate changes multiple resource parameters as a bundle. A speed gain cannot be attributed separately to temporal refinement, lower resolution, compact output or batching without an additional declared ablation. Small repeated exploratory TUNE cannot establish statistical non-inferiority."
+}

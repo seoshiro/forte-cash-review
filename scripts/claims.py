@@ -41,6 +41,9 @@ sources+=list(root.glob('latency-budget-safe-summary.json'))
 sources+=list(root.glob('advisory-identity-safe-summary.json'))
 sources+=list(root.glob('synthetic-structure-diagnostic-safe-summary.json'))
 sources+=list(root.glob('generation-contract-safe-summary.json'))
+sources+=list(root.glob('runtime-guard-safe-summary.json'))
+sources+=list(root.glob('budget-registration-safe-summary.json'))
+sources+=list(root.glob('experiment-count-safe-summary.json'))
 sources+=list((root/'model-api-qa').glob('*/safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
@@ -62,6 +65,12 @@ for f in sources:
         if cm:
             for k,v in zip(['tn','fp','fn','tp'],[cm[0][0],cm[0][1],cm[1][0],cm[1][1]]):add(f.parent.name+'_'+strategy+'_'+k,v,'videos',metric_split,str(f),'Train is in-sample; tune is exploratory; preliminary scene groups')
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
+def configured(prefix,value,source):
+    if isinstance(value,(int,float)) and not isinstance(value,bool):
+        add(prefix,value,'configured value','BUDGET-01',source,'Pre-registered configuration/target, not a measured result')
+    elif isinstance(value,dict):
+        for k,v in value.items():configured(prefix+'_'+k,v,source)
+configured('budget_protocol',json.loads(Path('config/budget-protocol.json').read_text()),'config/budget-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation']);w.writeheader();w.writerows(rows)
 print(json.dumps({'claim_rows':len(rows),'hardware':env}))

@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,262621696000,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,262102667264,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 benchmark_sample_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_json_success_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_model_load_sec,23.25,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -547,3 +547,46 @@ synthetic-structure-diagnostic-safe-summary_generated_tokens,366,see metric name
 synthetic-structure-diagnostic-safe-summary_token_limit,512,see metric name,technical,not applicable,.private\synthetic-structure-diagnostic-safe-summary.json,local calculation,Internal measurement; not official jury score
 synthetic-structure-diagnostic-safe-summary_response_chars,1138,see metric name,technical,not applicable,.private\synthetic-structure-diagnostic-safe-summary.json,local calculation,Internal measurement; not official jury score
 synthetic-structure-diagnostic-safe-summary_elapsed_sec,58.25,see metric name,technical,not applicable,.private\synthetic-structure-diagnostic-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-guard-safe-summary_loaders_denied,4,see metric name,technical,not applicable,.private\runtime-guard-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-guard-safe-summary_attempted_stream_reads,0,see metric name,technical,not applicable,.private\runtime-guard-safe-summary.json,local calculation,Internal measurement; not official jury score
+budget-registration-safe-summary_candidate_model_runs,0,see metric name,technical,not applicable,.private\budget-registration-safe-summary.json,local calculation,Internal measurement; not official jury score
+budget-registration-safe-summary_candidate_tune_runs,0,see metric name,technical,not applicable,.private\budget-registration-safe-summary.json,local calculation,Internal measurement; not official jury score
+budget-registration-safe-summary_baseline_frozen_files,13,see metric name,technical,not applicable,.private\budget-registration-safe-summary.json,local calculation,Internal measurement; not official jury score
+budget-registration-safe-summary_baseline_frozen_source_mismatches,0,see metric name,technical,not applicable,.private\budget-registration-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_window_cpu_tune_configurations,2,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_video_cpu_tune_configurations,2,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_centered_cpu_tune_configurations,4,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_centered_train_oof_metric_configurations,144,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_centered_train_folds,4,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_centered_train_cv_model_fits,32,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_completed_cpu_hypothesis_families,3,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_qwen_format_configurations,3,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_registered_new_architecture_candidates,1,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_registered_train_only_syntax_repairs_max,1,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_candidate_tune_evaluations_per_configuration_max,1,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_completed_cpu_tune_configurations,8,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+experiment-count-safe-summary_qwen_uniform_tune_runs_started,1,see metric name,technical,not applicable,.private\experiment-count-safe-summary.json,local calculation,Internal measurement; not official jury score
+budget_protocol_baseline_frames,12,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_baseline_max_new_tokens,512,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_baseline_max_side,448,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_baseline_threshold,0.8,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_coarse_frames,8,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_coarse_passes,1,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_refinements,1,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_refine_frames,4,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_refine_radius_sec,3,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_new_tokens_coarse,384,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_new_tokens_refine,192,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_side,384,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_processor_max_pixels,131072,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_threshold,0.8,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_events_coarse,3,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_events_refine,1,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_observation_max_chars,64,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_limitation_max_chars,32,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_technical_gate_train_probe_count,3,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_technical_gate_max_train_only_syntax_repairs,1,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_technical_gate_request_target_max_sec,240,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_technical_gate_absolute_api_deadline_sec,295,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_technical_gate_engine_analysis_deadline_sec,220,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_quality_gate_tune_evaluations_per_configuration,1,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
