@@ -15,14 +15,14 @@ from cashreview.video import Sample
 from pydantic import ValidationError
 from PIL import Image
 
-report={'input':'six generated blank images','real_data_read':False};original_parse=module.parse_observation
-def diagnose(text,rule_ids,low,high):
+report={'input':'six generated blank images','real_data_read':False};original_parse=module.decode_observation
+def diagnose(text,rule_ids,frames):
     report.update(response_chars=len(text),thinking_tag_present='<think>' in text)
     match=re.search(r'\{.*\}',text,re.S)
     if match:
         try:
             data=json.loads(match[0]);report['json_syntax_valid']=True
-            try:Observation.model_validate(data);report['schema_valid']=True
+            try:original_parse(text,rule_ids,frames);report['schema_valid']=True
             except ValidationError as error:
                 report['schema_valid']=False;counter=Counter()
                 allowed={'events','limitation','rule_id','timestamp_sec','confidence','all_conditions_visible','observation'}
@@ -32,9 +32,13 @@ def diagnose(text,rule_ids,low,high):
                 report['schema_error_counts']=dict(counter)
         except json.JSONDecodeError as error:report.update(json_syntax_valid=False,json_error_position=error.pos)
     else:report['json_object_found']=False
-    return original_parse(text,rule_ids,low,high)
-module.parse_observation=diagnose
+    return original_parse(text,rule_ids,frames)
+module.decode_observation=diagnose
 engine=module.LocalEngine();generate=engine.model.generate
+report['parameter_bytes_by_device']={}
+for parameter in engine.model.parameters():
+    key=str(parameter.device)
+    report['parameter_bytes_by_device'][key]=report['parameter_bytes_by_device'].get(key,0)+parameter.numel()*parameter.element_size()
 print(json.dumps({'phase':'synthetic_model_loaded'}),flush=True)
 def capture(**inputs):
     ids=generate(**inputs)

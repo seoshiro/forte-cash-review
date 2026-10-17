@@ -7,6 +7,7 @@
 | Qwen3-VL-2B-Instruct | Apache-2.0 | Apache-2.0 | [Официальная model card](https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct), [код Qwen](https://github.com/QwenLM/Qwen3-VL). Пин ревизии и SHA256 сохраняются после завершения в models/provenance.json. |
 | DINOv2-small, эксперимент | Apache-2.0 | Apache-2.0 | [Официальная model card](https://huggingface.co/facebook/dinov2-small), [LICENSE](https://github.com/facebookresearch/dinov2/blob/main/LICENSE), проверенный SHA256 в models/dinov2-small/provenance.json. |
 | Transformers | Apache-2.0 | отдельно | [Официальный LICENSE](https://github.com/huggingface/transformers/blob/main/LICENSE), metadata установленного пакета. |
+| LM Format Enforcer | MIT | нет | [Официальный репозиторий](https://github.com/noamgat/lm-format-enforcer), версия 0.11.3, текст лицензии docs/lmfe-license.txt. Небольшой адаптер tokenizer-data API сохраняет attribution Noam Gat; upstream интеграция опубликованного wheel несовместима с Transformers 5. |
 | llama.cpp, резерв | MIT | отдельно | [Официальный LICENSE](https://github.com/ggml-org/llama.cpp/blob/master/LICENSE). Portable binary закреплён release/digest; модель с ним не запускалась. |
 | Qwen GGUF, конфигурация | runtime MIT | Apache-2.0 | [Официальный репозиторий Qwen](https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct-GGUF). Эти веса пока не скачаны. |
 

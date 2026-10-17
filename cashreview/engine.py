@@ -6,6 +6,7 @@ import numpy as np
 from .video import inspect, sample
 from .schemas import Done
 from .observations import parse_observation
+from .structured import tokenizer_data,prefix_function,decode_observation
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -23,6 +24,7 @@ class LocalEngine:
         if not torch.cuda.is_available(): raise RuntimeError("CUDA unavailable; benchmark CPU explicitly before deployment")
         self.model=Qwen3VLForConditionalGeneration.from_pretrained(str(path),local_files_only=True,use_safetensors=True,dtype=torch.bfloat16,attn_implementation="sdpa").to("cuda").eval()
         self.processor=AutoProcessor.from_pretrained(str(path),local_files_only=True,min_pixels=64*32*32,max_pixels=196*32*32)
+        self.tokenizer_data=tokenizer_data(self.processor.tokenizer)
         self.load_sec=None
 
     def observe(self, frames, research_candidates=False):
@@ -35,19 +37,20 @@ class LocalEngine:
               '\nReturn ONLY one compact JSON object, without markdown or analysis. Do not discuss every rule. '
               'Include an event ONLY when all applicability conditions are visible and confidence is at least 0.8. Never include rejected or hypothetical events. '
               'If none qualify, use {"events":[],"limitation":"brief uncertainty"}. '
-              'For a qualifying event use these keys: rule_id (registry ID), timestamp_sec (number, actual absolute seconds shown above), confidence (number from 0 to 1), all_conditions_visible (boolean true), observation (Russian, at most 100 characters), limitation (Russian, at most 60 characters, empty if none). '
+              'For a qualifying event use these keys: rule_id (registry ID), frame_id (the supplied F identifier nearest the visible event), confidence (number from 0 to 1), all_conditions_visible (boolean true), observation (Russian, at most 100 characters), limitation (Russian, at most 60 characters, empty if none). '
               'At most 4 events. Global limitation at most 100 characters. Confidence is not calibrated. Never invent paragraphs. Finish the JSON object.')
         content=[]
-        for f in frames:
-            content.extend([{"type":"text","text":f"{f.sec:.3f} seconds:"},{"type":"image","image":f.image}])
+        for i,f in enumerate(frames):
+            content.extend([{"type":"text","text":f"F{i}: {f.sec:.6f} seconds:"},{"type":"image","image":f.image}])
         content.append({"type":"text","text":text})
         messages=[{"role":"user","content":content}]
         inputs=self.processor.apply_chat_template(messages,tokenize=True,add_generation_prompt=True,return_dict=True,return_tensors="pt").to("cuda")
+        prefix=prefix_function(self.tokenizer_data,{r['id'] for r in rules},len(frames))
         with self.torch.inference_mode():
-            ids=self.model.generate(**inputs,max_new_tokens=self.config["max_new_tokens"],do_sample=False)
+            ids=self.model.generate(**inputs,max_new_tokens=self.config["max_new_tokens"],do_sample=False,prefix_allowed_tokens_fn=prefix)
         output=self.processor.batch_decode(ids[:,inputs.input_ids.shape[1]:],skip_special_tokens=True)[0]
         # Content is private. Never print model output, including parse failures.
-        return parse_observation(output,{r['id'] for r in rules},frames[0].sec,frames[-1].sec)
+        return decode_observation(output,{r['id'] for r in rules},frames)
 
     def analyze(self,path:Path,job_id:str,private:Path,strategy=None):
         started=time.monotonic(); cfg=self.config

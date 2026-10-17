@@ -17,6 +17,15 @@ if not a.prepare:
     print(json.dumps({'mode':'read_only_plan','target':str(target),'torch':cfg['torch'],'torchvision':cfg['torchvision'],'active_environment_modified':False,'downloads_started':False}));sys.exit(0)
 state=json.loads((ROOT/'.private/vlm-pipeline/status.json').read_text())
 if state['stage'] in ['download_preparation','technical_benchmark','tuning_uniform','tuning_coarse_refine']:raise RuntimeError('Active pipeline must finish before staging another runtime')
+structured=ROOT/'.private/structured/status.json'
+if structured.exists() and json.loads(structured.read_text())['stage'] in ['structured_technical_benchmark','structured_tune_uniform','structured_train_uniform']:
+    raise RuntimeError('Active structured evaluation must finish before staging another runtime')
+import psutil
+for process in psutil.process_iter():
+    try:
+        if Path(process.cwd()).resolve()==ROOT and any(Path(x).name in {'benchmark.py','evaluate.py','diagnose_synthetic_structure.py','qa_model_api.py'} for x in process.cmdline()[1:]):
+            raise RuntimeError('Owned model workload is active; no environment prepared')
+    except (psutil.Error,OSError,ValueError):pass
 driver=ctypes.WinDLL('nvcuda.dll');version=ctypes.c_int()
 if driver.cuDriverGetVersion(ctypes.byref(version))!=0 or version.value<cfg['minimum_driver_api']:raise RuntimeError('Current driver API does not support this runtime; no OS changes performed')
 out=ROOT/'.private/runtime-upgrade';out.mkdir(parents=True,exist_ok=True);wheels=[]
