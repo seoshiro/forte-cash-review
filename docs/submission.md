@@ -1,3 +1,5 @@
+> Latest authorization: the user explicitly approved a free Cloudflare tunnel to this service and a separate permanent jury key at 2026-10-17 22:02:55 UTC. Prior pending/awaiting-bank wording below is historical and superseded. Execution still depends on local readiness and security preflight; no tunnel/key exists yet. Keep secrets local, use no paid features, do not submit the form. A repository is requested after completion; default private after publication audits. The reported bank approval is user-reported, not a verified organizer quotation.
+
 Active user completion target: 18 October 2026, 11:00 Astana (UTC+05:00), equivalent to 06:00 UTC. The official deadline remains 12:00 Astana / 07:00 UTC. The earlier 06:00 Astana preference was cancelled. Prioritize detector quality and end-to-end readiness before this user target. Further IMG_5448 review was cancelled; existing private files are retained.
 
 # Комплект сдачи команды TerenOi — заполняется только после проверок

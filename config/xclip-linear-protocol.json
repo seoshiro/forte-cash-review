@@ -1,0 +1,21 @@
+{
+  "protocol_id": "XCLIP-LINEAR-01",
+  "scope": "One cache-only exploratory reused-TRAIN LOGO comparison; not independent validation or a release",
+  "novelty": "Discriminatively fitted regularized affine boundary on the same frozen XCLIP ordered features; previous cosine margin was already supervised and linear",
+  "selection": {"unique_train_videos": 26, "automatic_train_groups": 24, "positive_videos": 14, "feature_dim": 512},
+  "supervision": "One nearest cached PTS-window per positive point; all windows in negative videos; other positive windows excluded from fit",
+  "weights": "unique_train_video_count / (2 * class_train_video_count * selected_windows_in_video); identical weights for scaler and classifier",
+  "head": {"C": 0.01, "penalty": "l2", "solver": "lbfgs", "fit_intercept": true, "class_weight": null, "tol": 0.000001, "max_iter": 2000, "seed": 26101731, "threshold_logit": 0.0},
+  "pooling": "max; same cached windows and PTS grid as ordered_max baseline; first maximum on ties",
+  "baseline_expected_tn_fp_fn_tp": [6, 6, 2, 12],
+  "baseline_expected_f1": 0.75,
+  "baseline_expected_tp_point_mae_sec": 8.833333333333334,
+  "baseline_expected_tp_point_count": 12,
+  "baseline_expected_roc_auc": 0.5773809523809523,
+  "binary_gate": {"fn_max": 2, "fp_max": 5, "f1_min": 0.8},
+  "point_gate": "No regression in candidate-point MAE on all positive videos and paired common true positives; neither is semantic event/evidence validation",
+  "budget": {"wall_sec": 180, "cpu_threads": 1, "minimum_available_ram_mib_before": 2048, "minimum_available_ram_mib_during": 1024, "max_process_peak_rss_mib": 1536},
+  "no_refit_after_convergence_warning": true,
+  "known_library_warning": "Installed sklearn1.6.1 supplies the removed scipy iprint verbosity option; this OptimizeWarning does not change the frozen solver. ConvergenceWarning still fails the run",
+  "limits": ["Repeated research on TRAIN; automatic groups lack expert validation", "Official points are not exhaustive action boundaries", "No type, rule, multi-event or evidence relevance validation", "Cache-only CPU fit/predict cost excludes decoding, encoder inference and upload", "No TUNE/HOLDOUT evaluation; no new GPU inference, media reads or annotations", "No hyperparameter, threshold, pooling or seed search"]
+}

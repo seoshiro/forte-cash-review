@@ -1,3 +1,5 @@
+> Latest authorization: the user explicitly approved a free Cloudflare tunnel to this service and a separate permanent jury key at 2026-10-17 22:02:55 UTC. Prior pending/awaiting-bank wording below is historical and superseded. Execution still depends on local readiness and security preflight; no tunnel/key exists yet. Keep secrets local, use no paid features, do not submit the form. A repository is requested after completion; default private after publication audits. The reported bank approval is user-reported, not a verified organizer quotation.
+
 # Prepared external-access procedure; execution deferred
 
 The user will wait for ForteBank's answer from09:00 Astana on18 October. Current authorization is local-only. No tunnel, firewall change, permanent credential, push, remote repository or submission is authorized now. The official brief still requires a public UI URL, public `/api/v1` API and a jury key. A local repository, installer or experimental binary endpoint does not satisfy those requirements.

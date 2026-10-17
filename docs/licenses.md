@@ -4,6 +4,8 @@
 
 | Компонент | Код | Веса | Источник |
 |---|---|---|---|
+| Microsoft XCLIP | MIT upstream; Apache-2.0 native Transformers | MIT | [Официальная model card](https://huggingface.co/microsoft/xclip-base-patch32), [VideoX LICENSE](https://github.com/microsoft/VideoX/blob/master/LICENSE). Точная ревизия/SHA256 и пределы проверки — [XCLIP-PROTO-01](xclip-candidate.md). |
+| InternVL3.5-1B-HF | Apache-2.0 native Transformers, без remote code | Apache-2.0 | [Официальная model card](https://huggingface.co/OpenGVLab/InternVL3_5-1B-HF), [проверенные пины и контроль](internvl-visual-control.md). Модель отклонена по synthetic gate; это не принятый detector. |
 | Qwen3-VL-2B-Instruct | Apache-2.0 | Apache-2.0 | [Официальная model card](https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct), [код Qwen](https://github.com/QwenLM/Qwen3-VL). Пин ревизии и SHA256 сохраняются после завершения в models/provenance.json. |
 | DINOv2-small, эксперимент | Apache-2.0 | Apache-2.0 | [Официальная model card](https://huggingface.co/facebook/dinov2-small), [LICENSE](https://github.com/facebookresearch/dinov2/blob/main/LICENSE), проверенный SHA256 в models/dinov2-small/provenance.json. |
 | Transformers | Apache-2.0 | отдельно | [Официальный LICENSE](https://github.com/huggingface/transformers/blob/main/LICENSE), metadata установленного пакета. |

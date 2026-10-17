@@ -1,3 +1,5 @@
+> Latest authorization: the user explicitly approved a free Cloudflare tunnel to this service and a separate permanent jury key at 2026-10-17 22:02:55 UTC. Prior pending/awaiting-bank wording below is historical and superseded. Execution still depends on local readiness and security preflight; no tunnel/key exists yet. Keep secrets local, use no paid features, do not submit the form. A repository is requested after completion; default private after publication audits. The reported bank approval is user-reported, not a verified organizer quotation.
+
 # Бесплатный внешний доступ — подготовка, запуск не выполнен
 
 Кандидат: Cloudflare Quick Tunnel к тому же локальному API/UI. Официальная документация: https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/ (проверена 17.10.2026). Временный trycloudflare.com URL, без аккаунта и домена; адрес живёт только пока работает cloudflared. Это demo/dev механизм без гарантии uptime, адрес меняется после нового запуска. API polling подходит; SSE не используется. Email browser authentication не добавлять: жюри использует неинтерактивный X-API-Key API.

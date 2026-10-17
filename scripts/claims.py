@@ -142,6 +142,9 @@ sources+=list((root/'internvl-control').glob('*safe-summary.json'))
 sources+=list((root/'internvl-control/run').glob('terminal-safe-summary.json'))
 sources+=list((root/'internvl-control/run').glob('resource-safe-summary.json'))
 if not (root/'internvl-control/safe-summary.json').exists():sources+=list((root/'internvl-control/run').glob('internvl-safe-summary.json'))
+sources+=list((root/'xclip-linear-control').glob('*safe-summary.json'))
+sources+=list((root/'xclip-linear-control/run').glob('terminal-safe-summary.json'))
+sources+=list((root/'readme-validation').glob('safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -162,6 +165,8 @@ def numeric(prefix,value,sample,source):
         if 'qwen-cpu-facts' in source:limitation='One fixed requested-CPU synthetic fact control, conditional images only after exact text gate; sampled RSS/device-wide VRAM; historical comparison does not isolate backend cause or establish bank quality'
         if 'internvl-prepare' in source:limitation='Public pinned artifact preparation/RAM snapshot or generated-image processor check; no model quality. Final download duration is resume/finalization only after a preserved initial budget failure'
         if 'internvl-control' in source:limitation='One fixed visual-first synthetic control and conditional reused-TRAIN proxy pilot; no independent action/type/rule truth. Worker RSS/system/device samples differ from Torch high-water; monitor counts one compound assertion, not model calls'
+        if 'xclip-linear-control' in source:limitation='One frozen cache-only reused-TRAIN LOGO discriminative XCLIP head; automatic groups unreviewed. CPU costs exclude encoder/decoding/API; point error is not semantic localization. No independent/type/rule/evidence validation'
+        if 'readme-validation' in source:limitation='Generated MOV and localhost launcher/API mechanics only; no model detection, bank inputs, public availability or submission claim'
         if 'geometry_first_prompt_rule_or_allowed_token_selection' in prefix:limitation+='; legacy metric name counts first-definition semantics only, not allowed-list selection'
         add(prefix,value,'see metric name',sample,source,limitation)
     elif isinstance(value,dict):
@@ -202,6 +207,8 @@ for f in sources:
     if f.parent.name=='qwen-cpu-facts':sample='technical' if f.name=='post-cleanup-memory-safe-summary.json' else 'synthetic'
     if f.parent.name=='internvl-prepare':sample='synthetic' if f.name.startswith('processor') else 'technical'
     if f.parent.name=='internvl-control':sample='technical' if f.name=='post-cleanup-memory-safe-summary.json' else 'synthetic'
+    if f.parent.name=='xclip-linear-control':sample='synthetic' if f.name=='tests-safe-summary.json' else 'train'
+    if f.parent.name=='readme-validation':sample='synthetic'
     if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:sample='technical' if f.parent.parent.name=='xclip-spatial-control' else 'synthetic'
     if f.parent.name.startswith('oracle-diagnostic'):sample='synthetic' if f.name.startswith('synthetic') else 'train'
     if f.parent.name=='clarifications':sample='technical'
@@ -219,11 +226,13 @@ for f in sources:
     if f.parent.name in ['qwen-decomposition','submission-matrix']:prefix+='_'+f.stem
     if f.parent.name=='qwen-cpu-facts':prefix+='_'+f.stem
     if f.parent.name in ['internvl-prepare','internvl-control']:prefix+='_'+f.stem
+    if f.parent.name=='xclip-linear-control':prefix+='_'+f.stem
     if f.parent.name=='run' and f.parent.parent.name=='runtime-template-audit':sample='synthetic';prefix='runtime-template-audit_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-text-discrimination':sample='synthetic';prefix='qwen-text-discrimination_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-decomposition':sample='synthetic';prefix='qwen-decomposition_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-cpu-facts':sample='synthetic';prefix='qwen-cpu-facts_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='internvl-control':sample='technical';prefix='internvl-control_'+f.stem
+    if f.parent.name=='run' and f.parent.parent.name=='xclip-linear-control':sample='technical';prefix='xclip-linear-control_monitor'
     if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:prefix=f.parent.parent.name+'_monitor'
     for k,v in record.items():
         if k not in ['results','reports']:
@@ -238,6 +247,7 @@ for f in sources:
         if f.parent.name=='xclip-control':metric_split='train'
         if f.parent.name=='xclip-hardneg-control':metric_split='train'
         if f.parent.name=='xclip-spatial-control':metric_split='train'
+        if f.parent.name=='xclip-linear-control':metric_split='train'
         if f.parent.name.startswith('hybrid-r22'):metric_split='train'
         numeric(f.parent.name+'_'+strategy,result,metric_split,str(f))
         cm=result.get('confusion_matrix_tn_fp_fn_tp')
@@ -248,6 +258,7 @@ for f in sources:
                 if f.parent.name=='xclip-control':limitation='Exploratory reused-TRAIN group OOF; automatic scene-family groups unreviewed; no type/rule validation'
                 if f.parent.name=='xclip-hardneg-control':limitation='One fixed reused-TRAIN group OOF diagnostic; useful gate failed; original baseline preserved; no type/rule validation'
                 if f.parent.name=='xclip-spatial-control':limitation='One fixed reused-TRAIN group OOF spatial ablation; useful gate failed; no type/rule/evidence validation'
+                if f.parent.name=='xclip-linear-control':limitation='One frozen cache-only reused-TRAIN LOGO head; no independent/type/rule/evidence validation; original baseline preserved'
                 if f.parent.name.startswith('hybrid-r22'):limitation='Limited R22 reused-TRAIN group OOF; binary labels cannot validate types or observations; cached-XCLIP Qwen-stage latency excludes feature extraction/API upload'
                 add(f.parent.name+'_'+strategy+'_'+k,v,'videos',metric_split,str(f),limitation)
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
@@ -281,6 +292,8 @@ def configured(prefix,value,source):
             add(prefix,value,'configured value','INTERNVL-VISUAL-01',source,'One frozen visual-first control/conditional TRAIN proxy thresholds and resource budgets; not measured quality or an official score');return
         if prefix.startswith('internvl_artifacts'):
             add(prefix,value,'artifact/preflight value','technical',source,'Official pinned artifact sizes or recorded selection RAM snapshot; not measured inference fit, speed or quality');return
+        if prefix.startswith('xclip_linear_protocol'):
+            add(prefix,value,'configured value','XCLIP-LINEAR-01',source,'One fixed cache-only TRAIN LOGO configuration/acceptance target; not measured quality or complete API runtime');return
         if prefix.startswith('hybrid_protocol'):
             add(prefix,value,'configured value','HYBRID-R22-01',source,'Pre-registered synthetic-gated limited-rule hypothesis, not measured quality');return
         add(prefix,value,'configured value','QVT-01' if prefix.startswith('qvt_protocol') else 'ORACLE-01R1' if prefix.startswith('oracle_protocol') else 'PANEL-01' if prefix.startswith('panel_protocol') else 'GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
@@ -309,6 +322,7 @@ configured('submission_criteria',json.loads(Path('config/submission-criteria.jso
 configured('qwen_cpu_facts_protocol',json.loads(Path('config/qwen-cpu-facts-protocol.json').read_text()),'config/qwen-cpu-facts-protocol.json')
 configured('internvl_protocol',json.loads(Path('config/internvl-protocol.json').read_text()),'config/internvl-protocol.json')
 configured('internvl_artifacts',json.loads(Path('config/internvl-artifacts.json').read_text()),'config/internvl-artifacts.json')
+configured('xclip_linear_protocol',json.loads(Path('config/xclip-linear-protocol.json').read_text()),'config/xclip-linear-protocol.json')
 configured('hybrid_protocol',json.loads(Path('config/hybrid-protocol.json').read_text()),'config/hybrid-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)
