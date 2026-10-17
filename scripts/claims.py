@@ -83,5 +83,5 @@ def configured(prefix,value,source):
         for k,v in value.items():configured(prefix+'_'+k,v,source)
 configured('budget_protocol',json.loads(Path('config/budget-protocol.json').read_text()),'config/budget-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
-    w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation']);w.writeheader();w.writerows(rows)
+    w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)
 print(json.dumps({'claim_rows':len(rows),'hardware':env}))

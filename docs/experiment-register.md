@@ -2,6 +2,8 @@
 
 Holdout остаётся закрытым. Текущий TUNE уже использовался повторно; никакой внутренний F1 не называется независимым final результатом или официальным баллом.
 
+BUDGET-01 был заменён на BUDGET-01R1 до первой модельной проверки: две регистрации, один исполненный кандидат, исходных candidate model/TUNE runs = 0. R1: 192/128 tokens, не более двух coarse events, обязательный exclusion status; unknown/present отбрасываются. Три TRAIN-пробы завершены со schema 3/3, TN/FP/FN/TP = 0/2/0/1. Quality gate провален, кандидат не принят, его TUNE не запускался. Отдельный loopback API QA измеряет техническую готовность этого кода, а не пригодность распознавания. Полный uniform TRAIN отменён; упоминания его очереди ниже являются историей прежнего плана.
+
 Завершены три семейства гипотез CPU: window uniform→refine, video uniform→dense, raw sequence→centered sequence. Первые два дали по два TUNE-результата; третье — четыре (две feature variants × две стратегии). Итого восемь завершённых конфигураций на TUNE до текущего Qwen baseline. В centered experiment 4 C × 9 thresholds × 2 strategies × 2 variants = 144 TRAIN-OOF metric configurations, с 4 grouped folds. Эти 144 не являются 144 TUNE попытками. Сами feature/model варианты и скрипты сохранены отдельно.
 
 Три Qwen варианта формата (320 tokens, compact 512, constrained frame-ID 512) проверялись на трёх TRAIN пробах и синтетике. Они считаются тремя инженерными вариантами вывода, не тремя доказанными улучшениями качества. Текущий uniform Qwen — девятая начатая конфигурация TUNE; затем тот же протокол применяется к TRAIN. До завершения каждого split quality aggregate не публикуется. Прерванный запуск отмечается явно, без превращения ошибок в no_violation.

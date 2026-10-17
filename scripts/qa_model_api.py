@@ -28,7 +28,9 @@ def verify_frames(path,result):
 
 def main():
     import httpx,psutil
-    p=argparse.ArgumentParser();p.add_argument('--strategy',choices=['uniform','coarse_refine'],default='uniform');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--strategy',choices=['uniform','coarse_refine'],default='uniform')
+    p.add_argument('--engine',choices=['baseline','budget'],default='baseline')
+    p.add_argument('--precision',choices=['bf16','nf4'],default='bf16');a=p.parse_args()
     os.chdir(ROOT);status=json.loads((ROOT/'.private/vlm-pipeline/status.json').read_text())
     if status['stage'] in ['download_preparation','technical_benchmark','tuning_uniform','tuning_coarse_refine']:raise RuntimeError('Wait for active artifact/GPU pipeline first')
     structured=ROOT/'.private/structured/status.json'
@@ -44,9 +46,10 @@ def main():
     cases=[(r,'unseen-input.mov') for r in chosen]+[(chosen[1],'different-arbitrary-name.mov')]
     out=ROOT/'.private/model-api-qa'/time.strftime('%Y%m%dT%H%M%SZ',time.gmtime());out.mkdir(parents=True)
     (out/'frozen-config.json').write_bytes((ROOT/'config/experiment.json').read_bytes())
+    if a.engine=='budget':(out/'frozen-budget-protocol.json').write_bytes((ROOT/'config/budget-protocol.json').read_bytes())
     with socket.socket() as s:s.bind(('127.0.0.1',0));port=s.getsockname()[1]
     base=f'http://127.0.0.1:{port}';key='temporary-loopback-model-qa-only';other='temporary-loopback-other-owner'
-    env=os.environ.copy();env.update(CASH_API_KEY=key+','+other,CASH_PRIVATE=str(out/'server-private'),CASH_STRATEGY=a.strategy)
+    env=os.environ.copy();env.update(CASH_API_KEY=key+','+other,CASH_PRIVATE=str(out/'server-private'),CASH_STRATEGY=a.strategy,CASH_ENGINE=a.engine,CASH_PRECISION=a.precision)
     proc=None;latencies=[];failed=0;evidence=0;vram=[];truth=[];guesses=[];timing=[];completed=[];unchanged=True;checks={}
     try:
         with (out/'server.stdout.log').open('w') as stdout,(out/'server.stderr.log').open('w') as stderr:
@@ -89,6 +92,12 @@ def main():
             checks['source_hashes_unchanged']=bool(unchanged)
         from sklearn.metrics import confusion_matrix
         summary={'scope':'TRAIN smoke test including renamed repeat; not generalization evaluation','strategy':a.strategy,'cases':len(cases),'completed':len(truth),'failed':failed,'checks':checks,'evidence_frames_verified_against_original':evidence,'latency_upload_to_status_mean_sec':statistics.mean(latencies),'latency_upload_to_status_max_sec':max(latencies),'over_300_sec':sum(t>300 for t in latencies),'vram_allocated_peak_mib':max(vram) if vram else None,'train_smoke_confusion_matrix_tn_fp_fn_tp':confusion_matrix(truth,guesses,labels=[0,1]).tolist(),'matched_positive_timing_count':len(timing),'timestamp_mae_sec':statistics.mean(timing) if timing else None,'holdout_opened':False,'public_access_tested':False,'physical_network_disconnect_tested':False,'official_score':False}
+        summary.update(engine=a.engine,precision=a.precision,
+                       strategy='bounded_refine' if a.engine=='budget' else a.strategy,
+                       status='PASS' if not failed and all(checks.values()) and max(latencies)<300 else 'FAIL',
+                       meets_240_sec_target=not failed and max(latencies)<=240,
+                       queue_policy='single admitted job; overlapping upload receives 429, no hidden waiting queue',
+                       protocol_id=json.loads((ROOT/'config/budget-protocol.json').read_text())['protocol_id'] if a.engine=='budget' else None)
         (out/'safe-summary.json').write_text(json.dumps(summary,indent=2),encoding='utf-8');print(json.dumps(summary))
     finally:
         if proc:
@@ -101,4 +110,10 @@ def main():
             for child in alive:child.kill()
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    try:main()
+    except Exception as error:
+        import traceback
+        print(json.dumps({'status':'FAIL','technical_error_type':type(error).__name__,
+              'source_locations':[{'file':Path(f.filename).name,'line':f.lineno,'function':f.name} for f in traceback.extract_tb(error.__traceback__)],
+              'raw_model_results_emitted':False}));sys.exit(1)

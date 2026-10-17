@@ -37,8 +37,14 @@ def main():
         else:
             from .video import validate_input
             validate_input(folder/'input.mov')
-            from .engine import LocalEngine
-            result=LocalEngine().analyze(folder/"input.mov",job_id,folder,os.environ.get("CASH_STRATEGY"))
+            engine=os.environ.get('CASH_ENGINE','baseline')
+            if engine=='budget':
+                from budget_candidate.engine import BudgetEngine
+                result=BudgetEngine(os.environ.get('CASH_PRECISION','bf16')).analyze(folder/'input.mov',job_id,folder)
+            elif engine=='baseline':
+                from .engine import LocalEngine
+                result=LocalEngine().analyze(folder/"input.mov",job_id,folder,os.environ.get("CASH_STRATEGY"))
+            else:raise ValueError('Unknown local engine configuration')
         temp=folder/"result.tmp"; temp.write_text(json.dumps(result,ensure_ascii=False),encoding="utf-8"); temp.replace(folder/"result.json")
     except Exception:
         # Deliberately omit paths and model outputs from errors.
