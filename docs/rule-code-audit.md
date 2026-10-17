@@ -18,3 +18,15 @@ The new synthetic code tests exercise the actual final pipeline with unknown/pre
 The model is currently asked to assess these conditions; the code does not independently verify them. The primitive diagnostic therefore requests observable signs separately from legal judgment. A supervised primitive head is only a diagnostic of visual signal. It cannot replace the verified applicability and exclusion checks or make a legal rule out of a correlated object.
 
 No rule registry or production prompt was changed during ORACLE-01. If label-to-rule mismatch remains unresolved, a human must review the selected TRAIN cases locally, record applicable rule/conditions/exclusions or an explicit mismatch, and keep all footage and observations local. A cloud chat must not receive descriptions of individual cases.
+
+## Catalogue breadth
+
+The cached official current text contains additional provisions that the enabled catalogue does not cover. This is a scope gap, not evidence that the dataset contains those events. The source is [NB231](https://adilet.zan.kz/rus/docs/V1900019680), whose edition and cached text hash are recorded in `config/rules.json`.
+
+| Public provision outside the enabled catalogue | Limits on a possible visual check |
+|---|---|
+| Paragraph 12: storage of employees' personal items outside the cash unit; expressly allowed communication devices lack photo/video functions | This is not a blanket ban on every telephone. A phone-like object alone does not establish ownership, exact zone boundaries or camera capability. The primitive question is not a legal finding. |
+| Paragraph 19(2): per-note/per-coin counting and authenticity/payment-fitness checking during receipt | A partial view or sparse sampling cannot prove that the check was omitted. Device presence alone does not prove use, and numerical cash reconciliation is outside visual proof. |
+| Paragraph 24(3)-(4): bag integrity and sealing checks in the specified cash-collection intake context | The intake context and relevant bag/closure must be established. A generic bundle or bag is not sufficient; missing a check in sampled frames is not proof of omission. |
+
+These entries remain disabled and were not added to either diagnostic prompt. A narrow catalogue may produce conservative negatives even if a visual model detects physical actions. The current diagnostic cannot by itself distinguish catalogue mismatch from incorrect applicability judgments; local human annotations would resolve that distinction.

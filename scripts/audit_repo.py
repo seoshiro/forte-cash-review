@@ -8,7 +8,7 @@ blocked=[];digests={}
 for name in files:
     p=root/name
     if p.is_dir():continue
-    ok=p.suffix.lower() in allowed_ext or p.name in ['.gitignore','LICENSE','NOTICE']
+    ok=p.suffix.lower() in allowed_ext or p.name in ['.gitignore','LICENSE','NOTICE','Start-TRAIN-review.cmd']
     if p.suffix.lower()=='.csv' and name!='docs/claim-ledger.csv':ok=False
     if any(part.lower() in {'.private','models','.venv','.runtime','.cache'} for part in Path(name).parts):ok=False
     if p.stat().st_size>1024*1024:ok=False

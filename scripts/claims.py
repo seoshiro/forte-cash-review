@@ -81,6 +81,11 @@ sources+=list((root/'oracle-format-diagnostic').glob('safe-summary.json'))
 sources+=list((root/'oracle-diagnostic-r1').glob('safe-summary.json'))
 sources+=list((root/'oracle-diagnostic-r1').glob('synthetic-safe-summary.json'))
 sources+=list(root.glob('oracle-tests-safe-summary.json'))
+sources+=list(root.glob('decoder-longest-train-safe-summary.json'))
+sources+=list(root.glob('oracle-schema-validity-safe-summary.json'))
+sources+=list(root.glob('manual-review-tests-safe-summary.json'))
+sources+=list((root/'train-review-synthetic-qa').glob('safe-summary.json'))
+sources+=list((root/'manual-review').glob('launch-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
     elif isinstance(value,dict):
@@ -96,6 +101,8 @@ for f in sources:
     if f.parent.name in ['gguf-sequence-diagnostic','gguf-sequence-diagnostic-2048']:sample='synthetic'
     if f.parent.name=='panel-control' and f.name.startswith('synthetic'):sample='synthetic'
     if f.parent.name=='oracle-format-diagnostic':sample='synthetic'
+    if f.parent.name=='train-review-synthetic-qa':sample='synthetic'
+    if f.parent.name=='manual-review':sample='technical'
     if f.parent.name.startswith('oracle-diagnostic'):sample='synthetic' if f.name.startswith('synthetic') else 'train'
     if f.parent.name=='clarifications':sample='technical'
     prefix=f.stem if f.parent==root else f.parent.name

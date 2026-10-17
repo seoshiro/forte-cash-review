@@ -15,3 +15,16 @@ Before the revised TRAIN run, an adversarial synthetic request had to obey the s
 Point coverage is calculated separately at fixed tolerances from actual decoded sample PTS to each positive point annotation. It is not evidence-frame relevance or coverage of an entire action. One timestamp in the supplied labels is not exhaustive event annotation. The independent rule/exclusion implementation audit is in [rule-code-audit.md](rule-code-audit.md).
 
 All observations, primitive vectors, label associations and per-case details stay in `.private`. Only aggregate confusion matrices, point-coverage rates and timing enter the report and claim ledger. No employee recording is used.
+
+## Completed decision
+
+Completed paired TRAIN cases: 8 / 8; technical failures: 0. Frozen code/configuration and source hashes were unchanged. TUNE and HOLDOUT were not used.
+
+Matrices below are TN / FP / FN / TP.
+
+- regular: legal gate 4 / 0 / 4 / 0; primitive head training fit 1 / 3 / 0 / 4; group-LOO 0 / 4 / 1 / 3; point coverage within 1 second 3 / 4; diagnostic mean 84.529125 s, maximum 85.547000 s.
+- oracle: legal gate 4 / 0 / 4 / 0; primitive head training fit 2 / 2 / 0 / 4; group-LOO 2 / 2 / 1 / 3; point coverage within 1 second 4 / 4; diagnostic mean 42.570375 s, maximum 43.656000 s.
+
+Decision: improving point coverage alone did not repair the legal gate. The oracle primitive head has limited label signal but still makes false positives and a false negative; its regular-extraction counterpart is worse than a constant-positive control. Neither is accepted for production. Oracle input uses known labels, so its apparent improvement is a capability diagnostic only. The current configuration has not demonstrated sufficient visual/domain capability. Catalogue mismatch remains unresolved; no blanket claim that the underlying model cannot see these actions is justified.
+
+Do not continue blind gate/prompt variation. The prepared TRAIN-only local human review packet is under .private/oracle-diagnostic-r1: review-selection.csv and local-review-instructions.txt. It asks for applicable public rule/visible conditions/exclusions or explicit mismatch, and contains no model answers. Existing private viewer saves annotations under .private/annotations. No footage or per-case descriptions should be sent to chat. No human review is claimed to have happened.

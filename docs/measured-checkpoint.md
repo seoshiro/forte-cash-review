@@ -1,3 +1,5 @@
+Latest checkpoint: ORACLE-01R1 used the corrected native schema transport in both regular and oracle modes, after synthetic enforcement controls. It completed the fixed TRAIN diagnostic without technical failures but did not establish an acceptable detector. Semantic rule/event grounding remains unverified. The private eight-case TRAIN review form is ready; see [manual-train-review.md](manual-train-review.md). Manual proposals are separate and are not automatically training eligible. TUNE/HOLDOUT remain closed.
+
 Current checkpoint: PANEL-01 passed generated input controls but failed the frozen TRAIN quality control (always negative). It is rejected for deployment. TUNE was not run and HOLDOUT remains closed. See [the complete panel measurement](panel-candidate.md) and claim ledger. IMG_5448 review was cancelled; it is not an active blocker. The main blocker is useful event detection. A public URL and production API key remain unconfigured.
 
 # Измеренный checkpoint
