@@ -134,6 +134,9 @@ sources+=list((root/'qwen-text-discrimination/run').glob('terminal-safe-summary.
 sources+=list((root/'qwen-decomposition').glob('*safe-summary.json'))
 sources+=list((root/'qwen-decomposition/run').glob('terminal-safe-summary.json'))
 sources+=list((root/'submission-matrix').glob('*safe-summary.json'))
+sources+=list((root/'rtdetr-class-audit').glob('safe-summary.json'))
+sources+=list((root/'qwen-cpu-facts').glob('*safe-summary.json'))
+sources+=list((root/'qwen-cpu-facts/run').glob('terminal-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -150,6 +153,8 @@ def numeric(prefix,value,sample,source):
         if 'qwen-text-discrimination' in source:limitation='One fixed synthetic text discrimination control; conditional images only after strict text gate. Monitor counts one compound assertion, not calls; no bank, capacity or causal backend claim'
         if 'qwen-decomposition' in source:limitation='One fixed text-only synthetic decomposition; facts and binding are separate tasks, not a model-output pipeline. Ordering sensitivity observed, root cause unknown; monitor counts one assertion, not calls; no bank-quality claim'
         if 'submission-matrix' in source:limitation='Official criterion maxima/configured deadlines or synthetic launcher mechanics only; no awarded score, model quality, public availability or submission claim'
+        if 'rtdetr-class-audit' in source:limitation='Public pinned COCO class-map inspection only; no weights downloaded, forward pass, primitive annotations or bank-rule applicability'
+        if 'qwen-cpu-facts' in source:limitation='One fixed requested-CPU synthetic fact control, conditional images only after exact text gate; sampled RSS/device-wide VRAM; historical comparison does not isolate backend cause or establish bank quality'
         if 'geometry_first_prompt_rule_or_allowed_token_selection' in prefix:limitation+='; legacy metric name counts first-definition semantics only, not allowed-list selection'
         add(prefix,value,'see metric name',sample,source,limitation)
     elif isinstance(value,dict):
@@ -186,6 +191,8 @@ for f in sources:
     if f.parent.name=='qwen-text-discrimination':sample='synthetic'
     if f.parent.name=='qwen-decomposition':sample='synthetic'
     if f.parent.name=='submission-matrix':sample='technical'
+    if f.parent.name=='rtdetr-class-audit':sample='technical'
+    if f.parent.name=='qwen-cpu-facts':sample='technical' if f.name=='post-cleanup-memory-safe-summary.json' else 'synthetic'
     if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:sample='technical' if f.parent.parent.name=='xclip-spatial-control' else 'synthetic'
     if f.parent.name.startswith('oracle-diagnostic'):sample='synthetic' if f.name.startswith('synthetic') else 'train'
     if f.parent.name=='clarifications':sample='technical'
@@ -201,9 +208,11 @@ for f in sources:
     if f.parent.name=='runtime-template-audit':prefix+='_'+f.stem
     if f.parent.name=='qwen-text-discrimination':prefix+='_'+f.stem
     if f.parent.name in ['qwen-decomposition','submission-matrix']:prefix+='_'+f.stem
+    if f.parent.name=='qwen-cpu-facts':prefix+='_'+f.stem
     if f.parent.name=='run' and f.parent.parent.name=='runtime-template-audit':sample='synthetic';prefix='runtime-template-audit_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-text-discrimination':sample='synthetic';prefix='qwen-text-discrimination_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-decomposition':sample='synthetic';prefix='qwen-decomposition_monitor'
+    if f.parent.name=='run' and f.parent.parent.name=='qwen-cpu-facts':sample='synthetic';prefix='qwen-cpu-facts_monitor'
     if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:prefix=f.parent.parent.name+'_monitor'
     for k,v in record.items():
         if k not in ['results','reports']:numeric(prefix+'_'+k,v,sample,str(f))
@@ -253,6 +262,8 @@ def configured(prefix,value,source):
             add(prefix,value,'configured value','QWEN-DECOMPOSITION-01',source,'Frozen one-run text-only synthetic configuration; not measured quality or a bank semantic gate');return
         if prefix.startswith('submission_criteria'):
             add(prefix,value,'official maximum/configured planning value','submission preparation',source,'Criterion maximum is not an awarded score; deadlines are supplied organizer/user targets, not confirmed acceptance');return
+        if prefix.startswith('qwen_cpu_facts_protocol'):
+            add(prefix,value,'configured value','QWEN-CPU-FACTS-01',source,'Fixed requested CPU backend and synthetic-only gates/budgets; not measured capacity, bank quality or causal backend identification');return
         if prefix.startswith('hybrid_protocol'):
             add(prefix,value,'configured value','HYBRID-R22-01',source,'Pre-registered synthetic-gated limited-rule hypothesis, not measured quality');return
         add(prefix,value,'configured value','QVT-01' if prefix.startswith('qvt_protocol') else 'ORACLE-01R1' if prefix.startswith('oracle_protocol') else 'PANEL-01' if prefix.startswith('panel_protocol') else 'GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
@@ -278,6 +289,7 @@ configured('qwen_text_discrimination',json.loads(Path('config/qwen-text-discrimi
 configured('qwen_decomposition_draft',json.loads(Path('config/qwen-decomposition-draft.json').read_text()),'config/qwen-decomposition-draft.json')
 configured('qwen_decomposition_protocol',json.loads(Path('config/qwen-decomposition-protocol.json').read_text()),'config/qwen-decomposition-protocol.json')
 configured('submission_criteria',json.loads(Path('config/submission-criteria.json').read_text()),'config/submission-criteria.json')
+configured('qwen_cpu_facts_protocol',json.loads(Path('config/qwen-cpu-facts-protocol.json').read_text()),'config/qwen-cpu-facts-protocol.json')
 configured('hybrid_protocol',json.loads(Path('config/hybrid-protocol.json').read_text()),'config/hybrid-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)

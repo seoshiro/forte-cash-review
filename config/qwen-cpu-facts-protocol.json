@@ -1,0 +1,17 @@
+{
+  "protocol_id":"QWEN-CPU-FACTS-01",
+  "choice":"Reject RT-DETR COCO as a bank-semantic path without primitive annotations. Compare requested CPU backend on the existing permitted Qwen GGUF; no direct label classifier.",
+  "hypothesis":"Changing offload/backend may change exact primitive-fact correctness. Only a complete text gate permits a synthetic visual-facts test with deterministic state mapping.",
+  "actions":["exit","enter","stay"],
+  "labels":["ALPHA","BETA","GAMMA"],
+  "maps":[{"exit":"ALPHA","enter":"BETA","stay":"GAMMA"}],
+  "geometry":{"frame_side":256,"frames":4,"boundary_xyxy":[24,24,180,232],"disk_radius":9,"exit_x":[70,110,165,220],"stay_x":[70,95,125,150],"y":120},
+  "inference":{"max_tokens":48,"temperature":0,"seed":26101731,"image_min_tokens":64,"image_max_tokens":1024,"ctx_size":4096,"per_request_sec":30,"image_request_sec":45,"jpeg_quality":95},
+  "backend":{"device":"none","mmproj_device":"none","gpu_layers":"0","threads":4},
+  "budget":{"wall_sec":480,"startup_sec":60,"text_calls":6,"conditional_image_calls":3,"max_calls":9,"runs":1},
+  "text_cells":[{"id":"numeric_facts","family":"facts"},{"id":"symbolic_binding","family":"binding"}],
+  "visual_cell":{"id":"visual_facts","family":"facts"},
+  "gate":"All six text responses exact valid JSON with normal stop. Then all three visual fact responses exact and deterministically mapped correctly. Otherwise close; no adaptive prompt, extra seed, images after text failure, bank or dataset split reads.",
+  "limits":"CPU flags are a requested backend contrast, not an independently audited implementation. Same binary, weights, template and quantization; cause remains non-identifiable. Small synthetic facts do not validate bank roles, event types, rules or a camera.",
+  "privacy":"Only generated images; no raw response/prompt/native logs persisted, no cloud inference, bank data, annotations, notes, TRAIN, TUNE or HOLDOUT. Loopback, ephemeral fixed test value, owned cleanup."
+}
