@@ -1,0 +1,16 @@
+{
+  "source_scope": "Official pinned llama.cpp b11712 code and README, not model inference or bank data",
+  "code_proves_nested_json_schema_schema": true,
+  "artifacts": [
+    {
+      "url": "https://raw.githubusercontent.com/ggml-org/llama.cpp/b11712/tools/server/server-common.cpp",
+      "sha256": "138d7776d5d4cabe5e98502c81d102d73afa3693fb7bdc5dd6238e0cfc8caf46",
+      "bytes": 73262
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ggml-org/llama.cpp/b11712/tools/server/README.md",
+      "sha256": "b59196222f28e0dd75b1b5c21c8ffe38fab840ca114417cb4874cd399a1bc072",
+      "bytes": 117646
+    }
+  ]
+}

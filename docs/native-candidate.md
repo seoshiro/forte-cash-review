@@ -1,3 +1,7 @@
+Schema transport correction: the earlier native adapter supplied a flat response_format.schema with type=json_schema. The actual b11712 parser reads response_format.json_schema.schema and silently uses a general object schema when that nested field is absent. Its README still displays a flat example. Prior generated outputs were independently post-validated, but schema-constrained generation was not established. Historical confusion matrices remain measurements of the old adapter and are not rewritten. ORACLE-01R1 freezes the corrected transport and reruns both regular and oracle modes.
+
+Pinned implementation: https://github.com/ggml-org/llama.cpp/blob/b11712/tools/server/server-common.cpp#L1218-L1235 . Conflicting README example: https://github.com/ggml-org/llama.cpp/blob/b11712/tools/server/README.md#L1248-L1249 .
+
 # Следующий ограниченный локальный эксперимент
 
 GATE-01 с 2B оказался always-negative на фиксированных четырёх положительных и четырёх отрицательных TRAIN источниках. BUDGET-01R1 был always-positive. Оба отклонены; их высокий recall или specificity по отдельности не выдаётся за качество.

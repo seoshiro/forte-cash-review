@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,250919936000,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,250906226688,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 benchmark_sample_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_json_success_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_model_load_sec,23.25,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -1205,6 +1205,51 @@ panel-power-safe-summary_gpu_metrics_utilization_percent,100.0,see metric name,t
 panel-power-safe-summary_gpu_metrics_power_w,4.53,see metric name,technical,not applicable,.private\panel-power-safe-summary.json,local calculation,Internal measurement; not official jury score
 panel-power-safe-summary_gpu_metrics_clock_sm_mhz,210.0,see metric name,technical,not applicable,.private\panel-power-safe-summary.json,local calculation,Internal measurement; not official jury score
 panel-power-safe-summary_gpu_metrics_temperature_c,45.0,see metric name,technical,not applicable,.private\panel-power-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic_regular-coverage-safe-summary_point_timestamp_coverage_0.25_positive_annotations,4,see metric name,train,train,.private\oracle-diagnostic\regular-coverage-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic_regular-coverage-safe-summary_point_timestamp_coverage_0.25_hits,1,see metric name,train,train,.private\oracle-diagnostic\regular-coverage-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic_regular-coverage-safe-summary_point_timestamp_coverage_0.25_hit_rate,0.25,see metric name,train,train,.private\oracle-diagnostic\regular-coverage-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic_regular-coverage-safe-summary_point_timestamp_coverage_1.0_positive_annotations,4,see metric name,train,train,.private\oracle-diagnostic\regular-coverage-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic_regular-coverage-safe-summary_point_timestamp_coverage_1.0_hits,3,see metric name,train,train,.private\oracle-diagnostic\regular-coverage-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic_regular-coverage-safe-summary_point_timestamp_coverage_1.0_hit_rate,0.75,see metric name,train,train,.private\oracle-diagnostic\regular-coverage-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic_regular-coverage-safe-summary_point_timestamp_coverage_3.0_positive_annotations,4,see metric name,train,train,.private\oracle-diagnostic\regular-coverage-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic_regular-coverage-safe-summary_point_timestamp_coverage_3.0_hits,4,see metric name,train,train,.private\oracle-diagnostic\regular-coverage-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic_regular-coverage-safe-summary_point_timestamp_coverage_3.0_hit_rate,1.0,see metric name,train,train,.private\oracle-diagnostic\regular-coverage-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_model_load_sec,11.51500000001397,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_frames,1,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_generation_sec,34.65600000001723,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_input_tokens,845,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_generated_tokens,59,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_logical_frames,4,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_encoded_images,1,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_panel_width,768,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_panel_height,832,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_panel_pts_0,0.0,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_panel_pts_1,1.0,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_panel_pts_2,2.0,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_panel_pts_3,3.0,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-format-diagnostic_decoded_chars,106,see metric name,synthetic,not applicable,.private\oracle-format-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic-r1_synthetic-safe-summary_model_load_sec,11.672000000020489,see metric name,synthetic,not applicable,.private\oracle-diagnostic-r1\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-diagnostic-r1_synthetic-safe-summary_generation_sec,27.60899999999674,see metric name,synthetic,not applicable,.private\oracle-diagnostic-r1\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_oracle_units_tests,2.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_oracle_units_failures,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_oracle_units_errors,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_oracle_units_skipped,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_oracle_units_time,0.106,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_rule_filter_retry_tests,6.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_rule_filter_retry_failures,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_rule_filter_retry_errors,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_rule_filter_retry_skipped,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_rule_filter_retry_time,0.582,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_schema_oracle_rule_units_tests,9.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_schema_oracle_rule_units_failures,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_schema_oracle_rule_units_errors,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_schema_oracle_rule_units_skipped,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_schema_oracle_rule_units_time,0.63,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_full_tests,58.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_full_failures,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_full_errors,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_full_skipped,0.0,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+oracle-tests-safe-summary_full_time,15.839,see metric name,technical,not applicable,.private\oracle-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
 budget_protocol_baseline_frames,12,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_new_tokens,512,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_side,448,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
@@ -1310,3 +1355,19 @@ panel_protocol_input_adaptation_vision_batch_tokens,2048,configured value,PANEL-
 panel_protocol_input_adaptation_coarse_8_frames_split_into_panels,2,configured value,PANEL-01,not applicable,config/panel-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 panel_protocol_input_adaptation_small_object_stress_width,24,configured value,PANEL-01,not applicable,config/panel-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 panel_protocol_input_adaptation_small_object_stress_height,12,configured value,PANEL-01,not applicable,config/panel-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_selection_seed,26101731,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_frame_max_side,384,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_regular_coarse_frames,8,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_oracle_offsets_sec_0,-3,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_oracle_offsets_sec_1,0,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_oracle_offsets_sec_2,1,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_oracle_offsets_sec_3,3,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_coverage_tolerances_sec_0,0.25,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_coverage_tolerances_sec_1,1.0,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_coverage_tolerances_sec_2,3.0,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_feature_max_tokens,128,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_head_C,1.0,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_head_threshold,0.5,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_head_max_iter,1000,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_max_request_sec,90,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
+oracle_protocol_max_total_inference_sec,1800,configured value,ORACLE-01R1,not applicable,config/oracle-diagnostic.json,local calculation,"Pre-registered configuration/target, not a measured result"
