@@ -7,12 +7,13 @@ def main():
     def save(stage,**kw):status.write_text(json.dumps({'stage':stage,'gpu_workload':False,**kw},indent=2))
     save('waiting_for_audited_cpu_asr')
     ready=out/'asr-preparation-safe-summary.json'
-    while not ready.exists():
+    while True:
         active=False
         for p in psutil.process_iter():
             try:
                 if any(Path(a).name=='prepare_clarification_asr.py' for a in p.cmdline()[1:]):active=True
             except psutil.Error:pass
+        if ready.exists() and json.loads(ready.read_text()).get('status')=='ready_for_local_cpu_transcription':break
         if not active:save('preparation_stopped_without_ready_report');return
         if time.monotonic()>deadline:save('preparation_wait_budget_exhausted');return
         time.sleep(2)

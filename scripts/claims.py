@@ -70,6 +70,9 @@ sources+=list((root/'gguf-preflight').glob('safe-summary.json'))
 sources+=list((root/'gguf-shape-diagnostic').glob('safe-summary.json'))
 sources+=list((root/'clarifications').glob('*-safe-summary.json'))
 sources+=list((root/'clarifications').glob('source-registration.json'))
+sources+=list((root/'clarifications').glob('asr-audit*/safe-summary.json'))
+sources+=list((root/'gguf-sequence-diagnostic').glob('safe-summary.json'))
+sources+=list((root/'gguf-sequence-diagnostic-2048').glob('safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
     elif isinstance(value,dict):
@@ -82,6 +85,7 @@ for f in sources:
     if f.parent.parent.name=='synthetic-semantics' or f.name=='synthetic-format-safe-summary.json':sample='synthetic'
     if f.parent.name=='gguf-control' and f.name=='synthetic-safe-summary.json':sample='synthetic'
     if f.parent.name=='gguf-shape-diagnostic':sample='synthetic'
+    if f.parent.name in ['gguf-sequence-diagnostic','gguf-sequence-diagnostic-2048']:sample='synthetic'
     if f.parent.name=='clarifications':sample='technical'
     prefix=f.stem if f.parent==root else f.parent.name
     for k,v in record.items():

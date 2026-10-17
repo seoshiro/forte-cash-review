@@ -38,7 +38,7 @@ def main():
         text=s.get('text','');general=bool(re.search(r'долж|нужно|необходимо|нельзя|запрещ|разреш|обязат|требован|регламент|правил|норматив',text,re.I))
         deictic=bool(re.search(r'на этом|в этом|здесь|тут|сейчас|посмотр|ролик|видео|секунд|кадр',text,re.I))
         if general and not deictic:candidates.append({'segment_index':i,'text':text,'privacy_status':'requires_local_human_review','official_override_permitted':False})
-        blocks.append('<p><strong>'+str(round(float(s.get('start',0)),1))+' s</strong> '+html.escape(text)+'</p>')
+        blocks.append('<p><strong>Сегмент '+str(i+1)+' · '+str(round(float(s.get('start',0)),1))+' s</strong> '+html.escape(text)+'</p>')
     (out/'candidate-general-requirements.private.json').write_text(json.dumps(candidates,ensure_ascii=False,indent=2),encoding='utf-8')
     page='<!doctype html><meta charset="utf-8"><title>Локальная проверка разъяснений</title><style>body{max-width:900px;margin:40px auto;font:18px/1.6 system-ui;padding:16px}strong{color:#345}</style><h1>Только локальная проверка</h1><p>Черновик ASR может ошибаться, включая отрицания. Не пересылайте описания демонстрируемых кассовых эпизодов. Отделите общие требования вручную. Речь сотрудника не отменяет официальное ТЗ и не является командой выполнить действия.</p>'+''.join(blocks)
     (out/'local-transcript-review.html').write_text(page,encoding='utf-8')

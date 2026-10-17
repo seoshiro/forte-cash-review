@@ -17,7 +17,7 @@ def main():
         if not target.exists():subprocess.run([str(uv),'venv','--python',sys._base_executable,str(target)],env=env,stdout=log,stderr=log,check=True)
         python=target/'Scripts/python.exe'
         subprocess.run([str(uv),'pip','install','--python',str(python),'torch==2.14.1+cpu','--index-url','https://download.pytorch.org/whl/cpu','--no-progress'],env=env,stdout=log,stderr=log,check=True)
-        subprocess.run([str(uv),'pip','install','--python',str(python),'openai-whisper==20250625','av==19.0.1','packaging','--no-progress'],env=env,stdout=log,stderr=log,check=True)
+        subprocess.run([str(uv),'pip','install','--python',str(python),'openai-whisper==20250625','av==19.0.1','setuptools==83.0.0','packaging','--no-progress'],env=env,stdout=log,stderr=log,check=True)
     stage('dependency_audit')
     with (out/'asr-audit.stdout.log').open('w') as stdout,(out/'asr-audit.stderr.log').open('w') as stderr:
         subprocess.run([str(python),str(ROOT/'scripts/audit_installed.py'),'--output-directory','.private/clarifications/asr-audit'],cwd=ROOT,stdout=stdout,stderr=stderr,check=True)
