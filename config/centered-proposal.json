@@ -1,0 +1,13 @@
+{
+  "seed": 261017,
+  "hypothesis": "Subtract within-video appearance mean to reduce static scene correlation in weak temporal proposals",
+  "variants": ["raw_sequence", "centered_sequence"],
+  "C_candidates": [0.0001, 0.001, 0.01, 0.1],
+  "threshold_candidates": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+  "train_group_folds": 4,
+  "uniform_centers": 12,
+  "refine_candidates": 3,
+  "refine_radius_sec": 6,
+  "selection": "Train out-of-group balanced accuracy, then F1, then precision; no tuning labels for selection",
+  "scope": "Binary research proposal only; no semantic/legal/type claim"
+}

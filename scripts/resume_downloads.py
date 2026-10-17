@@ -11,31 +11,9 @@ OUT=ROOT/'.private/bootstrap';OUT.mkdir(parents=True,exist_ok=True)
 
 
 def fetch(url,path,total,digest):
-    if path.exists() and path.stat().st_size==total and hashlib.file_digest(path.open('rb'),'sha256').hexdigest()==digest:return
-    client=httpx.Client(timeout=httpx.Timeout(30,connect=15),follow_redirects=True,trust_env=False)
-    failures=0;deadline=time.monotonic()+3600
-    while not path.exists() or path.stat().st_size<total:
-        offset=path.stat().st_size if path.exists() else 0
-        if offset>total:raise RuntimeError('Partial file larger than expected')
-        if time.monotonic()>deadline:raise TimeoutError('Artifact download budget exhausted')
-        end=min(total-1,offset+1024*1024-1)
-        try:
-            with client.stream('GET',url,headers={'Range':f'bytes={offset}-{end}','Accept-Encoding':'identity'}) as r:
-                r.raise_for_status()
-                if r.status_code!=206 or not r.headers.get('content-range','').startswith(f'bytes {offset}-'):raise RuntimeError('Range not respected')
-                received=0
-                with path.open('ab') as f:
-                    for b in r.iter_bytes(1024*1024):
-                        if offset+received+len(b)>end+1:raise RuntimeError('Range exceeded')
-                        f.write(b);received+=len(b)
-                if received!=end-offset+1:raise RuntimeError('Incomplete range')
-            failures=0
-            (OUT/(path.name+'.progress.json')).write_text(json.dumps({'bytes':path.stat().st_size,'total':total,'updated_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}),encoding='utf-8')
-        except (httpx.HTTPError,TimeoutError):
-            failures+=1
-            if failures>5:raise RuntimeError('Repeated public artifact network failure') from None
-            time.sleep(min(2**failures,16))
-    if path.stat().st_size!=total or hashlib.file_digest(path.open('rb'),'sha256').hexdigest()!=digest:raise RuntimeError('SHA256 verification failed')
+    sys.path.insert(0,str(ROOT))
+    from scripts.download_chunks import fetch as bounded_fetch
+    bounded_fetch(url,path,total,digest,progress=OUT/(path.name+'.progress.json'))
 
 
 def qwen():

@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,273374789632,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,272795295744,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 cpu-baseline_train_videos,27,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_tune_videos,9,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_load_sec,0.4529999999940628,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -27,6 +27,10 @@ cpu-baseline_feature_latency_max_sec,9.313000000009197,see metric name,train+tun
 cpu-baseline_frames_mean,16.305555555555557,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_process_rss_mib,535.625,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_uniform_videos,9,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+cpu-baseline_uniform_confusion_matrix_tn_fp_fn_tp_0_0,1,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+cpu-baseline_uniform_confusion_matrix_tn_fp_fn_tp_0_1,3,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+cpu-baseline_uniform_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+cpu-baseline_uniform_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_uniform_precision,0.0,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_uniform_recall,0.0,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_uniform_f1,0.0,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -38,6 +42,10 @@ cpu-baseline_uniform_fp,3,videos,tune,tune,.private\cpu-baseline\safe-summary.js
 cpu-baseline_uniform_fn,5,videos,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 cpu-baseline_uniform_tp,0,videos,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 cpu-baseline_coarse_refine_videos,9,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+cpu-baseline_coarse_refine_confusion_matrix_tn_fp_fn_tp_0_0,1,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+cpu-baseline_coarse_refine_confusion_matrix_tn_fp_fn_tp_0_1,3,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+cpu-baseline_coarse_refine_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+cpu-baseline_coarse_refine_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_coarse_refine_precision,0.0,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_coarse_refine_recall,0.0,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_coarse_refine_f1,0.0,see metric name,tune,tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -57,6 +65,10 @@ cpu-baseline_process_rss_mib,530.38671875,see metric name,train,train,.private\c
 video-baseline_train_videos,27,see metric name,train+tune,train+tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 video-baseline_tune_videos,9,see metric name,train+tune,train+tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 video-baseline_uniform_videos,9,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+video-baseline_uniform_confusion_matrix_tn_fp_fn_tp_0_0,2,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+video-baseline_uniform_confusion_matrix_tn_fp_fn_tp_0_1,2,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+video-baseline_uniform_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+video-baseline_uniform_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 video-baseline_uniform_precision,0.0,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 video-baseline_uniform_recall,0.0,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 video-baseline_uniform_f1,0.0,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -68,6 +80,10 @@ video-baseline_uniform_fp,2,videos,tune,tune,.private\video-baseline\safe-summar
 video-baseline_uniform_fn,5,videos,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 video-baseline_uniform_tp,0,videos,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 video-baseline_dense_sequence_videos,9,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+video-baseline_dense_sequence_confusion_matrix_tn_fp_fn_tp_0_0,2,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+video-baseline_dense_sequence_confusion_matrix_tn_fp_fn_tp_0_1,2,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+video-baseline_dense_sequence_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
+video-baseline_dense_sequence_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 video-baseline_dense_sequence_precision,0.0,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 video-baseline_dense_sequence_recall,0.0,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 video-baseline_dense_sequence_f1,0.0,see metric name,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -89,6 +105,10 @@ baseline-audit_group_counts_train,24,see metric name,train+tune,train+tune,.priv
 baseline-audit_group_counts_tune,8,see metric name,train+tune,train+tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_group_counts_holdout,6,see metric name,train+tune,train+tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_window_uniform_videos,27,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_window_uniform_confusion_matrix_tn_fp_fn_tp_0_0,13,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_window_uniform_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_window_uniform_confusion_matrix_tn_fp_fn_tp_1_0,0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_window_uniform_confusion_matrix_tn_fp_fn_tp_1_1,14,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_window_uniform_precision,1.0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_window_uniform_recall,1.0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_window_uniform_f1,1.0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -99,6 +119,10 @@ baseline-audit_train_window_uniform_fp,0,videos,train,train,.private\baseline-au
 baseline-audit_train_window_uniform_fn,0,videos,train,train,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_train_window_uniform_tp,14,videos,train,train,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_train_window_refine_videos,27,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_window_refine_confusion_matrix_tn_fp_fn_tp_0_0,12,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_window_refine_confusion_matrix_tn_fp_fn_tp_0_1,1,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_window_refine_confusion_matrix_tn_fp_fn_tp_1_0,0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_window_refine_confusion_matrix_tn_fp_fn_tp_1_1,14,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_window_refine_precision,0.9333333333333333,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_window_refine_recall,1.0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_window_refine_f1,0.9655172413793104,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -109,6 +133,10 @@ baseline-audit_train_window_refine_fp,1,videos,train,train,.private\baseline-aud
 baseline-audit_train_window_refine_fn,0,videos,train,train,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_train_window_refine_tp,14,videos,train,train,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_train_video_uniform_videos,27,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_video_uniform_confusion_matrix_tn_fp_fn_tp_0_0,13,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_video_uniform_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_video_uniform_confusion_matrix_tn_fp_fn_tp_1_0,0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_video_uniform_confusion_matrix_tn_fp_fn_tp_1_1,14,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_video_uniform_precision,1.0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_video_uniform_recall,1.0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_video_uniform_f1,1.0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -119,6 +147,10 @@ baseline-audit_train_video_uniform_fp,0,videos,train,train,.private\baseline-aud
 baseline-audit_train_video_uniform_fn,0,videos,train,train,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_train_video_uniform_tp,14,videos,train,train,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_train_video_dense_videos,27,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_video_dense_confusion_matrix_tn_fp_fn_tp_0_0,13,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_video_dense_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_video_dense_confusion_matrix_tn_fp_fn_tp_1_0,0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_train_video_dense_confusion_matrix_tn_fp_fn_tp_1_1,14,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_video_dense_precision,1.0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_video_dense_recall,1.0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_train_video_dense_f1,1.0,see metric name,train,train,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -129,6 +161,10 @@ baseline-audit_train_video_dense_fp,0,videos,train,train,.private\baseline-audit
 baseline-audit_train_video_dense_fn,0,videos,train,train,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_train_video_dense_tp,14,videos,train,train,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_tune_window_uniform_videos,9,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_window_uniform_confusion_matrix_tn_fp_fn_tp_0_0,1,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_window_uniform_confusion_matrix_tn_fp_fn_tp_0_1,3,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_window_uniform_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_window_uniform_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_window_uniform_precision,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_window_uniform_recall,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_window_uniform_f1,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -138,6 +174,10 @@ baseline-audit_tune_window_uniform_fp,3,videos,tune,tune,.private\baseline-audit
 baseline-audit_tune_window_uniform_fn,5,videos,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_tune_window_uniform_tp,0,videos,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_tune_window_refine_videos,9,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_window_refine_confusion_matrix_tn_fp_fn_tp_0_0,1,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_window_refine_confusion_matrix_tn_fp_fn_tp_0_1,3,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_window_refine_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_window_refine_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_window_refine_precision,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_window_refine_recall,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_window_refine_f1,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -147,6 +187,10 @@ baseline-audit_tune_window_refine_fp,3,videos,tune,tune,.private\baseline-audit\
 baseline-audit_tune_window_refine_fn,5,videos,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_tune_window_refine_tp,0,videos,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_tune_video_uniform_videos,9,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_video_uniform_confusion_matrix_tn_fp_fn_tp_0_0,2,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_video_uniform_confusion_matrix_tn_fp_fn_tp_0_1,2,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_video_uniform_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_video_uniform_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_video_uniform_precision,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_video_uniform_recall,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_video_uniform_f1,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -156,6 +200,10 @@ baseline-audit_tune_video_uniform_fp,2,videos,tune,tune,.private\baseline-audit\
 baseline-audit_tune_video_uniform_fn,5,videos,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_tune_video_uniform_tp,0,videos,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_tune_video_dense_videos,9,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_video_dense_confusion_matrix_tn_fp_fn_tp_0_0,2,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_video_dense_confusion_matrix_tn_fp_fn_tp_0_1,2,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_video_dense_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+baseline-audit_tune_video_dense_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_video_dense_precision,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_video_dense_recall,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_tune_video_dense_f1,0.0,see metric name,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -181,3 +229,167 @@ baseline-audit_duplicate_hash_label_conflicts,0,see metric name,train+tune,train
 .private_contract_tests_passed,7,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
 .private_contract_tests_elapsed_sec,7.05,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
 .private_contract_tests_warnings,1,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_tensor_count,625,see metric name,technical,not applicable,.private\model-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_tensor_bytes_by_dtype_BF16,4255064064,see metric name,technical,not applicable,.private\model-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_weights_total_bytes,4255064064,see metric name,technical,not applicable,.private\model-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_weights_gib,3.9628372192382812,see metric name,technical,not applicable,.private\model-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_header_bytes,76240,see metric name,technical,not applicable,.private\model-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_bytes_requested,1048576,see metric name,technical,not applicable,.private\mirror-probe-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_status,206,see metric name,technical,not applicable,.private\mirror-probe-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_bytes_received,1048576,see metric name,technical,not applicable,.private\mirror-probe-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_elapsed_sec,14.0,see metric name,technical,not applicable,.private\mirror-probe-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_public_artifact_probes_0_status,206,see metric name,technical,not applicable,.private\download-probe-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_public_artifact_probes_0_bytes,1048576,see metric name,technical,not applicable,.private\download-probe-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_public_artifact_probes_0_elapsed_sec,17.547000000005937,see metric name,technical,not applicable,.private\download-probe-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_public_artifact_probes_1_status,206,see metric name,technical,not applicable,.private\download-probe-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_public_artifact_probes_1_bytes,1048576,see metric name,technical,not applicable,.private\download-probe-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_public_artifact_probes_1_elapsed_sec,16.171000000002095,see metric name,technical,not applicable,.private\download-probe-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_passed,3,see metric name,technical,not applicable,.private\download-test-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_elapsed_sec,1.35,see metric name,technical,not applicable,.private\download-test-safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_videos,27,see metric name,train+tune,train+tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_videos,9,see metric name,train+tune,train+tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_postprocess_total_sec,1.4839999999967404,see metric name,train+tune,train+tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_videos,9,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_confusion_matrix_tn_fp_fn_tp_0_0,2,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_confusion_matrix_tn_fp_fn_tp_0_1,2,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_precision,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_recall,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_f1,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_balanced_accuracy,0.25,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_roc_auc,0.05,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_timestamp_matched_positive_count,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_uniform_tn,2,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_raw_sequence_uniform_fp,2,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_raw_sequence_uniform_fn,5,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_raw_sequence_uniform_tp,0,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_raw_sequence_uniform_videos,27,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_uniform_confusion_matrix_tn_fp_fn_tp_0_0,12,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_uniform_confusion_matrix_tn_fp_fn_tp_0_1,1,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_uniform_confusion_matrix_tn_fp_fn_tp_1_0,9,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_uniform_confusion_matrix_tn_fp_fn_tp_1_1,5,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_uniform_precision,0.8333333333333334,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_uniform_recall,0.35714285714285715,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_uniform_f1,0.5,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_uniform_balanced_accuracy,0.6401098901098902,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_uniform_roc_auc,0.6593406593406594,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_uniform_tn,12,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_raw_sequence_uniform_fp,1,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_raw_sequence_uniform_fn,9,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_raw_sequence_uniform_tp,5,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_raw_sequence_coarse_refine_videos,9,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_0_0,2,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_0_1,2,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_precision,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_recall,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_f1,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_balanced_accuracy,0.25,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_roc_auc,0.05,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_timestamp_matched_positive_count,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_raw_sequence_coarse_refine_tn,2,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_raw_sequence_coarse_refine_fp,2,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_raw_sequence_coarse_refine_fn,5,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_raw_sequence_coarse_refine_tp,0,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_raw_sequence_coarse_refine_videos,27,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_0_0,12,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_0_1,1,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_1_0,9,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_1_1,5,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_coarse_refine_precision,0.8333333333333334,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_coarse_refine_recall,0.35714285714285715,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_coarse_refine_f1,0.5,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_coarse_refine_balanced_accuracy,0.6401098901098902,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_coarse_refine_roc_auc,0.6538461538461539,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_raw_sequence_coarse_refine_tn,12,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_raw_sequence_coarse_refine_fp,1,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_raw_sequence_coarse_refine_fn,9,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_raw_sequence_coarse_refine_tp,5,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_centered_sequence_uniform_videos,9,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_confusion_matrix_tn_fp_fn_tp_0_0,2,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_confusion_matrix_tn_fp_fn_tp_0_1,2,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_precision,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_recall,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_f1,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_balanced_accuracy,0.25,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_roc_auc,0.1,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_timestamp_matched_positive_count,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_uniform_tn,2,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_centered_sequence_uniform_fp,2,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_centered_sequence_uniform_fn,5,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_centered_sequence_uniform_tp,0,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_centered_sequence_uniform_videos,27,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_uniform_confusion_matrix_tn_fp_fn_tp_0_0,13,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_uniform_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_uniform_confusion_matrix_tn_fp_fn_tp_1_0,11,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_uniform_confusion_matrix_tn_fp_fn_tp_1_1,3,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_uniform_precision,1.0,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_uniform_recall,0.21428571428571427,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_uniform_f1,0.35294117647058826,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_uniform_balanced_accuracy,0.6071428571428571,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_uniform_roc_auc,0.5879120879120878,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_uniform_tn,13,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_centered_sequence_uniform_fp,0,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_centered_sequence_uniform_fn,11,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_centered_sequence_uniform_tp,3,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_centered_sequence_coarse_refine_videos,9,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_0_0,2,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_0_1,2,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_precision,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_recall,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_f1,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_balanced_accuracy,0.25,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_roc_auc,0.2,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_timestamp_matched_positive_count,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_centered_sequence_coarse_refine_tn,2,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_centered_sequence_coarse_refine_fp,2,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_centered_sequence_coarse_refine_fn,5,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_centered_sequence_coarse_refine_tp,0,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_centered_sequence_coarse_refine_videos,27,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_0_0,13,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_1_0,11,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_coarse_refine_confusion_matrix_tn_fp_fn_tp_1_1,3,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_coarse_refine_precision,1.0,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_coarse_refine_recall,0.21428571428571427,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_coarse_refine_f1,0.35294117647058826,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_coarse_refine_balanced_accuracy,0.6071428571428571,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_coarse_refine_roc_auc,0.5714285714285714,see metric name,train,train,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_train_cv_centered_sequence_coarse_refine_tn,13,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_centered_sequence_coarse_refine_fp,0,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_centered_sequence_coarse_refine_fn,11,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_train_cv_centered_sequence_coarse_refine_tp,3,videos,train,train,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_constant_positive_videos,9,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_positive_confusion_matrix_tn_fp_fn_tp_0_0,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_positive_confusion_matrix_tn_fp_fn_tp_0_1,4,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_positive_confusion_matrix_tn_fp_fn_tp_1_0,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_positive_confusion_matrix_tn_fp_fn_tp_1_1,5,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_positive_precision,0.5555555555555556,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_positive_recall,1.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_positive_f1,0.7142857142857143,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_positive_balanced_accuracy,0.5,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_positive_roc_auc,0.5,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_positive_tn,0,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_constant_positive_fp,4,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_constant_positive_fn,0,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_constant_positive_tp,5,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_constant_negative_videos,9,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_negative_confusion_matrix_tn_fp_fn_tp_0_0,4,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_negative_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_negative_confusion_matrix_tn_fp_fn_tp_1_0,5,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_negative_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_negative_precision,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_negative_recall,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_negative_f1,0.0,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_negative_balanced_accuracy,0.5,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_negative_roc_auc,0.5,see metric name,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Internal measurement; not official jury score
+centered-proposal_tune_constant_negative_tn,4,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_constant_negative_fp,0,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_constant_negative_fn,5,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
+centered-proposal_tune_constant_negative_tp,0,videos,tune,tune,.private\centered-proposal\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
