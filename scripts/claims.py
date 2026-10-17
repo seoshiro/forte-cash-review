@@ -156,6 +156,13 @@ sources+=list((root/'xclip-temporal-control').glob('*safe-summary.json'))
 sources+=list((root/'xclip-temporal-control/run').glob('terminal-safe-summary.json'))
 sources+=list((root/'sources/current-nb231').glob('safe-summary.json'))
 sources+=list((root/'domain-checkpoint').glob('safe-summary.json'))
+sources+=list((root/'temporal-learnability').glob('*safe-summary.json'))
+sources+=list((root/'temporal-learnability/run').glob('terminal-safe-summary.json'))
+sources+=list((root/'xclip-temporal-recipe-control').glob('*safe-summary.json'))
+sources+=list((root/'xclip-temporal-recipe-control/run').glob('terminal-safe-summary.json'))
+sources+=list((root/'research-ui-qa').glob('safe-summary.json'))
+sources+=list((root/'research-local-access').glob('safe-summary.json'))
+sources+=list((root/'learnability-checkpoint').glob('safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -185,6 +192,11 @@ def numeric(prefix,value,sample,source):
         if 'train-preparation-audit' in source:limitation='All42 workbook/manifest metadata integrity, then TRAIN source/cache checks; no new bank decoding/inference. Center gap is not sampled-frame coverage; automatic scene groups unreviewed'
         if 'xclip-temporal-control' in source:limitation='One fixed post-TUNE exploratory TRAIN LOGO temporal-learning attempt; model gates failed, baseline preserved. CPU cache-training costs exclude backbone/decode/upload; monitor includes cleanup. No independent/type/rule/evidence claim'
         if 'current-nb231' in source:limitation='Fresh official-source/version/quotation provenance only; no visual applicability or detector acceptance'
+        if 'temporal-learnability' in source:limitation='Fixed four-group TRAIN fit diagnostic and saved fullTRAIN pack in-sample rescore; not validation, factor attribution, semantic quality or official score'
+        if 'xclip-temporal-recipe-control' in source:limitation='Adaptive exploratory TRAIN LOGO after recipe selection on four exposed groups; remaining groups not independent holdout. FullTRAIN fit is in-sample only. No type/rule/evidence or release claim; runtime excludes encoder/API'
+        if 'research-ui-qa' in source:limitation='Generated geometric media and intercepted HTTP fixtures only; UI state checks, not actual API transport, model quality or public access'
+        if 'research-local-access' in source:limitation='Local research health/auth/static checks only; no live competition URL, model quality or permanent jury key'
+        if 'learnability-checkpoint' in source:limitation='Source/synthetic regression checkpoint only; no new model evaluation, semantic acceptance or submission'
         if 'domain-checkpoint' in source:limitation='Engineering/synthetic regression and source-integrity checkpoint only; no accepted model-quality or submission claim'
         if 'geometry_first_prompt_rule_or_allowed_token_selection' in prefix:limitation+='; legacy metric name counts first-definition semantics only, not allowed-list selection'
         add(prefix,value,'see metric name',sample,source,limitation)
@@ -195,6 +207,8 @@ def numeric(prefix,value,sample,source):
 for f in sources:
     record=json.loads(f.read_text());sample=record.get('split','train+tune' if f.parent.name in ['cpu-baseline','video-baseline','baseline-audit','centered-proposal'] else 'synthetic' if f.parent.name=='ui-qa' else 'technical' if f.parent==root or f.parent.name=='portable-runtime' else 'train')
     if f.name=='technical-benchmark.json':sample='train'
+    if f.parent.name=='research-ui-qa':sample='synthetic'
+    if f.parent.name in ['research-local-access','learnability-checkpoint']:sample='technical'
     if f.parent.parent.name=='synthetic-semantics' or f.name=='synthetic-format-safe-summary.json':sample='synthetic'
     if f.parent.name=='gguf-control' and f.name=='synthetic-safe-summary.json':sample='synthetic'
     if f.parent.name=='gguf-shape-diagnostic':sample='synthetic'
@@ -276,7 +290,7 @@ for f in sources:
         if f.parent.name=='xclip-hardneg-control':metric_split='train'
         if f.parent.name=='xclip-spatial-control':metric_split='train'
         if f.parent.name=='xclip-linear-control':metric_split='train'
-        if f.parent.name=='xclip-temporal-control':metric_split='train'
+        if f.parent.name in ['xclip-temporal-control','xclip-temporal-recipe-control']:metric_split='train'
         if f.parent.name.startswith('hybrid-r22'):metric_split='train'
         numeric(f.parent.name+'_'+strategy,result,metric_split,str(f))
         cm=result.get('confusion_matrix_tn_fp_fn_tp')
@@ -289,6 +303,7 @@ for f in sources:
                 if f.parent.name=='xclip-spatial-control':limitation='One fixed reused-TRAIN group OOF spatial ablation; useful gate failed; no type/rule/evidence validation'
                 if f.parent.name=='xclip-linear-control':limitation='One frozen cache-only reused-TRAIN LOGO head; no independent/type/rule/evidence validation; original baseline preserved'
                 if f.parent.name=='xclip-temporal-control':limitation='One frozen post-TUNE exploratory TRAIN LOGO temporal head; all gates failed, original baseline preserved; no independent/type/rule/evidence validation'
+                if f.parent.name=='xclip-temporal-recipe-control':limitation='Adaptive TRAIN LOGO after recipe selection on four exposed groups; not independent validation. FullTRAIN fit is in-sample; all useful gates failed; no semantic or release claim'
                 if f.parent.name.startswith('hybrid-r22'):limitation='Limited R22 reused-TRAIN group OOF; binary labels cannot validate types or observations; cached-XCLIP Qwen-stage latency excludes feature extraction/API upload'
                 add(f.parent.name+'_'+strategy+'_'+k,v,'videos',metric_split,str(f),limitation)
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
@@ -324,6 +339,8 @@ def configured(prefix,value,source):
             add(prefix,value,'artifact/preflight value','technical',source,'Official pinned artifact sizes or recorded selection RAM snapshot; not measured inference fit, speed or quality');return
         if prefix.startswith('xclip_linear_protocol'):
             add(prefix,value,'configured value','XCLIP-LINEAR-01',source,'One fixed cache-only TRAIN LOGO configuration/acceptance target; not measured quality or complete API runtime');return
+        if prefix.startswith(('temporal_learnability_protocol','xclip_temporal_recipe_protocol')):
+            add(prefix,value,'configured value','adaptive TRAIN diagnosis',source,'Fixed diagnostic/recipe targets and budget, not measured quality or independent validation');return
         if prefix.startswith('xclip_temporal_protocol'):
             add(prefix,value,'configured value','XCLIP-TEMPORAL-01',source,'One fixed prospective post-TUNE TRAIN temporal-learning configuration/acceptance target; not measured quality or end-to-end runtime');return
         if prefix.startswith('hybrid_protocol'):
@@ -356,6 +373,8 @@ configured('internvl_protocol',json.loads(Path('config/internvl-protocol.json').
 configured('internvl_artifacts',json.loads(Path('config/internvl-artifacts.json').read_text()),'config/internvl-artifacts.json')
 configured('xclip_linear_protocol',json.loads(Path('config/xclip-linear-protocol.json').read_text()),'config/xclip-linear-protocol.json')
 configured('xclip_temporal_protocol',json.loads(Path('config/xclip-temporal-protocol.json').read_text()),'config/xclip-temporal-protocol.json')
+configured('temporal_learnability_protocol',json.loads(Path('config/temporal-learnability-protocol.json').read_text()),'config/temporal-learnability-protocol.json')
+configured('xclip_temporal_recipe_protocol',json.loads(Path('config/xclip-temporal-recipe-protocol.json').read_text()),'config/xclip-temporal-recipe-protocol.json')
 configured('hybrid_protocol',json.loads(Path('config/hybrid-protocol.json').read_text()),'config/hybrid-protocol.json')
 from ledger_chunks import write_parts
 parts=write_parts(out.parent,rows)

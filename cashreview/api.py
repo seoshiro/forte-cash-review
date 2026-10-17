@@ -291,6 +291,6 @@ def create_app():
     async def health(): return {"status":"degraded" if capacity_blocked else "ok","mode":os.environ.get("CASH_MODE","model")}
 
     @app.get("/")
-    async def index(): return FileResponse(ROOT/"static/index.html")
+    async def index(): return FileResponse(ROOT/("static/research.html" if experimental else "static/index.html"))
     app.mount("/static",StaticFiles(directory=ROOT/"static"),name="static")
     return app

@@ -1,0 +1,17 @@
+{
+  "protocol_id": "TEMPORAL-LEARNABILITY-01",
+  "purpose": "Controlled train-fit diagnostic of the existing TRAIN pipeline, not validation, model selection on TUNE or a quality claim",
+  "selection": {"source": "Unchanged exact-unique TRAIN contents", "videos": 4, "positive": 2, "negative": 2, "method": "For class0 then class1, ascending source SHA, choose first2 with groups not already selected; require4 distinct original groups", "group_split": "Original frozen group/split preserved; every selected item is TRAIN; no held-out evaluation"},
+  "architecture": "Existing weighted PCA8 and 209-parameter TemporalHead without source changes; fold/small-subset fit only",
+  "arms": {
+    "original_recipe": {"dropout": 0.5, "learning_rate": 0.001, "weight_decay": 0.1, "steps": 200},
+    "overfit_positive_control": {"dropout": 0.0, "learning_rate": 0.01, "weight_decay": 0.0, "steps": 2000}
+  },
+  "shared": {"seed": 26101732, "optimizer": "AdamW", "positive_loss_weight": 0.5, "negative_loss_weight": 0.5, "threshold_logit": 0.0, "point": "Nearest original PTS-center to positive official timestamp; other positive windows unlabeled", "negative": "Maximum valid logit per officially negative video; padding excluded", "instrumentation": "Read gradients from actual first/last optimizer steps. Additional loss probes use eval/no_grad, consume no dropout RNG. No early stopping", "eval_steps": [0,1,10,100,200,500,1000,2000]},
+  "checks": ["Leaf zero-logit loss ln2 and positive/negative gradient sums -0.25/+0.25", "Finite nonzero aggregate data gradients, parameter deltas and exact optimizer steps", "Class weights, target signs and fixed threshold equivalence", "Positive point index validity and aggregate center alignment", "Deterministic eval loss and aggregate training confusion matrices before/after", "Aggregate rescore of the existing full-TRAIN pack on its26 TRAIN examples without refitting, compared with saved group-CV aggregates"],
+  "existing_full_train_pack": ".private/xclip-temporal-control/final-train-pack",
+  "overfit_diagnostic_gate": {"fit_fn_max": 0, "fit_fp_max": 0, "point_negative_max_eval_loss_max": 0.05},
+  "budget": {"wall_sec": 180, "cpu_threads": 1, "maximum_peak_working_set_mib": 1536, "minimum_available_ram_before_mib": 2048, "minimum_available_ram_during_mib": 1024, "gpu_used": false, "new_bank_decoding": false, "maximum_runs": 1},
+  "limits": ["Bundled optimizer/regularization changes test ability to memorize, not an isolated causal ablation", "Four training examples cannot establish generalization", "Candidate-center alignment is not sampled-frame or semantic event coverage", "Training loss with dropout is distinct from deterministic eval loss and CV quality", "No TUNE/HOLDOUT, per-video output, type/rule invention or deployment promotion"],
+  "stop": "One fixed registered diagnostic. Preserve failure and all aggregate outcomes. No post-result search or rerun; choose further path only after interpretation."
+}

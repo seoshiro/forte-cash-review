@@ -1,0 +1,111 @@
+{
+  "protocol_id": "XCLIP-TEMPORAL-RECIPE-01",
+  "scope": "One adaptive exploratory TRAIN optimization control after four-group learnability diagnostic; not independent validation or final quality",
+  "inputs": {
+    "features": "Original verified ordered XCLIP unit512D windows",
+    "unique_videos": 26,
+    "automatic_groups": 24,
+    "positive": 14,
+    "negative": 12,
+    "new_bank_decoding": false,
+    "backbone_frozen": true
+  },
+  "projection": {
+    "components": 8,
+    "weighting": "Equal total mass for each train-fold video, uniform among its windows",
+    "centering": true,
+    "whitening": false,
+    "solver": "float64 weighted covariance eigh; descending eigenvalues, largest-absolute loading positive",
+    "fit_scope": "All windows of train-fold videos only; no held group, TUNE or HOLDOUT"
+  },
+  "head": {
+    "channels": 8,
+    "kernel": 3,
+    "padding": "Replicate own endpoints before batching and in convolution; never across videos",
+    "activation": "GELU",
+    "dropout": 0.0,
+    "output_channels": 1,
+    "trainable_parameters": 209,
+    "seed": 26101732,
+    "optimizer": "AdamW",
+    "learning_rate": 0.01,
+    "weight_decay": 0.0,
+    "steps": 2000,
+    "batch": "Every train-fold video in one padded batch",
+    "checkpoint": "Last iterate only; no early stopping, seed search or hyperparameter search"
+  },
+  "supervision": {
+    "positive": "BCE at nearest center to official positive point; other positions unlabeled, context only",
+    "negative": "BCE on maximum valid window logit per officially negative video",
+    "loss": "0.5 mean positive-video loss +0.5 mean negative-video loss",
+    "no_synthetic_negative_windows_from_positive_videos": true,
+    "point_limit": "Single nonexhaustive point, not event boundaries or exhaustive type truth"
+  },
+  "evaluation": {
+    "split": "TRAIN only",
+    "method": "Leave one entire existing automatic group out; exact contents deduplicated",
+    "folds": 24,
+    "pooling": "max",
+    "threshold_logit": 0.0,
+    "argmax_tie": "earliest",
+    "comparators": [
+      "preserved equal-video cosine ordered-max baseline"
+    ],
+    "baseline_reproduction_cm": [
+      [
+        6,
+        6
+      ],
+      [
+        2,
+        12
+      ]
+    ],
+    "baseline_f1": 0.75,
+    "all_folds_reported_aggregately": true
+  },
+  "binary_gate": {
+    "fn_max": 2,
+    "fp_max": 5,
+    "f1_min": 0.8
+  },
+  "point_gate": "Separately require nonregression of all-positive candidate point MAE and common-TP paired MAE; never compare TP MAE of different cohorts as a gain",
+  "budget": {
+    "wall_sec": 600,
+    "cpu_threads": 1,
+    "maximum_peak_working_set_mib": 1536,
+    "minimum_available_ram_before_mib": 2048,
+    "minimum_available_ram_during_mib": 1024,
+    "max_windows_per_video": 180,
+    "maximum_runs": 1,
+    "maximum_tune_runs": 0,
+    "maximum_holdout_runs": 0,
+    "gpu_used": false
+  },
+  "retention": "Private fold predictions and fitted arrays remain local. Aggregate metrics/resources only outward. Preserve baseline, original cache, split and source videos",
+  "final_train_pack": "One additional fixed full-TRAIN fit after CV, same parameters, saved privately even if gate fails; no in-sample quality claim, type/rule binding or deployment promotion",
+  "stop": "One registered run; no changes or rerun after quality result. Failed gate is preserved. No TUNE/HOLDOUT evaluation or competition-readiness claim",
+  "recipe_selection": {
+    "diagnostic_registration_sha256": "661f7ff51f0fa400b051160b77195f811b08d62360f67a1eb5b24fa7e0fa8396",
+    "selection": "Exact positive-control B bundle; no causal attribution to any individual changed hyperparameter",
+    "exposed_groups": 4,
+    "unexposed_groups": 20,
+    "cv_independence": "Recipe selected after inspecting four TRAIN groups; subsequent OOF is adaptive exploratory, including remaining groups"
+  },
+  "full_train_fit_gate": {
+    "maximum_eval_loss": 0.05,
+    "confusion_matrix_tn_fp_fn_tp": [
+      [
+        12,
+        0
+      ],
+      [
+        0,
+        14
+      ]
+    ],
+    "positive_point_count": 14,
+    "negative_video_count": 12
+  },
+  "strata": "Same OOF predictions only: all24 primary, diagnostic-exposed4 and remaining20 secondary; whole groups included, no extra fits"
+}
