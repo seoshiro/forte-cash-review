@@ -83,7 +83,9 @@ def run_phase(engine,phase,selected,out,config,load):
             'engine_latency_mean_sec':statistics.mean(latency),'engine_latency_max_sec':max(latency),'latency_scope':'Complete engine calls, excluding upload, queue and model load',
             'gate_generation_calls':gate_calls,'coarse_positive_without_final_event':rejected_detail,
             'timestamp_matched_positive_count':len(errors),'timestamp_mae_sec':statistics.mean(errors) if errors else None,
-            'vram_allocated_peak_mib':engine.torch.cuda.max_memory_allocated()/2**20,'runtime_torch':str(engine.torch.__version__),
+            'vram_allocated_peak_mib':engine.torch.cuda.max_memory_allocated()/2**20 if hasattr(engine,'torch') else None,
+            'runtime_torch':str(engine.torch.__version__) if hasattr(engine,'torch') else None,
+            'native_runtime':'llama.cpp b11712 CUDA 12.4' if not hasattr(engine,'torch') else None,
             'holdout_opened':False,'official_score':False,'quality_denominator':'Valid completed videos only; failures separately reported',
             'limitations':'Small TRAIN control or exploratory reused TUNE; type/frame relevance unannotated; sparse coverage; auto groups not human reviewed'}
     target.write_text(json.dumps(report,indent=2));print(json.dumps(report),flush=True)

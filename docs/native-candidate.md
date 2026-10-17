@@ -1,0 +1,15 @@
+# Следующий ограниченный локальный эксперимент
+
+GATE-01 с 2B оказался always-negative на фиксированных четырёх положительных и четырёх отрицательных TRAIN источниках. BUDGET-01R1 был always-positive. Оба отклонены; их высокий recall или specificity по отдельности не выдаётся за качество.
+
+GGUF-01 проверяет официальный Qwen/Qwen3-VL-4B-Instruct-GGUF, Q4_K_M с F16 vision projector, на той же development-выборке. Это отдельный bundle: больше параметров, квантизация, native runtime и его image preprocessing. Причинность одного изменения не утверждается. Критерии TRAIN сохранены, seed и список источников не подбираются. Повторно использованная TRAIN-выборка не является независимой проверкой. Один TUNE допустим только после synthetic positive/negative sanity и прохождения контроля; holdout закрыт.
+
+Официальная metadata весов указывает Apache-2.0. Текст стандартной лицензии и исходная model card сохранены локально; отдельного LICENSE в GGUF репозитории не обнаружено. Код llama.cpp b11712 — MIT, точный license text сохранён. Размер двух model artifacts — 3333461920 bytes; это размер файлов, не VRAM. Все SHA и URLs закреплены в config/gguf-artifacts.json. CUDA 12.4 выбран из официальных Windows assets: вариант 13.4 новее driver API 13.3 этого компьютера. Драйвер/ОС не меняются.
+
+Portable runtime слушает только 127.0.0.1 на временном порту, использует заранее скачанные файлы и --offline, без Web UI, agent/tools/MCP proxy. Тестовое временное значение фиксировано и не является production credential. HTTP client не использует proxy environment/redirects. Process-local network guard допускает только точный literal loopback и выбранный порт; внешние соединения и DNS отклоняются. Никаких persistent grants и публичного tunnel нет.
+
+GPU layers и projector запрошены явно на CUDA0 с fit=off. Действительная пригодность подтверждается только после успешной загрузки и измерения, не размером GGUF. Resource meter сообщает sampled device-wide memory, включая другие процессы; не называет её PyTorch allocation. Модель не получает filename, ID или label. Положительный gate сам по себе не создаёт событие; детали проходят registry/condition/exclusion/PTS validation и bounded refinement. cache_prompt=false, одно сообщение и одна output sequence на запрос. Исходные результаты и серверные логи остаются в .private и не читаются облаком.
+
+Первый native тест использует только геометрию PIL: одинаковый yes/no запрос для серого, красного прямоугольника и повторного серого входа. Затем пустой доменный gate. Это проверяет visual path, отрицательную ветку и отсутствие очевидного переноса ответа. Проверка не доказывает распознавание банковских действий.
+
+Загрузка и тест запущены как текущая последовательность работ: prepare_gguf → run_native_when_ready → validate_native. До скачивания/проверки всех файлов GPU inference не запускается. Сырые stdout/stderr не выводятся; состояния читаются через типизированные численные/boolean safe reports. Результат пока не принят и не встроен в публичный API.

@@ -64,6 +64,9 @@ sources+=list((root/'runtime-upgrade/audit').glob('safe-summary.json'))
 sources+=list((root/'runtime-upgrade/audit-after-decoder').glob('safe-summary.json'))
 sources+=list((root/'runtime-upgrade').glob('component-safe-summary.json'))
 sources+=list(root.glob('patched-tests-safe-summary.json'))
+sources+=list(root.glob('native-safety-tests-safe-summary.json'))
+sources+=list((root/'gguf-control').glob('*-safe-summary.json'))
+sources+=list((root/'gguf-preflight').glob('safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
     elif isinstance(value,dict):
@@ -74,6 +77,7 @@ for f in sources:
     record=json.loads(f.read_text());sample=record.get('split','train+tune' if f.parent.name in ['cpu-baseline','video-baseline','baseline-audit','centered-proposal'] else 'synthetic' if f.parent.name=='ui-qa' else 'technical' if f.parent==root or f.parent.name=='portable-runtime' else 'train')
     if f.name=='technical-benchmark.json':sample='train'
     if f.parent.parent.name=='synthetic-semantics' or f.name=='synthetic-format-safe-summary.json':sample='synthetic'
+    if f.parent.name=='gguf-control' and f.name=='synthetic-safe-summary.json':sample='synthetic'
     prefix=f.stem if f.parent==root else f.parent.name
     for k,v in record.items():
         if k not in ['results','reports']:numeric(prefix+'_'+k,v,sample,str(f))
@@ -87,11 +91,12 @@ for f in sources:
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
 def configured(prefix,value,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):
-        add(prefix,value,'configured value','GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
+        add(prefix,value,'configured value','GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
     elif isinstance(value,dict):
         for k,v in value.items():configured(prefix+'_'+k,v,source)
 configured('budget_protocol',json.loads(Path('config/budget-protocol.json').read_text()),'config/budget-protocol.json')
 configured('gate_protocol',json.loads(Path('config/gate-protocol.json').read_text()),'config/gate-protocol.json')
+configured('gguf_protocol',json.loads(Path('config/gguf-protocol.json').read_text()),'config/gguf-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)
 print(json.dumps({'claim_rows':len(rows),'hardware':env}))

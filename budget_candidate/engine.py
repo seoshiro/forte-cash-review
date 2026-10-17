@@ -133,9 +133,17 @@ class BudgetEngine:
         except (ValueError,TypeError,KeyError,IndexError):raise ObservationError('invalid_budget_structure') from None
         return parse_observation(json.dumps(normalized),ids,frames[0].sec,frames[-1].sec)
 
+    def reset_resources(self):
+        self.torch.cuda.reset_peak_memory_stats()
+
+    def resource_metrics(self):
+        self.torch.cuda.synchronize()
+        return {'vram_peak_mib':self.torch.cuda.max_memory_allocated()/2**20,
+                'vram_reserved_peak_mib':self.torch.cuda.max_memory_reserved()/2**20}
+
     def analyze(self,path,job_id,private,strategy=None):
         started=time.monotonic();deadline=started+self.protocol['technical_gate']['engine_analysis_deadline_sec'];self.telemetry=[]
-        self.torch.cuda.reset_peak_memory_stats();cfg=self.config
+        self.reset_resources();cfg=self.config
         duration=validate_input(path)['duration_sec'];phases={};observations=[]
         tick=time.monotonic();frames=sample(path,np.linspace(0,max(0,duration-.1),cfg['coarse_frames']).tolist(),cfg['max_side']);phases['coarse_decode_sec']=time.monotonic()-tick
         observation=self.observe(frames,cfg['max_events_coarse'],cfg['max_new_tokens_coarse'],deadline);observations.append(observation)
@@ -182,9 +190,8 @@ class BudgetEngine:
         (private/'detail.json').write_text(json.dumps({'events':details,'duration_sec':duration,'limitations':[
             'Автоматическая подсказка для человека; невидимые данные не оцениваются.',
             'Ограниченная выборка кадров может пропустить короткие или новые события; уточняется только один эпизод.']},ensure_ascii=False),encoding='utf-8')
-        self.torch.cuda.synchronize()
-        metric={'elapsed_sec':time.monotonic()-started,'vram_peak_mib':self.torch.cuda.max_memory_allocated()/2**20,
-                'vram_reserved_peak_mib':self.torch.cuda.max_memory_reserved()/2**20,
+        resource=self.resource_metrics()
+        metric={'elapsed_sec':time.monotonic()-started,**resource,
                 'strategy':'bounded_refine','precision':self.precision,'phases':phases,'generation_calls':self.telemetry}
         (private/'metrics.json').write_text(json.dumps(metric,indent=2),encoding='utf-8')
         return payload

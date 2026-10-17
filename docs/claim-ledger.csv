@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,255855804416,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,253886459904,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 benchmark_sample_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_json_success_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_model_load_sec,23.25,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -998,6 +998,11 @@ patched-tests-safe-summary_errors,0,see metric name,technical,not applicable,.pr
 patched-tests-safe-summary_failures,0,see metric name,technical,not applicable,.private\patched-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
 patched-tests-safe-summary_skipped,0,see metric name,technical,not applicable,.private\patched-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
 patched-tests-safe-summary_time_sec,67.217,see metric name,technical,not applicable,.private\patched-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+native-safety-tests-safe-summary_tests,47,see metric name,technical,not applicable,.private\native-safety-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+native-safety-tests-safe-summary_errors,0,see metric name,technical,not applicable,.private\native-safety-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+native-safety-tests-safe-summary_failures,0,see metric name,technical,not applicable,.private\native-safety-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+native-safety-tests-safe-summary_skipped,0,see metric name,technical,not applicable,.private\native-safety-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+native-safety-tests-safe-summary_time_sec,15.738,see metric name,technical,not applicable,.private\native-safety-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
 budget_protocol_baseline_frames,12,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_new_tokens,512,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_side,448,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
@@ -1045,3 +1050,26 @@ gate_protocol_control_acceptance_final_balanced_accuracy_min,0.75,configured val
 gate_protocol_control_acceptance_final_f1_min,0.8,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 gate_protocol_control_acceptance_max_engine_latency_sec,220,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 gate_protocol_tune_maximum_runs,1,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_selection_seed,26101731,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_selection_per_label,4,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_selection_total,8,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_decision_max_new_tokens,32,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_detail_coarse_frames,8,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_detail_refine_frames,4,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_detail_max_refinements,1,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_detail_max_events_coarse,2,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_detail_max_events_refine,1,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_detail_max_new_tokens_coarse,192,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_detail_max_new_tokens_refine,128,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_detail_engine_deadline_sec,220,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_detail_official_api_deadline_sec,295,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_control_acceptance_technical_failures,0,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_control_acceptance_coarse_gate_recall_min,1.0,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_control_acceptance_coarse_gate_specificity_min,0.5,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_control_acceptance_coarse_gate_balanced_accuracy_min,0.75,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_control_acceptance_final_recall_min,1.0,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_control_acceptance_final_specificity_min,0.5,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_control_acceptance_final_balanced_accuracy_min,0.75,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_control_acceptance_final_f1_min,0.8,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_control_acceptance_max_engine_latency_sec,220,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gguf_protocol_tune_maximum_runs,1,configured value,GGUF-01,not applicable,config/gguf-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
