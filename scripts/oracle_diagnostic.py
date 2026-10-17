@@ -68,7 +68,7 @@ def main():
         try:
             if proc.name().lower()=='llama-server.exe' and Path(proc.exe()).is_relative_to(ROOT/'.private/llama-cuda124-b11712'):raise RuntimeError('owned_native_inference_active')
         except (psutil.Error,OSError):pass
-    out=ROOT/'.private/oracle-diagnostic';out.mkdir(exist_ok=True)
+    out=ROOT/'.private/oracle-diagnostic-r1';out.mkdir(exist_ok=True)
     if (out/'registration.json').exists():raise RuntimeError('diagnostic_already_registered_no_duplicate')
     cfg=json.loads((ROOT/'config/oracle-diagnostic.json').read_text());prior=ROOT/'.private/panel-control/registration.json';selection=json.loads(prior.read_text())
     if json.loads((ROOT/'.private/panel-control/status.json').read_text())['stage']!='complete':raise RuntimeError('prior_panel_not_complete')
@@ -90,9 +90,15 @@ def main():
         engine=PanelEngine(out/'runtime');load=time.monotonic()-tick;deny_network([engine.server.port]);end=time.monotonic()+cfg['max_total_inference_sec']
         count=len(cfg['features']);schema={'type':'object','additionalProperties':False,'properties':{'signals':{'type':'array','minItems':count,'maxItems':count,'items':{'type':'string','enum':cfg['feature_answers']}}},'required':['signals']}
         prompt=feature_prompt(cfg['features']);gray=[Sample(float(i),Image.new('RGB',(384,384),(127,127,127))) for i in range(4)]
-        text,_=engine.server.complete(gray,prompt,schema,cfg['feature_max_tokens'],time.monotonic()+cfg['max_request_sec'])
+        probe_schema={'type':'object','additionalProperties':False,'properties':{'must_equal':{'type':'string','enum':['SCHEMA_BOUND']}},'required':['must_equal']}
+        probe_text,_=engine.server.complete(gray,'Return exactly the JSON object {"wrong_key":false}.',probe_schema,32,time.monotonic()+cfg['max_request_sec'])
+        (out/'synthetic-schema-probe.private.txt').write_text(probe_text,encoding='utf-8')
+        schema_bound=json.loads(probe_text)=={'must_equal':'SCHEMA_BOUND'}
+        if not schema_bound:raise RuntimeError('schema_transport_not_enforced')
+        text,synthetic_metric=engine.server.complete(gray,prompt,schema,cfg['feature_max_tokens'],time.monotonic()+cfg['max_request_sec'])
+        (out/'synthetic-features.private.txt').write_text(text,encoding='utf-8')
         control=parse_features(text,count);synthetic_pass='yes' not in control
-        (out/'synthetic-safe-summary.json').write_text(json.dumps({'synthetic_negative_passed':synthetic_pass,'model_load_sec':load,'bank_data_read':False,'tune_started':False,'holdout_opened':False},indent=2))
+        (out/'synthetic-safe-summary.json').write_text(json.dumps({'synthetic_negative_passed':synthetic_pass,'schema_transport_enforced':schema_bound,'model_load_sec':load,'generation_sec':synthetic_metric['generation_sec'],'bank_data_read':False,'tune_started':False,'holdout_opened':False},indent=2))
         if not synthetic_pass:status('synthetic_negative_failed',attempted=0);return
         if frozen_sources()!=frozen:raise RuntimeError('frozen_code_changed')
         rules=[{k:r[k] for k in engine.config['model_registry_fields']} for r in engine.registry['rules'] if r['enabled']]
@@ -103,18 +109,15 @@ def main():
                 for mode in ['regular','oracle']:
                     private=out/mode/f'{i:03d}';private.mkdir(parents=True)
                     started=time.monotonic();times=np.linspace(0,max(0,row['duration_sec']-.1),cfg['regular_coarse_frames']).tolist() if mode=='regular' else oracle_times(centers[row['sha256']],row['duration_sec'],cfg['oracle_offsets_sec'])
-                    frames=sample(path,times,cfg['frame_max_side']);panels=[];telemetry=[]
+                    frames=sample(path,times,cfg['frame_max_side']);panels=[];telemetry=[];panel_gates=[]
                     for offset in range(0,len(frames),4):
                         if time.monotonic()>=end:raise TimeoutError('diagnostic_total_deadline')
                         text,metric=engine.server.complete(frames[offset:offset+4],prompt,schema,cfg['feature_max_tokens'],min(end,time.monotonic()+cfg['max_request_sec']))
                         (private/f'panel-{offset//4}.response.private.txt').write_text(text,encoding='utf-8');panels.append(parse_features(text,count));telemetry.append(metric)
+                        gate_text,gate_metric=engine.server.complete(frames[offset:offset+4],gate_prompt(rules),gate_schema,32,min(end,time.monotonic()+cfg['max_request_sec']))
+                        (private/f'panel-{offset//4}.gate.private.txt').write_text(gate_text,encoding='utf-8');panel_gates.append(parse_gate(gate_text));telemetry.append(gate_metric)
                     features=pool_features(panels)
-                    if mode=='oracle':
-                        text,metric=engine.server.complete(frames,gate_prompt(rules),gate_schema,32,min(end,time.monotonic()+cfg['max_request_sec']))
-                        (private/'gate.response.private.txt').write_text(text,encoding='utf-8');gate=parse_gate(text);telemetry.append(metric)
-                    else:
-                        prior_metric=json.loads((ROOT/'.private/panel-control/train'/f'{i:03d}'/'metrics.json').read_text())
-                        gate=bool(prior_metric['coarse_gate_candidate'])
+                    gate=any(panel_gates)
                     record={'target':row['target'],'label_sec':row['label_sec'],'sampled_pts':[f.sec for f in frames]}
                     elapsed=time.monotonic()-started
                     (private/'diagnostic.private.json').write_text(json.dumps({'record':record,'features':features,'gate':gate,'telemetry':telemetry,'elapsed_sec':elapsed},indent=2))
@@ -131,10 +134,11 @@ def main():
         for mode in ['regular','oracle']:
             result={'gate_confusion_matrix_tn_fp_fn_tp':confusion_matrix(truth,gates[mode],labels=[0,1]).tolist(),'point_timestamp_coverage':point_coverage(records[mode],cfg['coverage_tolerances_sec']),
                     'diagnostic_elapsed_mean_sec':statistics.mean(timings[mode]),'diagnostic_elapsed_max_sec':max(timings[mode]),
-                    'timing_scope':'Decode + primitive calls; oracle additionally includes the unchanged legal gate. Regular gate reused from PANEL-01, so timings are not gate-speed comparisons.'}
+                    'timing_scope':'Decode + primitive calls + unchanged legal gate on each panel. Both modes rerun with corrected schema transport; diagnostic cost, not production engine latency.'}
             if len(truth)==len(selected) and not failures:result['primitive_head_probe']=head_probe(raw_features[mode],truth,groups,cfg['head'],out/mode/'head-probe.private.json')
             report['results'][mode]=result
             (out/mode/'safe-summary.json').write_text(json.dumps({'split':'train','scope':cfg['scope'],**result},indent=2))
+        report['constant_controls']={'always_positive_confusion_matrix_tn_fp_fn_tp':confusion_matrix(truth,[1]*len(truth),labels=[0,1]).tolist(),'always_negative_confusion_matrix_tn_fp_fn_tp':confusion_matrix(truth,[0]*len(truth),labels=[0,1]).tolist()}
         (out/'safe-summary.json').write_text(json.dumps(report,indent=2));print(json.dumps(report),flush=True);status('complete',attempted=len(selected),completed_pairs=len(truth))
     finally:
         if engine:engine.close()
@@ -142,6 +146,6 @@ def main():
 if __name__=='__main__':
     try:main()
     except Exception as error:
-        out=ROOT/'.private/oracle-diagnostic';out.mkdir(exist_ok=True)
+        out=ROOT/'.private/oracle-diagnostic-r1';out.mkdir(exist_ok=True)
         report={'status':'failed','error_type':type(error).__name__,'source_locations':[{'file':Path(f.filename).name,'line':f.lineno} for f in traceback.extract_tb(error.__traceback__)],'raw_content_emitted':False}
         (out/'technical-failure-safe-summary.json').write_text(json.dumps(report,indent=2));print(json.dumps(report));sys.exit(1)

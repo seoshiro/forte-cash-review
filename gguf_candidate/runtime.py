@@ -85,7 +85,10 @@ class NativeServer:
         if remaining<=0:raise TimeoutError('Native analysis deadline exhausted')
         body={'messages':[{'role':'user','content':content}],'max_tokens':max_tokens,'temperature':0,'seed':26101731,
               'cache_prompt':False,'stream':False,'n':1}
-        if schema:body['response_format']={'type':'json_schema','schema':schema}
+        # b11712 server-common.cpp reads response_format.json_schema.schema.
+        # Its README still shows an obsolete flat json_schema example; that
+        # shape silently degrades to an arbitrary JSON object in this binary.
+        if schema:body['response_format']={'type':'json_schema','json_schema':{'schema':schema}}
         tick=time.monotonic();response=self.client.post(self.base+'/v1/chat/completions',json=body,timeout=remaining)
         if response.status_code!=200:raise RuntimeError('Native inference HTTP failure')
         data=response.json();choices=data.get('choices')
