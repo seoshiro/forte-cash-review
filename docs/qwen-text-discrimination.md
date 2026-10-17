@@ -44,8 +44,8 @@ Startup7.844 seconds; text phase150.328 seconds; worker including native cleanup
 
 Evidence: `.private/qwen-text-discrimination/safe-summary.json`, `run/terminal-safe-summary.json`, `calculation-safe-summary.json`, `tests-safe-summary.json`; claim ledger regenerates from fixed safe reports and configuration. No raw responses/prompts/logs were retained, no user notes were reopened, and the best XCLIP baseline and dataset splits were not modified.
 
-## Concrete next choice, not executed
+## Historical prospective choice, subsequently executed separately
 
 Prefer one prospective **text-only decomposition control** before a backend comparison: three numeric-facts cases returning only first_inside/last_inside/all_inside; three symbolic Boolean-facts-to-label cases without arithmetic; twelve geometry cases separating definition order and allowed-list order independently. Total18 calls, JSONplain only, same physical cases, no images or prompt search. If numeric facts pass while direct labels fail, this supplies a testable basis for facts followed by deterministic action mapping; it does not validate visual extraction.
 
-`config/qwen-decomposition-draft.json` is explicitly unregistered and unrun. Source-reviewer planning estimate20-30 minutes for implementation, independent checks, review and one run; unmeasured, with a proposed240-second run cap. No corrective rerun was claimed because the root cause and a validated correction have not been established.
+`config/qwen-decomposition-draft.json` remains the original unregistered/unrun draft. Its source-reviewer estimate20-30 minutes was unmeasured planning. A separate frozen protocol was later registered and executed once with a240-second cap: [completed decomposition](qwen-decomposition.md). It failed the complete primitive gate; no images or bank transition followed. Neither result is a validated correction or root-cause finding.

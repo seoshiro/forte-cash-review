@@ -1,0 +1,20 @@
+{
+  "protocol_id":"QWEN-DECOMPOSITION-01",
+  "scope":"One fixed text-only diagnostic; no images, bank data, notes or dataset splits",
+  "actions":["exit","enter","stay"],
+  "labels":["ALPHA","BETA","GAMMA"],
+  "maps":[{"exit":"ALPHA","enter":"BETA","stay":"GAMMA"}],
+  "geometry":{"frame_side":256,"frames":4,"boundary_xyxy":[24,24,180,232],"disk_radius":9,"exit_x":[70,110,165,220],"stay_x":[70,95,125,150],"y":120},
+  "inference":{"max_tokens":48,"temperature":0,"seed":26101731,"image_min_tokens":64,"image_max_tokens":1024,"ctx_size":4096,"per_request_sec":20},
+  "budget":{"wall_sec":240,"startup_sec":60,"calls":18,"runs":1},
+  "cells":[{"id":"numeric_facts","family":"facts"},{"id":"symbolic_binding","family":"binding"},
+    {"id":"direct_d0_l0","family":"direct","definition_order":0,"allowed_order":0},
+    {"id":"direct_d0_l1","family":"direct","definition_order":0,"allowed_order":1},
+    {"id":"direct_d1_l0","family":"direct","definition_order":1,"allowed_order":0},
+    {"id":"direct_d1_l1","family":"direct","definition_order":1,"allowed_order":1}],
+  "primary":"Exact valid-format normal-stop correctness per cell; facts also nine individual Boolean fields. No response_format/grammar or adaptive prompts.",
+  "independence":"Binding uses independently computed GROUND-TRUTH facts, never model numeric-facts answers. Direct-order anchors match earlier prompts; only the two orders change independently.",
+  "stop":"Exactly18 calls unless technical failure/deadline; preserve partial aggregates, no retries, images or TRAIN. Technical failure and truncation cannot be called semantic incapacity.",
+  "monitor_scope":"One compound all18-correct assertion; model call counts are separately aggregated",
+  "explicit_request_settings":"Single user typed-text part; temperature0, fixed seed, max_tokens48, cache_prompt false, n1, streamfalse. No logit_bias, assistant prefill or stop override. Server defaults are not independently identified effective sampling settings."
+}

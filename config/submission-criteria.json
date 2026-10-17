@@ -1,0 +1,17 @@
+{
+  "source":"Authoritative supplied ForteBank brief/FAQ; weights are maxima, not scores awarded to this project",
+  "criteria":[
+    {"id":"detection","max_points":25,"status":"EXPLORATORY_TRAIN_ONLY"},
+    {"id":"localization","max_points":15,"status":"POINT_METRIC_ONLY_RELEVANCE_UNVERIFIED"},
+    {"id":"classification","max_points":15,"status":"BLOCKED_NO_ACCEPTED_SEMANTIC_CLASSIFIER"},
+    {"id":"rules","max_points":15,"status":"REGISTRY_PRESENT_APPLICABILITY_UNVERIFIED"},
+    {"id":"robustness","max_points":10,"status":"INDEPENDENT_CAMERA_QUALITY_UNVERIFIED"},
+    {"id":"product","max_points":10,"status":"LOCAL_SYNTHETIC_FLOW_PUBLIC_JURY_SERVICE_NOT_READY"},
+    {"id":"technical","max_points":10,"status":"LOCAL_ARCHITECTURE_TESTED_RELEASE_CHECKS_REMAIN"}
+  ],
+  "user_deadline_utc":"2026-10-18T06:00:00Z",
+  "organizer_deadline_utc_as_supplied":"2026-10-18T07:00:00Z",
+  "feature_freeze_hours_before_user_deadline":4,
+  "availability_reserve_hours_before_user_deadline":1,
+  "no_unofficial_score_estimate":true
+}
