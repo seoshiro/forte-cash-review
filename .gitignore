@@ -28,6 +28,35 @@ __pycache__/
 *.joblib
 *.npz
 *.log
+*.gguf
+*.onnx
+*.pth
+*.npy
+*.pkl
+*.pickle
+*.arrow
+*.parquet
+*.sqlite
+*.db
+*.zip
+*.7z
+*.tar
+*.gz
+*.dll
+*.exe
+*.gif
+*.xls
+*.wav
+*.mp3
+*.m4a
+*.url
+*.pem
+*.key
+.aws/
+/data/
+/datasets/
+/runs/
+/artifacts/
 
 # Ephemeral local review shortcut, never publish
 /Open-TRAIN-review.local.url

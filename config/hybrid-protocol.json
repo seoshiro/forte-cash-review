@@ -1,0 +1,68 @@
+{
+  "protocol_id": "HYBRID-R22-01",
+  "scope": "Limited R22 observation/rule application research, not a complete taxonomy or production detector",
+  "hypothesis": "XCLIP ranks a bounded set of content windows; a local Qwen observer may verify specific physical conditions rather than answer a broad legal-violation question. Deterministic application of one verified rule may reduce unsupported alarms.",
+  "rule_ids": ["R22"],
+  "rule_source": "Existing verified corpus config/rules.json, NB231 paragraph22; no new norms",
+  "proposal": {
+    "source": "Frozen XCLIP-PROTO-01 ordered feature cache and original feature-registration.json",
+    "fit": "equal-video centroids inside each original TRAIN group fold, same as frozen XCLIP baseline",
+    "top_k": 2,
+    "minimum_center_separation_sec": 3.0,
+    "proposal_margin_threshold": null,
+    "always_process_negative_margin_videos": true,
+    "context_radius_sec": 3.0,
+    "context_frames": 4,
+    "source_frame_max_side": 384,
+    "label_or_known_event_time_used_for_inference": false
+  },
+  "observer": {
+    "model": "Existing official Qwen3-VL-4B Q4_K_M plus F16 projector, Apache-2.0; native llama.cpp b11712 MIT",
+    "input": "One four-frame montage, exact source pixels without second crop/resize; actual decoded PTS",
+    "fields": ["area", "motion", "service", "context", "f", "e", "o"],
+    "area": ["clear", "unclear"],
+    "motion": ["left", "stayed", "unclear"],
+    "service": ["ongoing", "completed", "unclear"],
+    "context": ["sufficient", "insufficient"],
+    "o": "Local free observation up to160 characters, physical facts only, never derived from official labels",
+    "legal_question_in_observation_prompt": false,
+    "faces_identity_audio_hidden_records": false,
+    "max_tokens": 192,
+    "max_request_sec": 60
+  },
+  "rule_application": {
+    "match": "R22 only when area=clear,motion=left,service=ongoing,context=sufficient, >=2 distinct support frames, nonempty observation; otherwise no_event",
+    "incomplete_observation_is_no_event_not_a_third_official_verdict": true,
+    "technical_failure_is_not_no_event": true,
+    "type": "Fixed verified R22 event name only after observed conditions; never inferred from binary label",
+    "description": "Local observer text plus fixed verified source citation, never cloud generated from real data"
+  },
+  "controls": {
+    "text_cases": ["fictional_departure_ongoing", "fictional_stayed_ongoing", "fictional_departure_completed", "fictional_unknown_service"],
+    "legacy_legal_gate": "constrained/unconstrained text-only polarity diagnostic, reported separately",
+    "new_observer": "same four text cases constrained/unconstrained, then four generated diagram sequences constrained",
+    "visual_diagrams": "Artificial role labels, workplace boundary and status banner; tests composition/OCR/position only, not bank semantics",
+    "train_requires_all_new_text_and_visual_controls_pass": true,
+    "legacy_gate_failure_does_not_silently_change_new_observer": true,
+    "no_fixture_retry_or_prompt_change_after_result": true
+  },
+  "budget": {
+    "synthetic_total_sec": 600,
+    "train_total_sec": 1200,
+    "total_compute_sec": 1800,
+    "max_native_requests_per_video": 2,
+    "max_video_engine_sec": 220,
+    "new_models_or_dependencies": false,
+    "maximum_train_runs": 1,
+    "maximum_tune_runs": 0
+  },
+  "comparison": {
+    "same_26_unique_train_24_groups": true,
+    "baseline": "Saved frozen XCLIP ordered_max; all four prior arms retained",
+    "report": ["baseline confusion", "hybrid confusion", "precision/recall/F1/specificity/balanced accuracy", "proposal point coverage", "condition acceptance count", "time error on TP", "complete engine cost", "uncovered-rule limitation"],
+    "useful_hybrid_gate": "No fewer TP than saved baseline, fewer FP, F1>=0.8, all technical controls/sources/cache verified",
+    "latency_scope": "Qwen context stage on frozen cached XCLIP features; prior XCLIP extraction is a separately measured reference. Full cold upload/API latency requires a later complete pipeline check and is not claimed here.",
+    "production_gate": "Still requires overall recall1 and independent type/rule/evidence validation; binary matches alone cannot validate R22 assignments"
+  },
+  "stop": "If any new synthetic positive/negative observation control fails, stop before TRAIN. No threshold/prompt/topK/rule expansion search. No TUNE/HOLDOUT inference. Preserve baseline, all failed measurements and original labels. No credential/tunnel/submission action."
+}

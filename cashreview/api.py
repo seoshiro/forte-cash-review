@@ -21,7 +21,12 @@ WORKER_REAP_TIMEOUT_SEC=1
 
 
 def create_app():
-    private=Path(os.environ.get("CASH_PRIVATE",ROOT/".private")).resolve()
+    mode=os.environ.get('CASH_MODE','model');experimental=mode=='xclip_experimental'
+    if experimental and os.environ.get('CASH_ENGINE')!='xclip_experimental':raise RuntimeError('Experimental mode requires its isolated engine')
+    if not experimental and os.environ.get('CASH_ENGINE')=='xclip_experimental':raise RuntimeError('Binary research engine cannot serve the competition contract')
+    private=Path(os.environ.get("CASH_PRIVATE",ROOT/(".private/xclip-experimental-service" if experimental else ".private"))).resolve()
+    analysis_path='/api/experimental/xclip/analyze' if experimental else '/api/v1/analyze'
+    result_name='experimental-result.json' if experimental else 'result.json'
     jobs=private/"jobs"; jobs.mkdir(parents=True,exist_ok=True)
     keys=[x for x in os.environ.get("CASH_API_KEY","").split(",") if x]
     if not keys: raise RuntimeError("Set CASH_API_KEY locally before starting")
@@ -29,6 +34,22 @@ def create_app():
     if not 0<budget<=295:raise RuntimeError('Job budget must be within 295 seconds')
     lock=asyncio.Lock(); active={}; tasks=set(); capacity_blocked=False;failed_jobs=set()
     service_lock=FileLock(str(private/'.api-service.lock'),timeout=0)
+    store_contract='xclip-experimental-v1' if experimental else 'competition-v1'
+
+    def check_store_contract():
+        marker=private/'.api-store-contract.json'
+        if marker.exists():
+            try:value=json.loads(marker.read_text(encoding='ascii'))
+            except (OSError,ValueError,UnicodeError):raise RuntimeError('Job store contract marker is invalid') from None
+            if value!={'contract':store_contract}:raise RuntimeError('Job store belongs to a different API contract; select a separate private directory')
+            return
+        # Legacy competition stores predate this marker. Never adopt them as an
+        # experimental store, or adopt any known experimental result as v1.
+        existing=list(jobs.iterdir())
+        if experimental and existing:raise RuntimeError('Experimental API requires a fresh separate job store')
+        if any((folder/'experimental-result.json').exists() for folder in existing if folder.is_dir()):raise RuntimeError('Existing experimental results require their original API contract')
+        with marker.open('x',encoding='ascii') as stream:
+            json.dump({'contract':store_contract},stream);stream.flush();os.fsync(stream.fileno())
 
     def valid_key(value):
         supplied=value.encode('utf-8')
@@ -71,6 +92,7 @@ def create_app():
             if remaining<=0: raise TimeoutError()
             child_env=os.environ.copy()
             child_env.update(HF_HUB_OFFLINE="1",TRANSFORMERS_OFFLINE="1",HF_HUB_DISABLE_TELEMETRY="1")
+            child_env['CASH_WORKER_DEADLINE_MONOTONIC']=str(deadline)
             # No user filename, labels, dataset directory or owner key passed as model input.
             child_env.pop("CASH_API_KEY",None)
             for k in ['HF_TOKEN','HUGGING_FACE_HUB_TOKEN','OPENAI_API_KEY','ANTHROPIC_API_KEY']: child_env.pop(k,None)
@@ -79,7 +101,7 @@ def create_app():
             remaining=deadline-time.monotonic()
             if remaining<=0:raise TimeoutError()
             await asyncio.wait_for(proc.wait(),timeout=remaining)
-            if proc.returncode or not (folder/"result.json").exists():mark_failed(folder)
+            if proc.returncode or not (folder/result_name).exists():mark_failed(folder)
         except (TimeoutError,asyncio.TimeoutError,asyncio.CancelledError):
             mark_failed(folder)
             if not await stop_worker(proc):capacity_blocked=True
@@ -101,12 +123,13 @@ def create_app():
         except ReviewLockTimeout:raise RuntimeError('Private job store requires a single API instance') from None
         cleaner=None
         try:
+            check_store_contract()
             # Reap verified orphan workers even if result was written just
             # before the previous parent crashed. Never kill a live owner.
             for folder in jobs.iterdir():
                 if not job_folder_safe(folder,jobs):continue
                 if not await asyncio.to_thread(reap_orphan,folder,ROOT,raw_meta(folder)):raise RuntimeError('Private jobs have a live owner or worker cleanup failed')
-                if not (folder/'result.json').exists():mark_failed(folder)
+                if not (folder/result_name).exists():mark_failed(folder)
             cleaner=asyncio.create_task(cleanup())
             try:yield
             finally:
@@ -129,9 +152,13 @@ def create_app():
         if path.startswith('/api/'):
             key=request.headers.get('x-api-key','')
             if not valid_key(key): return JSONResponse({'detail':'API key required'},status_code=401)
+        if experimental and path.startswith(('/api/v1/','/api/ui/')):
+            return JSONResponse({'detail':'Experimental binary engine has no verified event type/rule; competition API is unavailable'},status_code=503)
+        if not experimental and path.startswith('/api/experimental/xclip/'):
+            return JSONResponse({'detail':'Experimental mode is disabled'},status_code=404)
         # Multipart parser may spool. Bound the whole body before it reaches it.
         if request.method in ('POST','PUT'):
-            body_limit=MULTIPART_BYTES_LIMIT if path=='/api/v1/analyze' else SMALL_BODY_BYTES_LIMIT
+            body_limit=MULTIPART_BYTES_LIMIT if path==analysis_path else SMALL_BODY_BYTES_LIMIT
             try: length=int(request.headers.get('content-length','0'))
             except ValueError: return JSONResponse({'detail':'Invalid content length'},status_code=400)
             if length<0:return JSONResponse({'detail':'Invalid content length'},status_code=400)
@@ -145,7 +172,7 @@ def create_app():
                     raise HTTPException(413,"Request body too large")
                 return message
             request._receive=limited_receive
-        if request.method=='POST' and path=='/api/v1/analyze':
+        if request.method=='POST' and path==analysis_path:
             if capacity_blocked:return JSONResponse({'detail':'Worker cleanup requires local restart'},status_code=503)
             if lock.locked():return JSONResponse({'detail':'Processing capacity busy; retry shortly'},status_code=429,headers={'Retry-After':'15'})
             await lock.acquire();reserved=True
@@ -165,8 +192,7 @@ def create_app():
         response.headers.update({"Cache-Control":"no-store","X-Content-Type-Options":"nosniff","Referrer-Policy":"no-referrer","Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'"})
         return response
 
-    @app.post("/api/v1/analyze",dependencies=[])
-    async def analyze(request:Request,file:UploadFile=File(...),owner:str=Depends(auth)):
+    async def accept_upload(request,file,owner):
         if Path(file.filename or "").suffix.lower()!=".mov": raise HTTPException(415,"Use MOV video")
         created=request.state.admitted_at; job_id=secrets.token_hex(16); folder=jobs/job_id; folder.mkdir()
         try:
@@ -184,6 +210,34 @@ def create_app():
         except BaseException:
             safe_remove(folder); raise
         finally: await file.close()
+
+    @app.post('/api/v1/analyze')
+    async def analyze(request:Request,file:UploadFile=File(...),owner:str=Depends(auth)):
+        if experimental:raise HTTPException(503,'Experimental engine is not a competition detector')
+        return await accept_upload(request,file,owner)
+
+    @app.post('/api/experimental/xclip/analyze')
+    async def experimental_analyze(request:Request,file:UploadFile=File(...),owner:str=Depends(auth)):
+        if not experimental:raise HTTPException(404,'Experimental mode disabled')
+        return await accept_upload(request,file,owner)
+
+    @app.get('/api/experimental/xclip/jobs/{job_id}')
+    async def experimental_status(job_id:str,owner:str=Depends(auth)):
+        if not experimental:raise HTTPException(404,'Experimental mode disabled')
+        folder,meta=folder_for(job_id,owner)
+        if job_id in active:return {'job_id':job_id,'status':'processing'}
+        if job_id in failed_jobs or (folder/'failed').exists():return {'job_id':job_id,'status':'failed'}
+        path=folder/'experimental-result.json'
+        if path.exists():
+            try:
+                from xclip_candidate.experimental import BinaryResearchResult
+                result=BinaryResearchResult.model_validate_json(path.read_text(encoding='utf-8'))
+                if result.job_id!=job_id:raise ValueError('Experimental result job mismatch')
+                return result.model_dump()
+            except (OSError,ValueError,UnicodeError):
+                mark_failed(folder);return {'job_id':job_id,'status':'failed'}
+        if time.time()-meta['created']>300:return {'job_id':job_id,'status':'failed'}
+        return {'job_id':job_id,'status':'processing'}
 
     @app.get("/api/v1/jobs/{job_id}")
     async def status(job_id:str,owner:str=Depends(auth)):

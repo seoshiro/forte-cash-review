@@ -1,0 +1,13 @@
+{
+  "protocol_id": "XCLIP-HARDNEG-01",
+  "hypothesis": "A mean over every negative-video window may dilute the most confusing correct actions with background. Selecting two negative windows nearest the positive prototype inside each training fold may reduce false alarms without losing true positives.",
+  "status": "Single bounded cache-only diagnostic, no new encoder inference or semantic gate",
+  "selection": {"split": "TRAIN only", "unique_contents": 26, "original_auto_groups": 24, "group_reviewed": false},
+  "encoder_and_positive_prototype": "Frozen XCLIP-PROTO-01 ordered features and original point-positive prototype, unchanged",
+  "negative_prototype": {"windows_per_negative_video": 2, "minimum_center_separation_sec": 3.0, "rank": "cosine to training-fold positive prototype", "aggregation": "mean selected vectors per negative video, then equal-video class mean, L2 normalization"},
+  "decision": {"pooling": "max", "threshold": 0.0},
+  "baseline_expected_tn_fp_fn_tp": [6, 6, 2, 12],
+  "useful_binary_gate": {"tp_min": 12, "fp_max": 4, "f1_min": 0.8},
+  "budget": {"wall_sec": 30, "runs": 1, "threshold_searches": 0, "new_models": 0, "new_gpu_inference": 0},
+  "limits": ["Reused exploratory TRAIN group OOF, not an independent test", "No type, legal-rule or description accuracy claim", "Single official point is not exhaustive event annotation", "No TUNE/HOLDOUT inference or selection", "Do not replace the saved baseline or experimental deployment pack automatically", "If this fixed variant fails, stop rather than search more pooling/threshold/head variants"]
+}

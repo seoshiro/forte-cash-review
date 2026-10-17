@@ -1,0 +1,23 @@
+# Prepared external-access procedure; execution deferred
+
+The user will wait for ForteBank's answer from09:00 Astana on18 October. Current authorization is local-only. No tunnel, firewall change, permanent credential, push, remote repository or submission is authorized now. The official brief still requires a public UI URL, public `/api/v1` API and a jury key. A local repository, installer or experimental binary endpoint does not satisfy those requirements.
+
+The parent gave a planning estimate of30-60 minutes for connecting and externally checking an already-ready local build after an allowed tunnel is approved. This is an unmeasured estimate, not a guarantee or permission. Do not spend the quality/availability reserve on desktop packaging. Deadline and delivery decisions are recorded in `official-announcements.md` and `local-readiness.md`.
+
+## Safe checks available now
+
+Run `.venv-patched\Scripts\python.exe scripts/preflight_local_access.py --port 8765`. It checks only local loopback `/healthz`, bypasses proxy variables, refuses all redirects before making another request and reports a bounded technical summary plus tunnel executable availability. It never reads jobs, media, results or credentials and never starts a tunnel. A reachable synthetic UI proves local health only. It cannot prove competition readiness or public reachability.
+
+Before release, run `scripts/audit_repo.py` and `scripts/audit_git_history.py`. Review the actual source-only inventory. No real media, frames, labels, annotations, model outputs, job folders, credentials or model binaries may be published. Preserve private originals locally.
+
+## Actions after the separate decision
+
+1. Resolve competition readiness first: an accepted semantic detector, type/rule mapping, real new-input checks, required JSON and processing within five minutes. The binary research mode deliberately blocks official endpoints; do not relabel it as ready merely to expose a URL.
+2. Reconfirm the allowed access route and its terms/cost. Keep inference on this Windows machine. Do not enable cloud AI, analytics, third-party upload processing or public artifact directories. Prefer a temporary named process/session with loopback origin and a clear stop procedure. Do not alter firewall or persistent grants as a workaround.
+3. Immediately before each sensitive action, obtain the narrow authorization. Prepared wording for the access action: "Разрешить запуск бесплатного HTTPS-туннеля к локальному сервису на время проверки жюри, без изменения firewall, системной защиты и постоянных сетевых разрешений?" Prepared wording for the key action: "Разрешить создать постоянный API-ключ жюри, сохранить его только локально на сервере и передать вам по согласованному приватному каналу?" These are templates for the later decision; no credential is generated now. Any route requiring a new persistent grant needs explicit approval of that particular grant before use.
+4. Create a dedicated private production job store, restricted owner keys, one bounded worker and cleanup policy. Ensure the key never enters public JavaScript, source control, URL/query string, console output or shared screenshots. Use a separate synthetic fixture for exposure checks. Keep health metadata minimal and disable public interactive API docs unless intentionally authorized.
+5. Through the external HTTPS address, verify missing/wrong key rejection on both official routes; unknown and other-owner jobs; synthetic upload/status/schema; actual JPEG decoding and source timestamp correspondence; corrupt MOV; close uploads/busy response; longest supported input; full upload-to-result latency. Do not expose actual judge media or semantic responses to cloud developer tools. Perform real-data checks only with local models and the local human viewer, releasing aggregate results only.
+6. Test offline local inference separately from external reachability. Disabling the internet is incompatible with checking a tunnel's availability; neither substitutes for the other. Do not claim either check without evidence.
+7. Record the final URL, API base, safe aggregate checks and operating window. Confirm AC power, sleep behavior without changing OS policy, model warmup, remaining disk and owner availability. Document restarting and stopping the exact owned processes. The parent/user submits only after direct authorization; no organizer message or form submission is performed automatically.
+
+Any unreachable URL, expired tunnel, credential failure, unverified semantic output or latency over the five-minute limit remains a submission blocker. A fallback demo is supplemental and must not be called a working judge API.

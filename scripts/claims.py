@@ -104,11 +104,32 @@ sources+=list((root/'xclip-control').glob('safe-summary.json'))
 sources+=list((root/'xclip-control').glob('synthetic-safe-summary.json'))
 sources+=list((root/'xclip-control').glob('technical-safe-summary.json'))
 sources+=list(root.glob('xclip-tests-safe-summary.json'))
+sources+=list((root/'hybrid-r22').glob('synthetic-safe-summary.json'))
+sources+=list((root/'hybrid-r22').glob('train-safe-summary.json'))
+sources+=list((root/'hybrid-r22-recovery').glob('synthetic-safe-summary.json'))
+sources+=list((root/'hybrid-r22-recovery').glob('train-safe-summary.json'))
+sources+=list((root/'hybrid-r22').glob('escalated-loopback-safe-summary.json'))
+sources+=list(root.glob('hybrid-tests-safe-summary.json'))
+sources+=list((root/'hybrid-r22-recovery').glob('control-progress-safe-summary.json'))
+sources+=list((root/'hybrid-r22-recovery').glob('watchdog-safe-summary.json'))
+sources+=list((root/'share-ui').glob('safe-summary.json'))
+sources+=list((root/'reliability').glob('historical-safe-summary.json'))
+sources+=list((root/'reliability').glob('preprocessing-geometry-safe-summary.json'))
+sources+=list((root/'reliability').glob('tests-safe-summary.json'))
+sources+=list((root/'xclip-experimental-v2').glob('safe-summary.json'))
+sources+=list((root/'xclip-hardneg-control').glob('safe-summary.json'))
+sources+=list((root/'xclip-api-synthetic-smoke').glob('integration-safe-summary.json'))
+sources+=list((root/'xclip-api-synthetic-smoke').glob('terminal-safe-summary.json'))
+sources+=list((root/'access-preflight').glob('safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
     if isinstance(value,(int,float)) and not isinstance(value,bool):
         limitation='Original registration omitted feature-cache digests; reused TRAIN exploratory diagnostic; not independent or release evidence' if 'prototype-cache' in source else 'Internal measurement; not official jury score'
+        if 'xclip-hardneg-control' in source:limitation='One fixed reused-TRAIN group OOF diagnostic; useful gate failed; no independent quality or type/rule validation'
+        if 'xclip-experimental-v2' in source:limitation='Full-TRAIN prototype preparation from verified cache; no in-sample quality metric or new inference'
+        if 'xclip-api-synthetic-smoke' in source:limitation='Generated rectangles only; technical integration/lifetime checks, not cash-event quality or public access'
+        if 'preprocessing-geometry' in source:limitation='Dimension-based retained-area estimate only; no visual inspection and no evidence of what was cropped'
         add(prefix,value,'see metric name',sample,source,limitation)
     elif isinstance(value,dict):
         for key,v in value.items():numeric(prefix+'_'+key,v,sample,source)
@@ -131,6 +152,11 @@ for f in sources:
     if f.parent.name=='xclip-prepare':sample='technical'
     if f.parent.name=='xclip-synthetic-preflight':sample='synthetic'
     if f.parent.name=='xclip-control':sample='synthetic' if f.name.startswith('synthetic') else 'technical' if f.name.startswith('failure') else 'train'
+    if f.parent.name.startswith('hybrid-r22'):sample='synthetic' if f.name.startswith(('synthetic','control-progress')) else 'technical' if any(k in f.name for k in ['loopback','watchdog']) else 'train'
+    if f.parent.name=='share-ui':sample='synthetic UI'
+    if f.parent.name in ['reliability','xclip-experimental-v2','access-preflight']:sample='synthetic' if f.name=='tests-safe-summary.json' else 'technical'
+    if f.parent.name=='xclip-api-synthetic-smoke':sample='synthetic'
+    if f.parent.name=='xclip-hardneg-control':sample='train'
     if f.parent.name.startswith('oracle-diagnostic'):sample='synthetic' if f.name.startswith('synthetic') else 'train'
     if f.parent.name=='clarifications':sample='technical'
     prefix=f.stem if f.parent==root else f.parent.name
@@ -139,6 +165,8 @@ for f in sources:
     if f.parent.name=='qvt-control':prefix+='_'+f.stem
     if f.parent.name=='prototype-cache':prefix+='_'+f.stem
     if f.parent.name=='xclip-control':prefix+='_'+f.stem
+    if f.parent.name.startswith('hybrid-r22'):prefix+='_'+f.stem
+    if f.parent.name in ['reliability','xclip-api-synthetic-smoke']:prefix+='_'+f.stem
     for k,v in record.items():
         if k not in ['results','reports']:numeric(prefix+'_'+k,v,sample,str(f))
     metrics=record.get('results',record.get('reports',{}))
@@ -148,6 +176,8 @@ for f in sources:
         if f.parent.name=='qvt-control':metric_split='train'
         if f.parent.name=='prototype-cache':metric_split='train'
         if f.parent.name=='xclip-control':metric_split='train'
+        if f.parent.name=='xclip-hardneg-control':metric_split='train'
+        if f.parent.name.startswith('hybrid-r22'):metric_split='train'
         numeric(f.parent.name+'_'+strategy,result,metric_split,str(f))
         cm=result.get('confusion_matrix_tn_fp_fn_tp')
         if cm:
@@ -155,6 +185,8 @@ for f in sources:
                 limitation='Exploratory group OOF; automatic groups unreviewed; duplicate-row protocol deviation; not release evidence' if f.parent.name=='qvt-control' else 'Train is in-sample; tune is exploratory; preliminary scene groups'
                 if f.parent.name=='prototype-cache':limitation='Reused TRAIN group OOF; original feature-cache digest inventory missing; not release evidence'
                 if f.parent.name=='xclip-control':limitation='Exploratory reused-TRAIN group OOF; automatic scene-family groups unreviewed; no type/rule validation'
+                if f.parent.name=='xclip-hardneg-control':limitation='One fixed reused-TRAIN group OOF diagnostic; useful gate failed; original baseline preserved; no type/rule validation'
+                if f.parent.name.startswith('hybrid-r22'):limitation='Limited R22 reused-TRAIN group OOF; binary labels cannot validate types or observations; cached-XCLIP Qwen-stage latency excludes feature extraction/API upload'
                 add(f.parent.name+'_'+strategy+'_'+k,v,'videos',metric_split,str(f),limitation)
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
 def configured(prefix,value,source):
@@ -167,6 +199,10 @@ def configured(prefix,value,source):
             add(prefix,value,'configured value','XCLIP-PROTO-01',source,'Pre-registered configuration/target, not measured quality');return
         if prefix.startswith('xclip_artifacts'):
             add(prefix,value,'artifact/configured value','technical',source,'Official artifact identity/size or download limit; not model speed/VRAM');return
+        if prefix.startswith('xclip_hardneg_protocol'):
+            add(prefix,value,'configured value','XCLIP-HARDNEG-01',source,'Pre-registered one-run diagnostic configuration/target; not measured quality');return
+        if prefix.startswith('hybrid_protocol'):
+            add(prefix,value,'configured value','HYBRID-R22-01',source,'Pre-registered synthetic-gated limited-rule hypothesis, not measured quality');return
         add(prefix,value,'configured value','QVT-01' if prefix.startswith('qvt_protocol') else 'ORACLE-01R1' if prefix.startswith('oracle_protocol') else 'PANEL-01' if prefix.startswith('panel_protocol') else 'GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
     elif isinstance(value,dict):
         for k,v in value.items():configured(prefix+'_'+k,v,source)
@@ -183,6 +219,8 @@ configured('xclip_draft',json.loads(Path('config/xclip-draft.json').read_text())
 configured('prototype_cache_protocol',json.loads(Path('config/prototype-cache-protocol.json').read_text()),'config/prototype-cache-protocol.json')
 configured('xclip_protocol',json.loads(Path('config/xclip-protocol.json').read_text()),'config/xclip-protocol.json')
 configured('xclip_artifacts',json.loads(Path('config/xclip-artifacts.json').read_text()),'config/xclip-artifacts.json')
+configured('xclip_hardneg_protocol',json.loads(Path('config/xclip-hardneg-protocol.json').read_text()),'config/xclip-hardneg-protocol.json')
+configured('hybrid_protocol',json.loads(Path('config/hybrid-protocol.json').read_text()),'config/hybrid-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)
 print(json.dumps({'claim_rows':len(rows),'hardware':env}))

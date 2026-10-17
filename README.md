@@ -1,51 +1,89 @@
 # Контур · Datathon NU 2026 / ForteBank
 
-Локальный сервис проверки визуальных признаков кассовых нарушений. Наблюдение → условие нормы → последовательность доказательств. Только визуальный анализ локальной моделью. Автоматическая подсказка не заменяет решение человека.
+[Текущий checkpoint](docs/current-checkpoint.md): отдельный исследовательский API прошёл два запроса с настоящим XCLIP на искусственном MOV; это проверка интеграции, а не банковского качества. Закреплены веса, конфигурация и препроцессор. [Ограниченный hard-negative эксперимент](docs/xclip-hard-negative.md) не улучшил F1; baseline сохранён. [Подготовка будущего внешнего доступа](docs/external-access-preflight.md) готова локально, запуск отложен до отдельного решения после ответа ForteBank.
 
-## Состояние
+Локальный исследовательский прототип. Репозиторий готовится для локальной работы: без push, публичного сервиса, туннеля, постоянного API-ключа и отправки заявки.
 
-Проект в разработке. Работоспособность HTTP-контракта проверяется на искусственных MOV отдельно от качества модели. CPU baseline не перенёс качество на tuning. Qwen/CUDA ещё готовятся; готовность к отбору не подтверждена. Актуальные измерения: docs/measured-checkpoint.md и docs/claim-ledger.csv. Подробные данные остаются в .private.
+## Подтверждённое состояние
 
-## Запуск Windows
+UI и конкурсный HTTP-контракт проверены на искусственных MOV. Это не измерение качества модели. Лучший сохранённый сравнительный кандидат — XCLIP ordered-max: TRAIN group OOF, TN6 / FP6 / FN2 / TP12, F1=0.75. TRAIN повторно используется для исследований, автоматические группы не проверены человеком. Типы, юридическая применимость и релевантность кадров этим результатом не подтверждены.
 
-Python 3.12.11, отдельная .venv, зависимости requirements.txt. Torch 2.8.0 и torchvision 0.23.0 устанавливаются из https://download.pytorch.org/whl/cu128. Рабочие версии дополнительно фиксируются в requirements-lock.txt после установки. PyAV включает свои FFmpeg libraries, внешний ffmpeg CLI не требуется.
+Экспериментальный XCLIP API возвращает бинарное решение, кандидатный момент и исходные кандидатные кадры только локально. Тип явно `unverified`, правило `not_assessed`. Он не выдаёт эти записи за полноценный конкурсный результат. Текущий гибрид Qwen/R22 не допущен на TRAIN: полного отчёта предварительных контролей нет. Качество текущего XCLIP на TUNE/HOLDOUT ещё не измерено. Готовность к отбору не подтверждена.
 
-```powershell
-.\.venv\Scripts\python.exe scripts/resume_downloads.py qwen
-$env:CASH_API_KEY='<локально установленный ключ>'
-.\.venv\Scripts\python.exe scripts/serve.py
-```
+Измерения: [XCLIP](docs/xclip-candidate.md), [claim ledger](docs/claim-ledger.csv). Оставшиеся требования: [чеклист](docs/local-readiness.md).
 
-Первое скачивание весов требует сети. Запросы обрабатываются с HF_HUB_OFFLINE, TRANSFORMERS_OFFLINE, local_files_only и запретом socket connect внутри worker. Не отключайте защиту ОС. Постоянный ключ/новые persistent grants/изменение сетевых настроек требуют отдельного разрешения пользователя.
+## Среда и тесты
 
-UI: http://127.0.0.1:8765/. Ключ вводится пользователем и хранится только в памяти вкладки. Он не в JS сборке. Public HTTPS настраивается отдельно, состояние не предполагается из локального запуска.
+На этом Windows используется Python3.12.11 в `.venv-patched`, версии зафиксированы в [requirements-patched-lock.txt](requirements-patched-lock.txt). Старая `.venv` сохранена для исторической воспроизводимости; новая inference-среда — `.venv-patched`. PyAV включает FFmpeg libraries.
 
 ```powershell
-curl.exe -X POST http://127.0.0.1:8765/api/v1/analyze -H "X-API-Key: $env:CASH_API_KEY" -F 'file=@new.mov'
-curl.exe http://127.0.0.1:8765/api/v1/jobs/JOB_ID -H "X-API-Key: $env:CASH_API_KEY"
+.\.venv-patched\Scripts\python.exe -m pytest tests -q
 ```
 
-Схема в cashreview/schemas.py; при техническом сбое status=failed. Одновременная обработка ограничена одним worker: лишняя загрузка получает 429 до создания задания. Жёсткий общий budget принятого задания до 295 с плюс передача HTTP. Отсчёт начинается при приёме файла; длительная сеть учитывается в оставшемся времени обработки. В UI deadline 300 с включает загрузку, polling. Модель не скачивается по запросу; холодная загрузка пока включена в время задания. Очередь не маскирует задержку.
+Кодовые тесты используют искусственные изображения/MOV и лёгкие процессы. Банковские видео и модели они не открывают. Тесты API требуют разрешённого loopback-контекста. В сетевой песочнице Codex127.0.0.1 может быть запрещён; не меняйте защиту ОС или firewall ради теста. [Надёжность выполнения](docs/execution-reliability.md).
 
-## Данные и оценка
+Для новой машины с совместимым NVIDIA-драйвером:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/manifest.py --videos 'C:\Users\gokusen\Downloads\open\videos' --labels 'C:\Users\gokusen\Downloads\open\open_labels.xlsx'
-.\.venv\Scripts\python.exe scripts/benchmark.py
-.\.venv\Scripts\python.exe scripts/evaluate.py --split tune --strategy uniform
-.\.venv\Scripts\python.exe scripts/evaluate.py --split tune --strategy coarse_refine
+py -3.12 -m venv .venv-patched
+.\.venv-patched\Scripts\python.exe -m pip install --index-url https://download.pytorch.org/whl/cu130 'torch==2.14.1+cu130' 'torchvision==0.29.1+cu130'
+.\.venv-patched\Scripts\python.exe -m pip install -r requirements-patched-lock.txt
 ```
 
-Скрипты выводят только агрегаты и технические сведения. Персональные outputs, предсказания, evidence и аннотации не печатать и не передавать внешним инструментам. Не открывать реальные банковские кадры через cloud vision/browser capture. Для UI QA только scripts/synthetic.py и -SyntheticTest. SyntheticTest проверяет только whitelisted hashes искусственных файлов; это не детектор.
+Lock описывает работающую установленную среду. Чистая установка на другую машину здесь ещё не проверялась.
 
-Holdout закрыт по умолчанию. Нужны проверка семейств сцен и заморозка конфигурации; evaluate.py не позволяет молча открыть его повторно. Кадры исходного ролика не разделяются между split. Поиск ответов по имени запрещён; сервис сохраняет загрузку как случайный jobs/<opaque>/input.mov и не читает labels.
+## Искусственное UI/API демо
 
-## Приватность
+```powershell
+$env:CASH_API_KEY='temporary-local-ui-test-only'
+$env:CASH_PRIVATE="$PWD\.private\synthetic-ui-service"
+.\.venv-patched\Scripts\python.exe scripts/serve.py --synthetic-test
+```
 
-.private, models, runtime/cache, все видео/кадры/таблицы/локальные outputs исключены из Git. Нет внешних CDN, аналитики, cloud inference, audio decoding, face recognition. Изоляция результатов: случайный job_id и hash владельца ключа; чужой ключ получает 404. Данные удаляются через час. После конкурса исходные данные и рабочие копии должны быть очищены пользователем по регламенту; текущий код исходники не удаляет и не изменяет.
+Откройте http://127.0.0.1:8765/ и введите временное тестовое значение вручную. Принимаются только сгенерированные файлы из `.private/synthetic`. Это демонстрация интерфейса и контракта, а не банковский детектор. UI без CDN и аналитики.
 
-Перед code-only публикацией запустить scripts/audit_repo.py и просмотреть staged files. Пока repo только локальный; публикацию и фактическую сдачу не считать выполненными.
+Конкурсный контракт: `POST /api/v1/analyze` (multipart `file`, MOV) и `GET /api/v1/jobs/{job_id}`. Оба требуют `X-API-Key`. Только `violation`/`no_violation`; технический сбой — `failed`. Экспериментальные поля в конкурсную схему не добавляются.
 
-## Лицензии
+## Экспериментальный XCLIP API
 
-Собственный код — Apache-2.0. Qwen3-VL-2B-Instruct: Apache-2.0 по официальной model card https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct; код модели https://github.com/QwenLM/Qwen3-VL, Transformers Apache-2.0. Точная ревизия загрузки — локально models/provenance.json. Код и веса проверяются отдельно. Прочие зависимости и включённые FFmpeg libraries перечисляются в docs/licenses.md. Соблюдайте upstream notices при распространении.
+Первое получение публичных весов требует сети; потом обработка использует локальные файлы:
+
+```powershell
+.\.venv-patched\Scripts\python.exe scripts/install_xclip.py
+```
+
+Проверяются официальная фиксированная ревизия, MIT-лицензия и SHA весов. Этот шаг не читает банковские данные. Повторная загрузка на текущей машине не нужна.
+
+После замороженного TRAIN-эксперимента подготовьте приватные прототипы из готового TRAIN-кэша:
+
+```powershell
+.\.venv-patched\Scripts\python.exe scripts/prepare_xclip_experimental.py
+.\.venv-patched\Scripts\python.exe scripts/run_xclip_experimental.py
+```
+
+Нового inference при подготовке нет. Приватный пакет не включается в Git. В чистом клоне он отсутствует: его построение требует разрешённых локальных данных и процедуры [XCLIP-PROTO-01](docs/xclip-candidate.md). In-sample deployment-fit метрика не вычисляется.
+
+Запуск строго на127.0.0.1:8768 с фиксированным временным тестовым значением `temporary-xclip-experimental-only`, без создания credentials. Публично этот режим не выставлять.
+
+```powershell
+curl.exe -X POST http://127.0.0.1:8768/api/experimental/xclip/analyze -H 'X-API-Key: temporary-xclip-experimental-only' -F 'file=@new.mov'
+curl.exe http://127.0.0.1:8768/api/experimental/xclip/jobs/JOB_ID -H 'X-API-Key: temporary-xclip-experimental-only'
+```
+
+В этом режиме `/api/v1/*` возвращает503. Маркер контракта запрещает подключать режим к хранилищу другого API до изменения заданий. [Подробности и ограничения](docs/xclip-experimental-api.md).
+
+## Приватность, лицензии, Git
+
+Исходники не меняются и не переименовываются. Имена, номера, порядок и готовые ответы не используются при inference. Загрузки получают непрозрачные job ID, результаты защищены ключом владельца. Банковские видео, кадры, описания и результаты отдельных видео нельзя открывать cloud-инструментами. Аудио и идентификация лиц не используются. Для скриншотов — пустой UI либо искусственный материал.
+
+`.private`, модели, среды, таблицы, видео, кадры, кэши, локальные outputs и секреты исключены из Git. Оригиналы и приватные артефакты текущий процесс не удаляет. Перед будущей публикацией:
+
+```powershell
+.\.venv-patched\Scripts\python.exe scripts/audit_repo.py
+.\.venv-patched\Scripts\python.exe scripts/audit_git_history.py
+git status --short
+```
+
+Проверяются tracked/untracked и вся доступная история, запрещённые типы и известные маркеры секретов. Это не универсальное доказательство отсутствия любого закодированного секрета; нужен code review. Сейчас push и публикация отложены пользователем.
+
+Собственный код — Apache-2.0. Для Microsoft XCLIP отдельно проверены MIT весов и upstream-кода; Transformers — Apache-2.0. [Лицензии](docs/licenses.md), [провенанс XCLIP](docs/xclip-candidate.md). Внешние данные разрешены FAQ7, но требуют отдельной проверки прав: [политика](docs/external-data-policy.md). Qwen/llama.cpp сохранены как исследовательские ветки, не принятый детектор.

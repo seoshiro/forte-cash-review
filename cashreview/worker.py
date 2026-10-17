@@ -8,7 +8,12 @@ def main():
     from .offline import deny_network
     deny_network()
     folder=Path(sys.argv[1]).resolve(); job_id=folder.name
-    (folder/'worker.pid').write_text(str(os.getpid()),encoding='ascii')
+    # A reader must never observe the empty interval created by write_text.
+    # Publish ownership before model imports, using an atomic same-dir rename.
+    temporary_pid=folder/'worker.pid.tmp'
+    with temporary_pid.open('x',encoding='ascii') as stream:
+        stream.write(str(os.getpid()));stream.flush();os.fsync(stream.fileno())
+    temporary_pid.replace(folder/'worker.pid')
     try:
         if os.environ.get("CASH_MODE")=="synthetic_test":
             # Isolated test fixture, never a detector. Only generated test videos accepted.
@@ -38,14 +43,20 @@ def main():
             from .video import validate_input
             validate_input(folder/'input.mov')
             engine=os.environ.get('CASH_ENGINE','baseline')
-            if engine=='budget':
+            if engine=='xclip_experimental':
+                if os.environ.get('CASH_MODE')!='xclip_experimental':raise ValueError('Research engine requires isolated experimental mode')
+                from xclip_candidate.experimental import ExperimentalEngine
+                deadline=float(os.environ['CASH_WORKER_DEADLINE_MONOTONIC'])
+                result=ExperimentalEngine(deadline=deadline).analyze(folder/'input.mov',job_id)
+            elif engine=='budget':
                 from budget_candidate.engine import BudgetEngine
                 result=BudgetEngine(os.environ.get('CASH_PRECISION','bf16')).analyze(folder/'input.mov',job_id,folder)
             elif engine=='baseline':
                 from .engine import LocalEngine
                 result=LocalEngine().analyze(folder/"input.mov",job_id,folder,os.environ.get("CASH_STRATEGY"))
             else:raise ValueError('Unknown local engine configuration')
-        temp=folder/"result.tmp"; temp.write_text(json.dumps(result,ensure_ascii=False),encoding="utf-8"); temp.replace(folder/"result.json")
+        name='experimental-result.json' if os.environ.get('CASH_MODE')=='xclip_experimental' else 'result.json'
+        temp=folder/(name+'.tmp');temp.write_text(json.dumps(result,ensure_ascii=False),encoding='utf-8');temp.replace(folder/name)
     except Exception:
         # Deliberately omit paths and model outputs from errors.
         (folder/"failed").write_text("local_processing_failed",encoding="ascii")
