@@ -4,6 +4,8 @@
 
 Источники вычисления: .private/dependency-audit-cuda.json, .private/cuda-pypi-audit.json, .private/security-safe-summary.json. Не использовать --ignore-vuln для получения формального нуля.
 
+После добавления LM Format Enforcer и interegular выполнен новый read-only lookup всех 70 фактически установленных пакетов через PyPI: affected packages 1, unique advisory IDs 8, skipped 0. Этот новый запуск выполняет scripts/audit_installed.py, а не отсутствующий в product venv pip-audit CLI. Источники: .private/dependency-audit-structured.json и .private/structured-security-safe-summary.json. Старый scanner report сохранён отдельно.
+
 | Идентификаторы | Затронутый путь | Исправление по записи | Применимость к текущему сервису |
 |---|---|---|---|
 | PYSEC-2025-206 / CVE-2025-55554 | `torch.nan_to_num(...).long()`, integer conversion overflow | 2.9.0 | Такого вызова в нашем inference нет; вход — декодированные изображения с ограниченными размерами, не пользовательские tensor programs. Это ограничение поверхности, не исправление пакета. [Запись](https://raw.githubusercontent.com/pypa/advisory-database/main/vulns/torch/PYSEC-2025-206.yaml). |

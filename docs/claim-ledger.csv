@@ -18,24 +18,23 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,262623232000,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,262621696000,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 benchmark_sample_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_json_success_count,1,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_model_load_sec,18.89100000000326,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_synthetic_warmup_sec,33.85899999999674,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_inference_sec_mean,37.359666666665966,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_inference_sec_max,48.54700000000594,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_peak_vram_mib,5978.67138671875,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_peak_vram_reserved_mib,6852.0,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark_json_success_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark_model_load_sec,23.25,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark_synthetic_warmup_sec,51.51600000000326,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark_inference_sec_mean,51.28133333333244,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark_inference_sec_max,54.75,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark_peak_vram_mib,6065.9609375,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark_peak_vram_reserved_mib,7048.0,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_uniform_probe_frames,12,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_uniform_probe_sample_count,1,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_uniform_probe_sec,56.812999999994645,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_uniform_probe_vram_mib,5978.67138671875,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_process_rss_mib,2930.8203125,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark_uniform_probe_sec,74.48500000000058,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark_uniform_probe_vram_mib,6065.9609375,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark_process_rss_mib,3379.8125,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_system_ram_gib,15.309371948242188,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_cpu_logical,12,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_sample_frames,6,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
-benchmark_technical_failure_categories_time_outside_window,2,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_train_videos,27,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_tune_videos,9,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_load_sec,0.4529999999940628,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -243,14 +242,22 @@ security-safe-summary_after_packages,68,see metric name,technical,not applicable
 security-safe-summary_after_affected_packages,1,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
 security-safe-summary_after_unique_advisory_ids,8,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
 security-safe-summary_after_skipped_packages,0,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
-security-safe-summary_contract_tests_passed,23,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
-security-safe-summary_contract_tests_test_suite_sec,8.102,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+security-safe-summary_contract_tests_passed,26,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+security-safe-summary_contract_tests_test_suite_sec,15.61,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
 security-safe-summary_contract_tests_failures,0,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
 security-safe-summary_contract_tests_errors,0,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
 security-safe-summary_cpu_after_upgrade_before_cuda_packages,67,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
 security-safe-summary_cpu_after_upgrade_before_cuda_affected_packages,0,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
 security-safe-summary_cpu_after_upgrade_before_cuda_unique_advisory_ids,0,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
 security-safe-summary_cpu_after_upgrade_before_cuda_skipped_packages,0,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+security-safe-summary_after_lmfe_install_packages,70,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+security-safe-summary_after_lmfe_install_affected_packages,1,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+security-safe-summary_after_lmfe_install_unique_advisory_ids,8,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+security-safe-summary_after_lmfe_install_skipped_packages,0,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+structured-security-safe-summary_packages,70,see metric name,technical,not applicable,.private\structured-security-safe-summary.json,local calculation,Internal measurement; not official jury score
+structured-security-safe-summary_affected_packages,1,see metric name,technical,not applicable,.private\structured-security-safe-summary.json,local calculation,Internal measurement; not official jury score
+structured-security-safe-summary_unique_advisory_ids,8,see metric name,technical,not applicable,.private\structured-security-safe-summary.json,local calculation,Internal measurement; not official jury score
+structured-security-safe-summary_skipped_packages,0,see metric name,technical,not applicable,.private\structured-security-safe-summary.json,local calculation,Internal measurement; not official jury score
 model-memory-safe-summary_tensor_count,625,see metric name,technical,not applicable,.private\model-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
 model-memory-safe-summary_tensor_bytes_by_dtype_BF16,4255064064,see metric name,technical,not applicable,.private\model-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
 model-memory-safe-summary_weights_total_bytes,4255064064,see metric name,technical,not applicable,.private\model-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -481,19 +488,19 @@ benchmark-compact-json-2_cpu_logical,12,see metric name,train,train,.private\ben
 benchmark-compact-json-2_sample_frames,6,see metric name,train,train,.private\benchmark-compact-json-2\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark-compact-json-2_technical_failure_categories_time_outside_window,2,see metric name,train,train,.private\benchmark-compact-json-2\safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-observation-safe-summary_owned_model_processes,2,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-observation-safe-summary_process_gauges_Dedicated Usage_bytes,6197993472,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-observation-safe-summary_process_gauges_Dedicated Usage_mib,5910.8671875,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
+memory-observation-safe-summary_process_gauges_Dedicated Usage_bytes,6201028608,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
+memory-observation-safe-summary_process_gauges_Dedicated Usage_mib,5913.76171875,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-observation-safe-summary_process_gauges_Dedicated Usage_matching_counter_instances,1,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-observation-safe-summary_process_gauges_Shared Usage_bytes,106954752,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-observation-safe-summary_process_gauges_Shared Usage_mib,102.0,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
+memory-observation-safe-summary_process_gauges_Shared Usage_bytes,585105408,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
+memory-observation-safe-summary_process_gauges_Shared Usage_mib,558.0,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-observation-safe-summary_process_gauges_Shared Usage_matching_counter_instances,1,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-observation-safe-summary_process_gauges_Total Committed_bytes,6304948224,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-observation-safe-summary_process_gauges_Total Committed_mib,6012.8671875,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
+memory-observation-safe-summary_process_gauges_Total Committed_bytes,6786134016,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
+memory-observation-safe-summary_process_gauges_Total Committed_mib,6471.76171875,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-observation-safe-summary_process_gauges_Total Committed_matching_counter_instances,1,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-observation-safe-summary_nvidia_smi_mib_0_physical_total,6141.0,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-observation-safe-summary_nvidia_smi_mib_0_driver_reserved,221.0,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-observation-safe-summary_nvidia_smi_mib_0_fb_used,5911.0,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-observation-safe-summary_nvidia_smi_mib_0_fb_free,10.0,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
+memory-observation-safe-summary_nvidia_smi_mib_0_fb_used,5913.0,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
+memory-observation-safe-summary_nvidia_smi_mib_0_fb_free,8.0,see metric name,technical,not applicable,.private\memory-observation-safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-during-model-safe-summary_owned_model_processes,2,see metric name,technical,not applicable,.private\memory-during-model-safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-during-model-safe-summary_process_gauges_Dedicated Usage_bytes,5497491456,see metric name,technical,not applicable,.private\memory-during-model-safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-during-model-safe-summary_process_gauges_Dedicated Usage_mib,5242.81640625,see metric name,technical,not applicable,.private\memory-during-model-safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -508,14 +515,32 @@ memory-during-model-safe-summary_nvidia_smi_mib_0_physical_total,6141.0,see metr
 memory-during-model-safe-summary_nvidia_smi_mib_0_driver_reserved,221.0,see metric name,technical,not applicable,.private\memory-during-model-safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-during-model-safe-summary_nvidia_smi_mib_0_fb_used,5243.0,see metric name,technical,not applicable,.private\memory-during-model-safe-summary.json,local calculation,Internal measurement; not official jury score
 memory-during-model-safe-summary_nvidia_smi_mib_0_fb_free,678.0,see metric name,technical,not applicable,.private\memory-during-model-safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-watch_samples_with_matching_process_counter,12,see metric name,train,train,.private\memory-watch\safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-watch_max_process_mib_Dedicated Usage,5910.8671875,see metric name,train,train,.private\memory-watch\safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-watch_max_process_mib_Shared Usage,102.0,see metric name,train,train,.private\memory-watch\safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-watch_max_process_mib_Total Committed,6012.8671875,see metric name,train,train,.private\memory-watch\safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-watch_max_adapter_mib_physical_total,6141.0,see metric name,train,train,.private\memory-watch\safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-watch_max_adapter_mib_driver_reserved,221.0,see metric name,train,train,.private\memory-watch\safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-watch_max_adapter_mib_fb_used,5911.0,see metric name,train,train,.private\memory-watch\safe-summary.json,local calculation,Internal measurement; not official jury score
-memory-watch_max_adapter_mib_fb_free,5920.0,see metric name,train,train,.private\memory-watch\safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_samples,44,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_max_gauge_mib_Dedicated Usage,5915.24609375,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_max_gauge_mib_Shared Usage,1316.0,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_max_gauge_mib_Total Committed,7231.24609375,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_min_adapter_free_mib,8.0,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_owned_model_processes,2,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_process_gauges_Dedicated Usage_bytes,6202585088,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_process_gauges_Dedicated Usage_mib,5915.24609375,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_process_gauges_Dedicated Usage_matching_counter_instances,1,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_process_gauges_Shared Usage_bytes,1379926016,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_process_gauges_Shared Usage_mib,1316.0,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_process_gauges_Shared Usage_matching_counter_instances,1,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_process_gauges_Total Committed_bytes,7582511104,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_process_gauges_Total Committed_mib,7231.24609375,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_process_gauges_Total Committed_matching_counter_instances,1,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_nvidia_smi_mib_0_physical_total,6141.0,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_nvidia_smi_mib_0_driver_reserved,221.0,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_nvidia_smi_mib_0_fb_used,5913.0,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+benchmark-memory-safe-summary_shared_peak_snapshot_nvidia_smi_mib_0_fb_free,8.0,see metric name,technical,not applicable,.private\benchmark-memory-safe-summary.json,local calculation,Internal measurement; not official jury score
+latency-budget-safe-summary_sample_count,3,see metric name,technical,not applicable,.private\latency-budget-safe-summary.json,local calculation,Internal measurement; not official jury score
+latency-budget-safe-summary_configured_max_windows,5,see metric name,technical,not applicable,.private\latency-budget-safe-summary.json,local calculation,Internal measurement; not official jury score
+latency-budget-safe-summary_observed_window_max_sec,54.75,see metric name,technical,not applicable,.private\latency-budget-safe-summary.json,local calculation,Internal measurement; not official jury score
+latency-budget-safe-summary_load_plus_five_observed_max_windows_sec,297.0,see metric name,technical,not applicable,.private\latency-budget-safe-summary.json,local calculation,Internal measurement; not official jury score
+advisory-identity-safe-summary_prior_advisories,8,see metric name,technical,not applicable,.private\advisory-identity-safe-summary.json,local calculation,Internal measurement; not official jury score
+advisory-identity-safe-summary_current_advisories,8,see metric name,technical,not applicable,.private\advisory-identity-safe-summary.json,local calculation,Internal measurement; not official jury score
+advisory-identity-safe-summary_one_to_one_alias_matches,8,see metric name,technical,not applicable,.private\advisory-identity-safe-summary.json,local calculation,Internal measurement; not official jury score
 synthetic-structure-diagnostic-safe-summary_parameter_bytes_by_device_cuda:0,4255064064,see metric name,technical,not applicable,.private\synthetic-structure-diagnostic-safe-summary.json,local calculation,Internal measurement; not official jury score
 synthetic-structure-diagnostic-safe-summary_input_tokens,2078,see metric name,technical,not applicable,.private\synthetic-structure-diagnostic-safe-summary.json,local calculation,Internal measurement; not official jury score
 synthetic-structure-diagnostic-safe-summary_generated_tokens,366,see metric name,technical,not applicable,.private\synthetic-structure-diagnostic-safe-summary.json,local calculation,Internal measurement; not official jury score

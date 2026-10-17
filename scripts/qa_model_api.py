@@ -31,6 +31,9 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--strategy',choices=['uniform','coarse_refine'],default='uniform');a=p.parse_args()
     os.chdir(ROOT);status=json.loads((ROOT/'.private/vlm-pipeline/status.json').read_text())
     if status['stage'] in ['download_preparation','technical_benchmark','tuning_uniform','tuning_coarse_refine']:raise RuntimeError('Wait for active artifact/GPU pipeline first')
+    structured=ROOT/'.private/structured/status.json'
+    if structured.exists() and json.loads(structured.read_text())['stage'] in ['structured_technical_benchmark','structured_tune_uniform','structured_train_uniform']:
+        raise RuntimeError('Wait for active structured TRAIN/TUNE pipeline first')
     weights=ROOT/'models/qwen3-vl-2b/model.safetensors';provenance=json.loads((ROOT/'models/provenance.json').read_text())
     with weights.open('rb') as f:verified=hashlib.file_digest(f,'sha256').hexdigest()==provenance['weights_sha256']
     if not verified:raise RuntimeError('Official model checksum mismatch')
