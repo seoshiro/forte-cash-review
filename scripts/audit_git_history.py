@@ -12,7 +12,7 @@ def main():
             metadata,name=entry.split(b'\t',1);_mode,kind,oid=metadata.decode('ascii').split()
             if kind!='blob':continue
             name=name.decode('utf-8');paths.add(name);objects.setdefault(oid,set()).add(name)
-    forbidden_ext={'.mov','.mp4','.avi','.mkv','.wav','.mp3','.m4a','.xlsx','.xls','.png','.jpg','.jpeg','.webp','.gif','.safetensors','.gguf','.pt','.pth','.onnx','.zip','.dll','.exe'}
+    forbidden_ext={'.mov','.mp4','.avi','.mkv','.wav','.mp3','.m4a','.xlsx','.xls','.png','.jpg','.jpeg','.webp','.gif','.safetensors','.gguf','.pt','.pth','.onnx','.zip','.dll','.exe','.url'}
     markers=re.compile(rb'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\b(?:sk-proj-|ghp_|hf_)[A-Za-z0-9_-]{16,}')
     violations=[];eligible=[];total_bytes=0
     payload=('\n'.join(objects)+'\n').encode('ascii')

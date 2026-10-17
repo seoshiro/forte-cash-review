@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,250897776640,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,250874093568,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 benchmark_sample_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_json_success_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_model_load_sec,23.25,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -1327,6 +1327,36 @@ train-review-synthetic-qa_page_errors,0,see metric name,synthetic,not applicable
 train-review-synthetic-qa_external_requests,0,see metric name,synthetic,not applicable,.private\train-review-synthetic-qa\safe-summary.json,local calculation,Internal measurement; not official jury score
 train-review-synthetic-qa_elapsed_sec,6.062999999994645,see metric name,synthetic,not applicable,.private\train-review-synthetic-qa\safe-summary.json,local calculation,Internal measurement; not official jury score
 manual-review_selected_cases,8,see metric name,technical,not applicable,.private\manual-review\launch-safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_before_original_regressions_tests,6.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_before_original_regressions_failures,6.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_before_original_regressions_errors,0.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_before_original_regressions_skipped,0.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_before_original_regressions_time,5.759,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_after_initial_fix_tests,17.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_after_initial_fix_failures,0.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_after_initial_fix_errors,0.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_after_initial_fix_skipped,0.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_after_initial_fix_time,8.332,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_boundary_revision_tests,29.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_boundary_revision_failures,1.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_boundary_revision_errors,0.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_boundary_revision_skipped,0.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_boundary_revision_time,10.061,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_final_full_tests,73.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_final_full_failures,0.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_final_full_errors,0.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_final_full_skipped,0.0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_tests_final_full_time,16.893,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_configured_limits_upload_file_bytes,134217728,configured value,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,"Reviewed configuration, not measured throughput or performance"
+api-final-review_configured_limits_whole_multipart_bytes,135266304,configured value,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,"Reviewed configuration, not measured throughput or performance"
+api-final-review_configured_limits_job_budget_max_sec,295,configured value,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,"Reviewed configuration, not measured throughput or performance"
+api-final-review_configured_limits_worker_kill_timeout_sec,3,configured value,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,"Reviewed configuration, not measured throughput or performance"
+api-final-review_configured_limits_worker_reap_timeout_sec,1,configured value,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,"Reviewed configuration, not measured throughput or performance"
+api-final-review_configured_limits_retention_sec,3600,configured value,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,"Reviewed configuration, not measured throughput or performance"
+api-final-review_manual_review_checkpoint_selected_train_cases,8,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_manual_review_checkpoint_saved_cases,3,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_manual_review_checkpoint_remaining_cases,5,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
+api-final-review_real_video_inference_runs,0,see metric name,technical,not applicable,.private\api-final-review\safe-summary.json,local calculation,Internal measurement; not official jury score
 budget_protocol_baseline_frames,12,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_new_tokens,512,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_side,448,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"

@@ -6,7 +6,7 @@ from PIL import Image
 
 
 class Strict(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid",allow_inf_nan=False,strict=True)
 
 
 class Evidence(Strict):

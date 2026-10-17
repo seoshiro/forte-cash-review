@@ -30,4 +30,4 @@ def reap_orphan(folder,project_root,meta):
                 if abs(server.create_time()-meta.get('server_created',0))<.01:return False
             except psutil.NoSuchProcess:pass
         return kill_tree(pid)
-    except (psutil.Error,OSError,ValueError):return False
+    except (psutil.Error,OSError,ValueError,TypeError):return False

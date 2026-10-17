@@ -4,14 +4,20 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, UploadFile, File, Depends, Header, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-import asyncio, hashlib, secrets, os, json, sys, time, shutil, re
+import asyncio, hashlib, secrets, os, json, sys, time, re
 from .schemas import Done
 from .processes import kill_tree,reap_orphan
 from . import reviews
-from filelock import Timeout as ReviewLockTimeout
+from .storage import job_folder_safe,raw_meta,valid_meta,remove_job,cleanup_expired
+from filelock import FileLock,Timeout as ReviewLockTimeout
 import psutil
 
 ROOT=Path(__file__).resolve().parents[1]
+UPLOAD_BYTES_LIMIT=128*1024*1024
+MULTIPART_BYTES_LIMIT=129*1024*1024
+SMALL_BODY_BYTES_LIMIT=16*1024
+WORKER_KILL_TIMEOUT_SEC=3
+WORKER_REAP_TIMEOUT_SEC=1
 
 
 def create_app():
@@ -21,16 +27,20 @@ def create_app():
     if not keys: raise RuntimeError("Set CASH_API_KEY locally before starting")
     budget=float(os.environ.get('CASH_JOB_BUDGET_SEC','295'))
     if not 0<budget<=295:raise RuntimeError('Job budget must be within 295 seconds')
-    lock=asyncio.Lock(); active={}; tasks=set(); capacity_blocked=False
+    lock=asyncio.Lock(); active={}; tasks=set(); capacity_blocked=False;failed_jobs=set()
+    service_lock=FileLock(str(private/'.api-service.lock'),timeout=0)
 
     def valid_key(value):
         supplied=value.encode('utf-8')
         return bool(value) and any(secrets.compare_digest(supplied,k.encode('utf-8')) for k in keys)
 
     def safe_remove(folder):
-        target=folder.resolve()
-        if target.parent!=jobs.resolve() or not re.fullmatch(r'[0-9a-f]{32}',target.name): raise RuntimeError('Unsafe cleanup target')
-        shutil.rmtree(target)
+        remove_job(folder,jobs)
+
+    def mark_failed(folder):
+        failed_jobs.add(folder.name)
+        try:(folder/'failed').touch()
+        except OSError:pass
 
     async def auth(x_api_key:str|None=Header(default=None)):
         if x_api_key is None or not valid_key(x_api_key): raise HTTPException(401,"API key required")
@@ -39,16 +49,25 @@ def create_app():
     def folder_for(job_id,owner):
         if not re.fullmatch(r"[0-9a-f]{32}",job_id): raise HTTPException(404,"Unknown job")
         folder=jobs/job_id
-        try: meta=json.loads((folder/"meta.json").read_text())
-        except (FileNotFoundError,json.JSONDecodeError): raise HTTPException(404,"Unknown job")
+        if not job_folder_safe(folder,jobs):raise HTTPException(404,'Unknown job')
+        meta=valid_meta(folder)
+        if meta is None:raise HTTPException(404,'Unknown job')
         if not secrets.compare_digest(owner,meta["owner"]): raise HTTPException(404,"Unknown job")
         return folder,meta
 
-    async def run_job(folder,created):
+    async def stop_worker(proc):
+        if proc is None or proc.returncode is not None:return True
+        try:clean=await asyncio.wait_for(asyncio.to_thread(kill_tree,proc.pid),timeout=WORKER_KILL_TIMEOUT_SEC)
+        except Exception:clean=False
+        try:await asyncio.wait_for(proc.wait(),timeout=WORKER_REAP_TIMEOUT_SEC)
+        except Exception:clean=False
+        return bool(clean)
+
+    async def run_job(folder,deadline):
         nonlocal capacity_blocked
         proc=None
         try:
-            remaining=budget-(time.time()-created)
+            remaining=deadline-time.monotonic()
             if remaining<=0: raise TimeoutError()
             child_env=os.environ.copy()
             child_env.update(HF_HUB_OFFLINE="1",TRANSFORMERS_OFFLINE="1",HF_HUB_DISABLE_TELEMETRY="1")
@@ -57,48 +76,45 @@ def create_app():
             for k in ['HF_TOKEN','HUGGING_FACE_HUB_TOKEN','OPENAI_API_KEY','ANTHROPIC_API_KEY']: child_env.pop(k,None)
             proc=await asyncio.create_subprocess_exec(sys.executable,"-m","cashreview.worker",str(folder),cwd=str(ROOT),env=child_env,stdout=asyncio.subprocess.DEVNULL,stderr=asyncio.subprocess.DEVNULL)
             active[folder.name]=proc
-            remaining=budget-(time.time()-created)
+            remaining=deadline-time.monotonic()
             if remaining<=0:raise TimeoutError()
             await asyncio.wait_for(proc.wait(),timeout=remaining)
-            if proc.returncode or not (folder/"result.json").exists(): (folder/"failed").touch()
+            if proc.returncode or not (folder/"result.json").exists():mark_failed(folder)
         except (TimeoutError,asyncio.TimeoutError,asyncio.CancelledError):
-            if proc and proc.returncode is None:
-                if not await asyncio.to_thread(kill_tree,proc.pid):capacity_blocked=True
-                await proc.wait()
-            (folder/"failed").touch()
+            mark_failed(folder)
+            if not await stop_worker(proc):capacity_blocked=True
         except Exception:
-            if proc and proc.returncode is None:
-                if not await asyncio.to_thread(kill_tree,proc.pid):capacity_blocked=True
-                await proc.wait()
-            (folder/"failed").touch()
+            mark_failed(folder)
+            if not await stop_worker(proc):capacity_blocked=True
         finally:
             active.pop(folder.name,None)
             lock.release()
 
     async def cleanup():
         while True:
-            for folder in jobs.iterdir():
-                if folder.is_dir() and folder.name not in active:
-                    try:
-                        age=time.time()-json.loads((folder/"meta.json").read_text())["created"]
-                        if age>3600: safe_remove(folder)
-                    except (OSError,ValueError): pass
+            await asyncio.to_thread(cleanup_expired,jobs,set(active),time.time())
             await asyncio.sleep(30)
 
     @asynccontextmanager
     async def lifespan(app):
-        # Interrupted jobs become failed; never reinterpret a crash as no_violation.
-        for folder in jobs.iterdir():
-            if folder.is_dir() and not (folder/"result.json").exists():
-                try:meta=json.loads((folder/'meta.json').read_text())
-                except (FileNotFoundError,ValueError):meta={}
-                if not await asyncio.to_thread(reap_orphan,folder,ROOT,meta):raise RuntimeError('Private jobs have a live owner or worker cleanup failed')
-                (folder/"failed").touch()
-        cleaner=asyncio.create_task(cleanup())
-        yield
-        cleaner.cancel()
-        for t in list(tasks): t.cancel()
-        if tasks: await asyncio.gather(*tasks,return_exceptions=True)
+        try:service_lock.acquire()
+        except ReviewLockTimeout:raise RuntimeError('Private job store requires a single API instance') from None
+        cleaner=None
+        try:
+            # Reap verified orphan workers even if result was written just
+            # before the previous parent crashed. Never kill a live owner.
+            for folder in jobs.iterdir():
+                if not job_folder_safe(folder,jobs):continue
+                if not await asyncio.to_thread(reap_orphan,folder,ROOT,raw_meta(folder)):raise RuntimeError('Private jobs have a live owner or worker cleanup failed')
+                if not (folder/'result.json').exists():mark_failed(folder)
+            cleaner=asyncio.create_task(cleanup())
+            try:yield
+            finally:
+                cleaner.cancel()
+                await asyncio.gather(cleaner,return_exceptions=True)
+                for task in list(tasks):task.cancel()
+                if tasks:await asyncio.gather(*list(tasks),return_exceptions=True)
+        finally:service_lock.release()
 
     app=FastAPI(title="Cash Review Local",version="0.1.0",lifespan=lifespan,docs_url=None,redoc_url=None)
 
@@ -106,22 +122,27 @@ def create_app():
     async def headers(request:Request,call_next):
         reserved=False
         request.state.admitted_at=time.time()
+        request.state.admitted_monotonic=time.monotonic()
         request.state.capacity_transferred=False
+        request.state.body_limit_exceeded=False
         path=request.scope['path']
         if path.startswith('/api/'):
             key=request.headers.get('x-api-key','')
             if not valid_key(key): return JSONResponse({'detail':'API key required'},status_code=401)
         # Multipart parser may spool. Bound the whole body before it reaches it.
         if request.method in ('POST','PUT'):
-            body_limit=129*1024*1024 if path=='/api/v1/analyze' else 16*1024
+            body_limit=MULTIPART_BYTES_LIMIT if path=='/api/v1/analyze' else SMALL_BODY_BYTES_LIMIT
             try: length=int(request.headers.get('content-length','0'))
             except ValueError: return JSONResponse({'detail':'Invalid content length'},status_code=400)
+            if length<0:return JSONResponse({'detail':'Invalid content length'},status_code=400)
             if length>body_limit: return JSONResponse({"detail":"Request body too large"},status_code=413)
             size=0; receive=request._receive
             async def limited_receive():
                 nonlocal size
                 message=await receive(); size+=len(message.get("body",b""))
-                if size>body_limit: raise HTTPException(413,"Request body too large")
+                if size>body_limit:
+                    request.state.body_limit_exceeded=True
+                    raise HTTPException(413,"Request body too large")
                 return message
             request._receive=limited_receive
         if request.method=='POST' and path=='/api/v1/analyze':
@@ -138,6 +159,9 @@ def create_app():
             else: response=await call_next(request)
         finally:
             if reserved and not request.state.capacity_transferred:lock.release()
+        # FastAPI's multipart parsing may wrap a receive-side exception as
+        # generic 400. Preserve the actual enforced limit's 413 response.
+        if request.state.body_limit_exceeded:response=JSONResponse({'detail':'Request body too large'},status_code=413)
         response.headers.update({"Cache-Control":"no-store","X-Content-Type-Options":"nosniff","Referrer-Policy":"no-referrer","Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'"})
         return response
 
@@ -150,11 +174,11 @@ def create_app():
             with (folder/"input.mov").open("wb") as out:
                 while chunk:=await file.read(1024*1024):
                     total+=len(chunk)
-                    if total>128*1024*1024: raise HTTPException(413,"Upload too large")
+                    if total>UPLOAD_BYTES_LIMIT: raise HTTPException(413,"Upload too large")
                     out.write(chunk)
             if not total: raise HTTPException(400,"Empty upload")
             (folder/"meta.json").write_text(json.dumps({"owner":owner,"created":created,"server_pid":os.getpid(),"server_created":psutil.Process().create_time()}),encoding="ascii")
-            t=asyncio.create_task(run_job(folder,created)); tasks.add(t); t.add_done_callback(tasks.discard)
+            t=asyncio.create_task(run_job(folder,request.state.admitted_monotonic+budget)); tasks.add(t); t.add_done_callback(tasks.discard)
             request.state.capacity_transferred=True
             return {"job_id":job_id}
         except BaseException:
@@ -166,25 +190,32 @@ def create_app():
         folder,meta=folder_for(job_id,owner)
         # Publish done only after worker exits and capacity is released.
         if job_id in active: return {"job_id":job_id,"status":"processing"}
-        if (folder/"failed").exists(): return {"job_id":job_id,"status":"failed"}
+        if job_id in failed_jobs or (folder/"failed").exists(): return {"job_id":job_id,"status":"failed"}
         if (folder/"result.json").exists():
-            return Done.model_validate_json((folder/"result.json").read_text(encoding="utf-8")).model_dump()
+            try:
+                result=Done.model_validate_json((folder/"result.json").read_text(encoding="utf-8"))
+                if result.job_id!=job_id:raise ValueError('Result job mismatch')
+                return result.model_dump()
+            except (OSError,ValueError,UnicodeError):
+                mark_failed(folder)
+                return {'job_id':job_id,'status':'failed'}
         if time.time()-meta["created"]>300: return {"job_id":job_id,"status":"failed"}
         return {"job_id":job_id,"status":"processing"}
 
     @app.get("/api/ui/jobs/{job_id}/detail")
     async def detail(job_id:str,owner:str=Depends(auth)):
         folder,_=folder_for(job_id,owner)
-        if job_id in active or (folder/'failed').exists() or not (folder/"result.json").exists(): raise HTTPException(409,"Job not complete")
+        if (await status(job_id,owner))['status']!='done':raise HTTPException(409,'Job not complete')
         try:return json.loads((folder/"detail.json").read_text(encoding="utf-8"))
         except FileNotFoundError:raise HTTPException(404,"No detail")
+        except (OSError,ValueError,UnicodeError):raise HTTPException(409,'Detail unavailable')
 
     async def review_input(job_id,owner):
         folder,_=folder_for(job_id,owner)
         result=await status(job_id,owner)
         if result['status']!='done':return folder,None,None
         try:detail=json.loads((folder/'detail.json').read_text(encoding='utf-8'))
-        except FileNotFoundError:return folder,None,None
+        except (OSError,ValueError,UnicodeError):return folder,None,None
         return folder,result,detail
 
     @app.get('/api/ui/jobs/{job_id}/reviews')

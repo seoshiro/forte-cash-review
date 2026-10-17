@@ -28,3 +28,6 @@ __pycache__/
 *.joblib
 *.npz
 *.log
+
+# Ephemeral local review shortcut, never publish
+/Open-TRAIN-review.local.url

@@ -86,7 +86,10 @@ sources+=list(root.glob('oracle-schema-validity-safe-summary.json'))
 sources+=list(root.glob('manual-review-tests-safe-summary.json'))
 sources+=list((root/'train-review-synthetic-qa').glob('safe-summary.json'))
 sources+=list((root/'manual-review').glob('launch-safe-summary.json'))
+sources+=list((root/'api-final-review').glob('safe-summary.json'))
 def numeric(prefix,value,sample,source):
+    if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
+        add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
     elif isinstance(value,dict):
         for key,v in value.items():numeric(prefix+'_'+key,v,sample,source)
@@ -103,6 +106,7 @@ for f in sources:
     if f.parent.name=='oracle-format-diagnostic':sample='synthetic'
     if f.parent.name=='train-review-synthetic-qa':sample='synthetic'
     if f.parent.name=='manual-review':sample='technical'
+    if f.parent.name=='api-final-review':sample='technical'
     if f.parent.name.startswith('oracle-diagnostic'):sample='synthetic' if f.name.startswith('synthetic') else 'train'
     if f.parent.name=='clarifications':sample='technical'
     prefix=f.stem if f.parent==root else f.parent.name
