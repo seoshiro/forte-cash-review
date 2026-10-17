@@ -127,6 +127,8 @@ sources+=list((root/'xclip-spatial-control/run').glob('terminal-safe-summary.jso
 sources+=list((root/'qwen-action-probe').glob('safe-summary.json'))
 sources+=list((root/'qwen-action-probe/run').glob('terminal-safe-summary.json'))
 sources+=list((root/'qwen-static-audit').glob('safe-summary.json'))
+sources+=list((root/'runtime-template-audit').glob('*safe-summary.json'))
+sources+=list((root/'runtime-template-audit/run').glob('terminal-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -139,6 +141,7 @@ def numeric(prefix,value,sample,source):
         if 'xclip-positive-plumbing' in source:limitation='Generated VFR MOV plus controlled fixed features or synthetic worker; actual JPEG/PTS/auth plumbing only, no learned recognition or evidence relevance'
         if 'xclip-spatial-control' in source:limitation='One fixed reused-TRAIN group OOF spatial ablation; no expert ROI, independent quality or type/rule validation; monitor time is not API latency'
         if 'qwen-action-probe' in source:limitation='Three generated geometric cases per cell; diagnostic counts, not bank-action quality or model-capacity evidence; actual image token counts may differ'
+        if 'runtime-template-audit' in source:limitation='Synthetic no-generation template rendering or public-header calculation only; original strict props identity check failed from terminal LF normalization; no action quality, schema grammar or vision embedding validation'
         add(prefix,value,'see metric name',sample,source,limitation)
     elif isinstance(value,dict):
         for key,v in value.items():numeric(prefix+'_'+key,v,sample,source)
@@ -170,6 +173,7 @@ for f in sources:
     if f.parent.name=='xclip-spatial-control':sample='train'
     if f.parent.name=='qwen-action-probe':sample='synthetic'
     if f.parent.name=='qwen-static-audit':sample='technical'
+    if f.parent.name=='runtime-template-audit':sample='synthetic' if f.name in ['safe-summary.json','tests-safe-summary.json'] else 'technical'
     if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:sample='technical' if f.parent.parent.name=='xclip-spatial-control' else 'synthetic'
     if f.parent.name.startswith('oracle-diagnostic'):sample='synthetic' if f.name.startswith('synthetic') else 'train'
     if f.parent.name=='clarifications':sample='technical'
@@ -182,6 +186,8 @@ for f in sources:
     if f.parent.name.startswith('hybrid-r22'):prefix+='_'+f.stem
     if f.parent.name in ['reliability','xclip-api-synthetic-smoke']:prefix+='_'+f.stem
     if f.parent.name=='xclip-positive-plumbing':prefix+='_'+f.stem
+    if f.parent.name=='runtime-template-audit':prefix+='_'+f.stem
+    if f.parent.name=='run' and f.parent.parent.name=='runtime-template-audit':sample='synthetic';prefix='runtime-template-audit_monitor'
     if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:prefix=f.parent.parent.name+'_monitor'
     for k,v in record.items():
         if k not in ['results','reports']:numeric(prefix+'_'+k,v,sample,str(f))

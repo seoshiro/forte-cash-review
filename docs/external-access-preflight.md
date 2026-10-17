@@ -21,3 +21,5 @@ Before release, run `scripts/audit_repo.py` and `scripts/audit_git_history.py`. 
 7. Record the final URL, API base, safe aggregate checks and operating window. Confirm AC power, sleep behavior without changing OS policy, model warmup, remaining disk and owner availability. Document restarting and stopping the exact owned processes. The parent/user submits only after direct authorization; no organizer message or form submission is performed automatically.
 
 Any unreachable URL, expired tunnel, credential failure, unverified semantic output or latency over the five-minute limit remains a submission blocker. A fallback demo is supplemental and must not be called a working judge API.
+
+The parent subsequently confirmed that the user connected Cloudflare and its harmless read-only account check succeeded. This fact was not independently rechecked by the executor. Only free features are allowed; it does not authorize a public tunnel, persistent grants, permanent key or bank-data transmission. Current work stays local.
