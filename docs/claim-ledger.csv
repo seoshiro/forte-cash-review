@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,253886459904,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,251479564288,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 benchmark_sample_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_json_success_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_model_load_sec,23.25,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -1003,6 +1003,73 @@ native-safety-tests-safe-summary_errors,0,see metric name,technical,not applicab
 native-safety-tests-safe-summary_failures,0,see metric name,technical,not applicable,.private\native-safety-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
 native-safety-tests-safe-summary_skipped,0,see metric name,technical,not applicable,.private\native-safety-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
 native-safety-tests-safe-summary_time_sec,15.738,see metric name,technical,not applicable,.private\native-safety-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_exit_code,0,see metric name,train,train,.private\gguf-control\supervisor-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_cases,4,see metric name,synthetic,not applicable,.private\gguf-control\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_model_load_sec,58.905999999988126,see metric name,synthetic,not applicable,.private\gguf-control\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_single_image_generation_mean_sec,7.213666666658052,see metric name,synthetic,not applicable,.private\gguf-control\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_single_image_generation_max_sec,8.780999999988126,see metric name,synthetic,not applicable,.private\gguf-control\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_gate_generation_sec,23.5,see metric name,synthetic,not applicable,.private\gguf-control\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_gpu_device_used_peak_observed_mib,3965.0,see metric name,synthetic,not applicable,.private\gguf-control\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_gpu_memory_samples,120,see metric name,synthetic,not applicable,.private\gguf-control\synthetic-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_requested,8,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_completed,7,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_technical_failures_invalid_observable_gate,1,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_gate_confusion_matrix_tn_fp_fn_tp_0_0,3,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_gate_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_gate_confusion_matrix_tn_fp_fn_tp_1_0,4,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_gate_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_gate_precision,0.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_gate_recall,0.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_gate_specificity,1.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_gate_balanced_accuracy,0.5,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_gate_f1,0.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_final_pipeline_confusion_matrix_tn_fp_fn_tp_0_0,3,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_final_pipeline_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_final_pipeline_confusion_matrix_tn_fp_fn_tp_1_0,4,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_final_pipeline_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_final_pipeline_precision,0.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_final_pipeline_recall,0.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_final_pipeline_specificity,1.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_final_pipeline_balanced_accuracy,0.5,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_final_pipeline_f1,0.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_positive_control_confusion_matrix_tn_fp_fn_tp_0_0,0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_positive_control_confusion_matrix_tn_fp_fn_tp_0_1,3,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_positive_control_confusion_matrix_tn_fp_fn_tp_1_0,0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_positive_control_confusion_matrix_tn_fp_fn_tp_1_1,4,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_positive_control_precision,0.5714285714285714,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_positive_control_recall,1.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_positive_control_specificity,0.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_positive_control_balanced_accuracy,0.5,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_positive_control_f1,0.7272727272727273,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_negative_control_confusion_matrix_tn_fp_fn_tp_0_0,3,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_negative_control_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_negative_control_confusion_matrix_tn_fp_fn_tp_1_0,4,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_negative_control_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_negative_control_precision,0.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_negative_control_recall,0.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_negative_control_specificity,1.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_negative_control_balanced_accuracy,0.5,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_always_negative_control_f1,0.0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_model_load_sec,11.640999999974156,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_engine_latency_mean_sec,19.767750000002707,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_engine_latency_max_sec,20.25,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_gate_generation_calls,7,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_coarse_positive_without_final_event,0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-control_timestamp_matched_positive_count,0,see metric name,train,train,.private\gguf-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-preflight_weight_bytes,3333461920,see metric name,train,train,.private\gguf-preflight\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-preflight_artifact_count,4,see metric name,train,train,.private\gguf-preflight\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_cases,7,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_model_load_sec,8.75,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_generation_sec_by_case_free_gray,9.937000000005355,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_generation_sec_by_case_yes_no_gray,2.952999999979511,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_generation_sec_by_case_json_gray,6.375,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_generation_sec_by_case_free_red,6.812999999994645,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_generation_sec_by_case_yes_no_red,2.9530000000086147,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_generation_sec_by_case_json_red,6.35899999999674,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_generation_sec_by_case_rectangle_json,6.375,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_gpu_device_used_peak_observed_mib,3959.0,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+gguf-shape-diagnostic_gpu_memory_samples,80,see metric name,synthetic,not applicable,.private\gguf-shape-diagnostic\safe-summary.json,local calculation,Internal measurement; not official jury score
+clarifications_source_bytes,72352578,see metric name,technical,not applicable,.private\clarifications\source-registration.json,local calculation,Internal measurement; not official jury score
 budget_protocol_baseline_frames,12,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_new_tokens,512,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
 budget_protocol_baseline_max_side,448,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
