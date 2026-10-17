@@ -31,6 +31,8 @@ sources+=list(root.glob('acceleration-safe-summary.json'))
 sources+=list(root.glob('startup-safe-summary.json'))
 sources+=list(root.glob('source-integrity-safe-summary.json'))
 sources+=list(root.glob('updated-cuda-candidates.json'))
+sources+=list((root/'benchmark-bf16-initial').glob('safe-summary.json'))
+sources+=list(root.glob('synthetic-structure-diagnostic-safe-summary.json'))
 sources+=list((root/'model-api-qa').glob('*/safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
