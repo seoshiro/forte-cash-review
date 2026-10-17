@@ -1,0 +1,15 @@
+{
+  "backbone":"facebook/dinov2-small",
+  "device":"cpu",
+  "frame_step_sec":2.0,
+  "sequence_frames":3,
+  "uniform_centers":12,
+  "refine_candidates":3,
+  "refine_radius_sec":4.0,
+  "classifier":"StandardScaler + LogisticRegression, explicit balanced video weights",
+  "C":0.1,
+  "threshold":0.5,
+  "seed":261017,
+  "holdout_closed":true,
+  "scope":"Binary event proposal research; no event type or normative conclusion"
+}

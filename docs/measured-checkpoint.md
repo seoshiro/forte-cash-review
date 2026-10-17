@@ -1,0 +1,42 @@
+# Измеренный checkpoint — CPU baseline и проверенный норматив
+
+## Что действительно работает
+
+Отдельный проект, read-only исходники, manifest/split, синтетические API integration tests и headless Edge UI QA. Проверены H.264 playback, реальные JPEG из искусственного ролика, таймлайн, desktop/mobile, ошибка ключа и processing failure. Исправлен общий deadline: отсчёт и резервирование capacity теперь начинаются до multipart parsing. Эти проверки не доказывают качество распознавания.
+
+Модель DINOv2-small скачана с официальной model card Apache-2.0, SHA256 проверен. Ревизия/хеш в models/dinov2-small/provenance.json (не публикуются вместе с весами). CPU inference выполнялся с local_files_only и process-local network deny. Источники: https://huggingface.co/facebook/dinov2-small и https://github.com/facebookresearch/dinov2/blob/main/LICENSE .
+
+## Результаты
+
+Расчёты .private/cpu-baseline/safe-summary.json, .private/video-baseline/safe-summary.json и .private/baseline-audit/safe-summary.json. Числа для использования только из docs/claim-ledger.csv. Train — in-sample, tuning — повторно используемая exploratory проверка; это не официальный балл и не final holdout.
+
+| Метод | Split | TN / FP / FN / TP | Precision | Recall | F1 | MAE таймкода, с |
+|---|---|---|---|---|---|---|
+| Window uniform | Train | 13 / 0 / 0 / 14 | 1 | 1 | 1 | 3.64 |
+| Window refine | Train | 12 / 1 / 0 / 14 | 0.933 | 1 | 0.966 | 2.21 |
+| Window uniform | Tune | 1 / 3 / 5 / 0 | 0 | 0 | 0 | не определяется: нет TP |
+| Window refine | Tune | 1 / 3 / 5 / 0 | 0 | 0 | 0 | не определяется: нет TP |
+| Video uniform | Train | 13 / 0 / 0 / 14 | 1 | 1 | 1 | 6.64 |
+| Video dense | Train | 13 / 0 / 0 / 14 | 1 | 1 | 1 | 6.07 |
+| Video uniform | Tune | 2 / 2 / 5 / 0 | 0 | 0 | 0 | не определяется: нет TP |
+| Video dense | Tune | 2 / 2 / 5 / 0 | 0 | 0 | 0 | не определяется: нет TP |
+
+CPU extraction mean 3.60 s/video, max 9.31 s/video; load 0.453 s; RSS 535.6 MiB. Это отдельный batch feature benchmark, не полный API upload→done. Парное сравнение качества использовало общий dense feature cache; postprocess time не заменяет neural/end-to-end время. Уточнение не дало улучшения на tuning. Модель сильно переобучена и не используется как готовый юридический detector.
+
+## Утечки и независимость
+
+Только изображения→embeddings→статистика последовательности являются признаками. SHA256 служит ключом private cache, имя/ID/номер файла/порядок строк не подаются classifier. TRAIN timestamp используется как weak supervision; TUNE target/time — только для расчёта ошибок. Проверка original/renamed TRAIN дала одинаковые features/prediction, исходный checksum не изменился; row-order invariance подтверждена. Результат содержит только booleans в .private/baseline-audit/invariance.json.
+
+Точных уникальных SHA256 — 40, предварительных групп — 38; групп по split — 24 train / 8 tune / 6 holdout. Найденные exact/near duplicates не пересекают split. Нельзя утверждать, что все соседние дубли/семейства сцен исключены: нужна локальная human review без cloud screenshots. Holdout не открыт, его features не использовались.
+
+## Норматив
+
+https://adilet.zan.kz/rus/docs/V1900019680 — постановление Правления НБРК №231 от 29.11.2019, регистрация №19680. Полный официальный текст получен по UUID c4cd4052-63e3-475b-ba9e-93f23de13fdb. История https://adilet.zan.kz/api/documents/c4cd4052-63e3-475b-ba9e-93f23de13fdb/versions помечает этот UUID is_current=true. В истории revision_date=2026-07-11T18:00:00.000Z; текст включает изменения, действующие с 12.07.2026. Database updated_at/end_date не трактуются как дата принятия/отмена акта.
+
+Сверены и сохранены offline в config/rules.json: п.20 (приём/пересчёт при клиенте и хранение ранее принятых денег), п.22 (не покидать рабочее место до окончания обслуживания), п.31 подп.4 с исключениями п.32 (выдача и пересчёт), п.42 (внутренний пересчёт/сортировка/упаковка при контролирующем работнике, кроме приёма/выдачи клиенту). Признаки и исключения заданы отдельно; невидимое не считается доказанным. Из п.31 в model context включён только подп.4; идентификация личности/подписи исключены.
+
+## Следующее
+
+Qwen/CUDA продолжают дозагрузку с проверкой официального SHA256. Существующий процесс scripts/run_vlm_experiment.py не дублировать. При завершении он выполняет технический benchmark и tuning comparison, оставляя holdout закрытым; status в .private/vlm-pipeline/status.json. Текущий artifact budget ограничен; при истечении partial сохраняется, сначала проверить завершение/рост/хеш, затем продолжать дозагрузку.
+
+Слабый CPU baseline не является пригодным продуктовым fallback. При медленной сети сохраняем API/UI и подготовленные проверки; не выдаём его F1 за качество VLM. До измерения VLM не заявляем готовность конкурсного анализа. Внешний доступ только подготовлен в docs/public-access.md. Постоянный API-ключ и публичный relay ещё ждут прямого разрешения. Submission не отправлен.

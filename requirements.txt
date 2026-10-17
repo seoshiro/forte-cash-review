@@ -1,0 +1,15 @@
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+python-multipart==0.0.20
+av==16.0.1
+openpyxl==3.1.5
+pillow==11.2.1
+numpy==2.2.6
+scikit-learn==1.6.1
+psutil==7.0.0
+httpx==0.28.1
+pytest==8.4.0
+transformers==4.57.1
+accelerate==1.11.0
+huggingface-hub==0.36.0
+# Install torch==2.8.0 torchvision==0.23.0 separately from the cu128 index.

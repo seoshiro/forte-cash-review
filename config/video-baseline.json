@@ -1,0 +1,11 @@
+{
+  "hypothesis":"Video-level sequence statistics match video-level target better than a weak local-window classifier.",
+  "backbone":"facebook/dinov2-small",
+  "training_strategy":"uniform 12 samples per video",
+  "descriptor":"mean, std, signed last-first delta, mean absolute adjacent delta",
+  "C":0.1,
+  "threshold":0.5,
+  "seed":261017,
+  "holdout_closed":true,
+  "scope":"Event proposal research. No semantic event type or legal applicability. Repeated tuning split is not an independent final test."
+}

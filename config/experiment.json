@@ -1,0 +1,19 @@
+{
+  "seed": 261017,
+  "model": "Qwen/Qwen3-VL-2B-Instruct",
+  "dtype": "bfloat16",
+  "attention": "sdpa",
+  "max_side": 448,
+  "coarse_frames": 12,
+  "window_frames": 6,
+  "window_sec": 16,
+  "max_windows": 5,
+  "refine_frames": 8,
+  "refine_radius_sec": 3,
+  "max_new_tokens": 320,
+  "threshold": 0.8,
+  "timeout_sec": 280,
+  "strategy": "coarse_refine",
+  "frozen_before_holdout": true,
+  "scene_groups_human_reviewed": false
+}
