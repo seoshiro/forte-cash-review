@@ -14,4 +14,4 @@ else:
     if not (ROOT/'models/qwen3-vl-2b/model.safetensors').exists():raise RuntimeError('Complete local weights missing')
     os.environ['CASH_MODE']='model'
 import uvicorn
-uvicorn.run('cashreview.api:create_app',factory=True,host='127.0.0.1',port=a.port,access_log=False,log_level='warning')
+uvicorn.run('cashreview.api:create_app',factory=True,host='127.0.0.1',port=a.port,access_log=False,log_level='warning',limit_concurrency=64,timeout_keep_alive=5,timeout_graceful_shutdown=10)

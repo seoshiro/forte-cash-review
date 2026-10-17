@@ -30,6 +30,8 @@ def main():
             detail=[{'observation':'Искусственный квадрат для проверки интерфейса.','rule':{'requirement':'Тестовое условие; нормативная применимость отсутствует.','paragraph':'—'},'limitation':'Это тест UI, качество модели не измерено.'}] if events else []
             (folder/"detail.json").write_text(json.dumps({"events":detail,"duration_sec":info["duration_sec"],"limitations":["Искусственный тест API; качество обнаружения не проверяется."]}),encoding="utf-8")
         else:
+            from .video import validate_input
+            validate_input(folder/'input.mov')
             from .engine import LocalEngine
             result=LocalEngine().analyze(folder/"input.mov",job_id,folder,os.environ.get("CASH_STRATEGY"))
         temp=folder/"result.tmp"; temp.write_text(json.dumps(result,ensure_ascii=False),encoding="utf-8"); temp.replace(folder/"result.json")

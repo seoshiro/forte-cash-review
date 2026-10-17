@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,276061650944,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,273374789632,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 cpu-baseline_train_videos,27,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_tune_videos,9,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
 cpu-baseline_load_sec,0.4529999999940628,see metric name,train+tune,train+tune,.private\cpu-baseline\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -80,7 +80,7 @@ video-baseline_dense_sequence_fn,5,videos,tune,tune,.private\video-baseline\safe
 video-baseline_dense_sequence_tp,0,videos,tune,tune,.private\video-baseline\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 ui-qa_page_errors,0,see metric name,synthetic,not applicable,.private\ui-qa\safe-summary.json,local calculation,Internal measurement; not official jury score
 ui-qa_external_requests,0,see metric name,synthetic,not applicable,.private\ui-qa\safe-summary.json,local calculation,Internal measurement; not official jury score
-ui-qa_elapsed_sec,8.922000000005937,see metric name,synthetic,not applicable,.private\ui-qa\safe-summary.json,local calculation,Internal measurement; not official jury score
+ui-qa_elapsed_sec,9.764999999999418,see metric name,synthetic,not applicable,.private\ui-qa\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_groups_crossing_split,0,see metric name,train+tune,train+tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_exact_hashes_crossing_split,0,see metric name,train+tune,train+tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
 baseline-audit_exact_unique_hashes,40,see metric name,train+tune,train+tune,.private\baseline-audit\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -166,8 +166,18 @@ baseline-audit_tune_video_dense_fn,5,videos,tune,tune,.private\baseline-audit\sa
 baseline-audit_tune_video_dense_tp,0,videos,tune,tune,.private\baseline-audit\safe-summary.json,local calculation,Train is in-sample; tune is exploratory; preliminary scene groups
 baseline-audit_renamed_train_inputs_tested,1,see metric name,train+tune,train+tune,.private\baseline-audit\invariance.json,local calculation,Internal measurement; not official jury score
 baseline-audit_duplicate_hash_label_conflicts,0,see metric name,train+tune,train+tune,.private\baseline-audit\invariance.json,local calculation,Internal measurement; not official jury score
-.private_elapsed_since_previous_sec,344.1099410057068,see metric name,train,train,.private\network-safe-summary.json,local calculation,Internal measurement; not official jury score
-.private_qwen_bytes,827326464,see metric name,train,train,.private\network-safe-summary.json,local calculation,Internal measurement; not official jury score
-.private_cuda_bytes,576716800,see metric name,train,train,.private\network-safe-summary.json,local calculation,Internal measurement; not official jury score
-.private_qwen_bytes_per_sec,383948.7334014825,see metric name,train,train,.private\network-safe-summary.json,local calculation,Internal measurement; not official jury score
-.private_cuda_bytes_per_sec,807511.2250110545,see metric name,train,train,.private\network-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_elapsed_since_previous_sec,344.1099410057068,see metric name,technical,not applicable,.private\network-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_qwen_bytes,827326464,see metric name,technical,not applicable,.private\network-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_cuda_bytes,576716800,see metric name,technical,not applicable,.private\network-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_qwen_bytes_per_sec,383948.7334014825,see metric name,technical,not applicable,.private\network-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_cuda_bytes_per_sec,807511.2250110545,see metric name,technical,not applicable,.private\network-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_before_packages,60,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_before_affected_packages,6,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_before_unique_advisory_ids,41,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_after_packages,67,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_after_affected_packages,0,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_after_unique_advisory_ids,0,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_after_skipped_packages,0,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_contract_tests_passed,7,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_contract_tests_elapsed_sec,7.05,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score
+.private_contract_tests_warnings,1,see metric name,technical,not applicable,.private\security-safe-summary.json,local calculation,Internal measurement; not official jury score

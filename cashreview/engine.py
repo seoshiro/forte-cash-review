@@ -20,7 +20,7 @@ class LocalEngine:
         if not path.is_dir(): raise RuntimeError("Local model not installed")
         torch.set_num_threads(4)
         if not torch.cuda.is_available(): raise RuntimeError("CUDA unavailable; benchmark CPU explicitly before deployment")
-        self.model=Qwen3VLForConditionalGeneration.from_pretrained(str(path),local_files_only=True,torch_dtype=torch.bfloat16,attn_implementation="sdpa").to("cuda").eval()
+        self.model=Qwen3VLForConditionalGeneration.from_pretrained(str(path),local_files_only=True,dtype=torch.bfloat16,attn_implementation="sdpa").to("cuda").eval()
         self.processor=AutoProcessor.from_pretrained(str(path),local_files_only=True,min_pixels=64*32*32,max_pixels=196*32*32)
         self.load_sec=None
 

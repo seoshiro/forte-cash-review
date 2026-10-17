@@ -12,9 +12,24 @@ class Sample:
     image: Image.Image
 
 
+def validate_input(path: Path) -> dict:
+    """Bound dimensions before allocating decoded RGB frames or loading a model."""
+    info=inspect(path)
+    if not 0 < info['duration_sec'] <= 180:
+        raise ValueError('Duration outside supported processing budget')
+    check_dimensions(info['width'],info['height'])
+    return info
+
+
+def check_dimensions(width: int, height: int):
+    if not (0 < width <= 8192 and 0 < height <= 8192 and width*height <= 16_777_216):
+        raise ValueError('Video dimensions exceed local resource budget')
+
+
 def inspect(path: Path, decode: bool = False) -> dict:
     with av.open(str(path)) as c:
         s = c.streams.video[0]
+        s.codec_context.thread_count=2
         info = {"duration_sec": float(c.duration / av.time_base) if c.duration else float(s.duration * s.time_base),
                 "width": s.width, "height": s.height, "codec": s.codec_context.name,
                 "fps": float(s.average_rate) if s.average_rate else None,
@@ -42,6 +57,8 @@ def sample(path: Path, times: list[float], max_side: int = 448) -> list[Sample]:
     result, i = [], 0
     with av.open(str(path)) as c:
         s = c.streams.video[0]
+        check_dimensions(s.width,s.height)
+        s.codec_context.thread_count=2
         origin = float(s.start_time * s.time_base) if s.start_time is not None else 0.0
         rotation = float(s.metadata.get("rotate", 0))
         for f in c.decode(s):
@@ -52,6 +69,7 @@ def sample(path: Path, times: list[float], max_side: int = 448) -> list[Sample]:
                 break
             if t + 0.0001 < targets[i]:
                 continue
+            check_dimensions(f.width,f.height)
             img = f.to_image().convert("RGB")
             # PyAV 14 exposes display matrix rotation on the frame.
             rot = float(getattr(f, "rotation", 0)) or rotation

@@ -4,16 +4,16 @@
 
 ## Состояние
 
-Проект в разработке. Работоспособность HTTP-контракта проверяется на искусственных MOV отдельно от качества модели. До измеренных результатов не заявляем преимущество или готовность к отбору. Актуальные подтверждённые проверки: docs/engineering-checkpoint.md и docs/claim-ledger.csv. Подробные данные остаются в .private.
+Проект в разработке. Работоспособность HTTP-контракта проверяется на искусственных MOV отдельно от качества модели. CPU baseline не перенёс качество на tuning. Qwen/CUDA ещё готовятся; готовность к отбору не подтверждена. Актуальные измерения: docs/measured-checkpoint.md и docs/claim-ledger.csv. Подробные данные остаются в .private.
 
 ## Запуск Windows
 
 Python 3.12.11, отдельная .venv, зависимости requirements.txt. Torch 2.8.0 и torchvision 0.23.0 устанавливаются из https://download.pytorch.org/whl/cu128. Рабочие версии дополнительно фиксируются в requirements-lock.txt после установки. PyAV включает свои FFmpeg libraries, внешний ffmpeg CLI не требуется.
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/download_model.py
+.\.venv\Scripts\python.exe scripts/resume_downloads.py qwen
 $env:CASH_API_KEY='<локально установленный ключ>'
-.\scripts\start.ps1
+.\.venv\Scripts\python.exe scripts/serve.py
 ```
 
 Первое скачивание весов требует сети. Запросы обрабатываются с HF_HUB_OFFLINE, TRANSFORMERS_OFFLINE, local_files_only и запретом socket connect внутри worker. Не отключайте защиту ОС. Постоянный ключ/новые persistent grants/изменение сетевых настроек требуют отдельного разрешения пользователя.

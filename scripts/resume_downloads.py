@@ -52,10 +52,11 @@ def qwen():
         if r.status_code not in (200,302,307):r.raise_for_status()
         digest=r.headers.get('x-linked-etag','').strip('"');total=int(r.headers.get('x-linked-size','0'))
     if not re.fullmatch('[0-9a-f]{64}',digest) or not total:raise RuntimeError('Official artifact hash/size unavailable')
+    complete=target/'model.safetensors'
     candidates=[p for p in cache.glob('*.incomplete') if digest in p.name]
-    partial=candidates[0] if len(candidates)==1 else OUT/'qwen-model.partial'
+    partial=complete if complete.exists() else candidates[0] if len(candidates)==1 else OUT/'qwen-model.partial'
     fetch(url,partial,total,digest)
-    partial.replace(target/'model.safetensors')
+    if partial!=complete:partial.replace(complete)
     card=(target/'README.md').read_text(encoding='utf-8')
     if 'license: apache-2.0' not in card.lower():raise RuntimeError('License not verified')
     record={'repo':'Qwen/Qwen3-VL-2B-Instruct','revision':revision,'weights_license':'Apache-2.0','weights_sha256':digest,'weights_bytes':total,'code_license':'Apache-2.0: Transformers and official Qwen3-VL'}
@@ -84,6 +85,7 @@ def cuda():
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('artifact',choices=['qwen','cuda']);a=p.parse_args()
+    (OUT/(a.artifact+'-status.json')).write_text(json.dumps({'status':'downloading','artifact':a.artifact,'started_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}),encoding='utf-8')
     try:
         result=qwen() if a.artifact=='qwen' else cuda();status={'status':'done','artifact':a.artifact,'result':result}
     except Exception as e:

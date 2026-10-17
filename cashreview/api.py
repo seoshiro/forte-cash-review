@@ -19,13 +19,17 @@ def create_app():
     if not 0<budget<=295:raise RuntimeError('Job budget must be within 295 seconds')
     lock=asyncio.Lock(); active={}; tasks=set()
 
+    def valid_key(value):
+        supplied=value.encode('utf-8')
+        return bool(value) and any(secrets.compare_digest(supplied,k.encode('utf-8')) for k in keys)
+
     def safe_remove(folder):
         target=folder.resolve()
         if target.parent!=jobs.resolve() or not re.fullmatch(r'[0-9a-f]{32}',target.name): raise RuntimeError('Unsafe cleanup target')
         shutil.rmtree(target)
 
     async def auth(x_api_key:str|None=Header(default=None)):
-        if x_api_key is None or not any(secrets.compare_digest(x_api_key,k) for k in keys): raise HTTPException(401,"API key required")
+        if x_api_key is None or not valid_key(x_api_key): raise HTTPException(401,"API key required")
         return hashlib.sha256(x_api_key.encode()).hexdigest()
 
     def folder_for(job_id,owner):
@@ -87,9 +91,10 @@ def create_app():
         reserved=False
         request.state.admitted_at=time.time()
         request.state.capacity_transferred=False
-        if request.url.path.startswith('/api/'):
+        path=request.scope['path']
+        if path.startswith('/api/'):
             key=request.headers.get('x-api-key','')
-            if not key or not any(secrets.compare_digest(key,k) for k in keys): return JSONResponse({'detail':'API key required'},status_code=401)
+            if not valid_key(key): return JSONResponse({'detail':'API key required'},status_code=401)
         # Multipart parser may spool. Bound the whole body before it reaches it.
         if request.method=="POST":
             try: length=int(request.headers.get('content-length','0'))
@@ -102,11 +107,17 @@ def create_app():
                 if size>129*1024*1024: raise HTTPException(413,"Upload too large")
                 return message
             request._receive=limited_receive
-        if request.method=='POST' and request.url.path=='/api/v1/analyze':
+        if request.method=='POST' and path=='/api/v1/analyze':
             if lock.locked():return JSONResponse({'detail':'Processing capacity busy; retry shortly'},status_code=429,headers={'Retry-After':'15'})
             await lock.acquire();reserved=True
         try:
-            response=await call_next(request)
+            # Includes waiting for multipart bytes. A stalled upload must not
+            # retain the only inference slot indefinitely.
+            if reserved:
+                try: response=await asyncio.wait_for(call_next(request),timeout=budget)
+                except (TimeoutError,asyncio.TimeoutError):
+                    response=JSONResponse({'detail':'Upload deadline exceeded'},status_code=408)
+            else: response=await call_next(request)
         finally:
             if reserved and not request.state.capacity_transferred:lock.release()
         response.headers.update({"Cache-Control":"no-store","X-Content-Type-Options":"nosniff","Referrer-Policy":"no-referrer","Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'"})
