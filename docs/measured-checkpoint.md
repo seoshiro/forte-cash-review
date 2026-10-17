@@ -1,6 +1,6 @@
 # Измеренный checkpoint
 
-## Текущее состояние, 17 октября 12:55 UTC
+## Текущее состояние, 17 октября
 
 BUDGET-01R1 закончил три TRAIN-пробы: schema valid 3/3, технических ошибок нет, source checksums не изменились. Engine mean 31.281 s, max 33.812 s; model load 22.641 s отдельно. Пиковая allocated VRAM 4647.925 MiB, reserved 4722 MiB. Это не полный API latency и не сравнение скорости на одинаковой выборке с uniform TUNE.
 
@@ -8,7 +8,9 @@ BUDGET-01R1 закончил три TRAIN-пробы: schema valid 3/3, техн
 
 37 автоматических тестов прошли, ошибок/пропусков нет. Decoder допускает пустой JSON и корректный EOS; postprocessing сохраняет пустой список/no_violation и отклоняет false applicability, низкую уверенность, present/unknown exclusion и неподтверждённое уточнение. Принудительного default-positive fallback не обнаружено; это не объясняет причину содержательных ошибок модели.
 
-Запущена отдельная loopback-проверка upload→done с тем же кандидатом, временным очевидным тестовым значением и без публичного доступа. Её цель — измерить весь API и integrity evidence, а не обойти провал качества. Постоянный ключ и tunnel не созданы. Ниже — сохранённые результаты предыдущих этапов.
+Синтетическая диагностика завершена: простой unconstrained person yes/no и constrained person boolean отрицательны; короткий доменный boolean без событий также отрицателен (generation 3.078 s). Исходная доменная events schema создала два ложных qualifying candidates. Тот же длинный prompt без constraints исчерпал 192 tokens и не завершил JSON, поэтому исключительная причинность decoder не доказана. Tokens, grid, pixels, mask, template, suffix-only decoding и отсутствие prompt echo прошли audit. Подробности и границы: docs/synthetic-diagnostics.md. На TUNE новый gate не проверялся.
+
+Loopback upload→done завершён: 4/4 cases, ошибок 0, mean 59.8165 s, max 63.172 s, превышений 300 s нет. Каждое задание включает upload, admission, отдельный worker/model load, inference и формирование ответа. Проверены 24 JPEG по исходным пикселям и PTS; missing/wrong key, unknown job, foreign-owner isolation, source SHA и rename invariance прошли. Очереди ожидания нет: один admitted job, перекрывающаяся загрузка получает 429. Это четыре smoke cases, включая renamed repeat, а не независимая оценка качества; TN/FP/FN/TP = 0/2/0/2. Полный API технически прошёл эти случаи, распознавание по-прежнему непригодно. Источник .private/model-api-qa/20261017T125021Z/safe-summary.json. Внешний URL и физическое отключение сети не проверялись. Постоянный ключ и tunnel не созданы. Ниже — сохранённые результаты предыдущих этапов.
 
 ## Что действительно работает
 

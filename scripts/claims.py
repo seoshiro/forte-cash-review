@@ -56,6 +56,9 @@ sources+=list(root.glob('review-tests-safe-summary.json'))
 sources+=list(root.glob('always-controls-safe-summary.json'))
 sources+=list(root.glob('local-mechanics-safe-summary.json'))
 sources+=list(root.glob('empty-decoder-safe-summary.json'))
+sources+=list((root/'synthetic-semantics').glob('*/safe-summary.json'))
+sources+=list(root.glob('synthetic-format-safe-summary.json'))
+sources+=list(root.glob('test-suite-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
     elif isinstance(value,dict):
