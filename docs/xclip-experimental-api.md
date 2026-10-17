@@ -19,4 +19,6 @@ Code/synthetic tests validate the API, owner isolation, schema, credential filte
 
 These checks do not measure bank-event quality. New real-input API integration, complete long-video API latency, event-type accuracy, generalization and physical network-disconnection checks remain unverified for this integration. UI demonstration remains the separate synthetic mode; this research API is not advertised as a complete checker workspace. The monitor's field `quality_gate_passed` in this technical fixture refers only to successful smoke assertions, not detector quality.
 
+A later [controlled positive fixture](positive-evidence-plumbing.md) exercised the real score/evidence path with fixed synthetic features and a generated VFR MOV: three actual source JPEGs, decoded PTS and owner/auth/schema checks passed. It did not run learned weights or change production scores. The official contract was separately checked through the actual synthetic worker. This closes controlled positive plumbing while leaving learned positive selection/evidence relevance unverified.
+
 The launcher binds127.0.0.1 only and uses a fixed temporary test value. It generates no permanent key and opens no tunnel. Never publish this test mode.

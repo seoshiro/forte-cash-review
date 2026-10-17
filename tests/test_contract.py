@@ -130,10 +130,16 @@ def delayed_orphan(tmp_path,monkeypatch,live_owner=False):
     (folder/'meta.json').write_text(json.dumps(meta))
     proc=subprocess.Popen([sys.executable,'-m','cashreview.worker',str(folder)],cwd=Path(__file__).resolve().parents[1],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     deadline=time.monotonic()+5
-    while not (folder/'worker.pid').exists():
-        if time.monotonic()>deadline:raise AssertionError('Synthetic worker did not start')
+    while True:
+        try:
+            pid=int((folder/'worker.pid').read_text())
+            if pid>0:return app,folder,proc,pid
+        except (OSError,ValueError):pass
+        if time.monotonic()>deadline:
+            from cashreview.processes import kill_tree
+            kill_tree(proc.pid)
+            raise AssertionError('Synthetic worker PID did not become readable')
         time.sleep(.02)
-    return app,folder,proc,int((folder/'worker.pid').read_text())
 
 
 def test_restart_reaps_verified_orphan_worker(tmp_path,monkeypatch):

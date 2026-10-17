@@ -1,0 +1,10 @@
+# Controlled positive evidence and official contract
+
+Two new tests use freshly generated abstract H264 MOV with nonuniform presentation timestamps. No bank data, real predictions, model weights, face or audio is involved.
+
+1. The real `ExperimentalEngine.analyze` score/evidence path receives fixed three-window synthetic features, with its encoder replaced by a fixture. The positive feature center is 1.137 seconds, deliberately between actual source PTS. The normal sampler selects actual frames before/at/after the center, the point becomes one of their actual timestamps, and three JPEGs match freshly re-encoded source frames byte for byte. The API uses its ordinary research result validation. Missing/wrong key, another owner, unknown job and disabled official routes are checked.
+2. The official `/api/v1/analyze` and `/api/v1/jobs/{job_id}` run the real isolated synthetic worker subprocess on the generated hash-whitelisted MOV. The strict official JSON has one synthetic positive event and three actual source JPEGs. Their PTS, central event time, base64/JPEG bytes, authorization and owner isolation are checked. The worker's fixture heuristic is not a learned detector. Whitelisting exists only in explicit synthetic-test mode.
+
+Both tests preserve the source hash and use fresh private stores. They passed in 4.27 seconds for the pair; the full-suite result is separately recorded from JUnit. Fixed safe reports are `.private/xclip-positive-plumbing/safe-summary.json` and `official-safe-summary.json`, with values added to `claim-ledger.csv`.
+
+This closes positive API/evidence plumbing on controlled synthetic inputs. It does not establish that learned XCLIP chooses the right bank event, that a returned frame is semantically relevant, that a legal rule applies or that real positive inference meets the end-to-end budget. The earlier actual-model synthetic smoke remained negative and did not cover that learned positive branch. No placeholder is used as a real evidence frame and no model prediction is forced in the production engine.

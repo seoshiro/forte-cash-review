@@ -1,0 +1,13 @@
+{
+  "protocol_id": "QWEN-ACTION-CONTROL-01",
+  "scope": "Fully synthetic geometric motion only, not a cash-action/legal gate or bank quality evaluation",
+  "cases": ["exit","enter","stay"],
+  "cells": ["T_text_plain","TC_text_schema","V_frames_plain","VC_frames_schema","PC_montage_schema","LC_frames_long_schema"],
+  "geometry": {"frame_side": 256,"frames": 4,"boundary_xyxy": [24,24,180,232],"disk_radius": 9,"exit_x": [70,110,165,220],"stay_x": [70,95,125,150],"y": 120,"montage": "2x2 in reading order; same frames and total source pixel area; F labels only"},
+  "inference": {"max_tokens": 48,"temperature": 0,"seed": 26101731,"image_min_tokens": 64,"image_max_tokens": 1024,"ctx_size": 4096,"per_request_sec": 20,"jpeg_quality": 95},
+  "budget": {"wall_sec": 360,"startup_sec": 60,"calls": 18,"runs": 1},
+  "metrics": ["exact action correctness","strict JSON validity","unknown","truncation/finish_reason","transport errors","input/output tokens","latency","actual worker/server exit and cleanup"],
+  "interpretation": "T vs TC and V vs VC isolate response_format; VC vs LC tests prompt length/wording on the same physical task; VC vs PC tests packing with equal source pixel area. Actual token counts can differ and are reported. No retries, prompt tuning, TRAIN or previous partial controls.",
+  "not_identified": ["Chat template correctness is not directly rendered/audited", "JPEG-vs-PNG encoding not varied", "A single4B checkpoint cannot identify model capacity as cause", "Generic shapes do not validate cashier roles, service completion, cash handling, legal applicability or bank video quality"],
+  "stop": "One frozen18-call probe. Stop on startup failure, total deadline or native exit; preserve fixed aggregate partial progress. A failed cell is counted, not retried. No legal gate or bank media is run. No raw response/log is emitted or saved."
+}

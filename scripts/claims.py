@@ -121,6 +121,12 @@ sources+=list((root/'xclip-hardneg-control').glob('safe-summary.json'))
 sources+=list((root/'xclip-api-synthetic-smoke').glob('integration-safe-summary.json'))
 sources+=list((root/'xclip-api-synthetic-smoke').glob('terminal-safe-summary.json'))
 sources+=list((root/'access-preflight').glob('safe-summary.json'))
+sources+=list((root/'xclip-positive-plumbing').glob('*safe-summary.json'))
+sources+=list((root/'xclip-spatial-control').glob('safe-summary.json'))
+sources+=list((root/'xclip-spatial-control/run').glob('terminal-safe-summary.json'))
+sources+=list((root/'qwen-action-probe').glob('safe-summary.json'))
+sources+=list((root/'qwen-action-probe/run').glob('terminal-safe-summary.json'))
+sources+=list((root/'qwen-static-audit').glob('safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -130,6 +136,9 @@ def numeric(prefix,value,sample,source):
         if 'xclip-experimental-v2' in source:limitation='Full-TRAIN prototype preparation from verified cache; no in-sample quality metric or new inference'
         if 'xclip-api-synthetic-smoke' in source:limitation='Generated rectangles only; technical integration/lifetime checks, not cash-event quality or public access'
         if 'preprocessing-geometry' in source:limitation='Dimension-based retained-area estimate only; no visual inspection and no evidence of what was cropped'
+        if 'xclip-positive-plumbing' in source:limitation='Generated VFR MOV plus controlled fixed features or synthetic worker; actual JPEG/PTS/auth plumbing only, no learned recognition or evidence relevance'
+        if 'xclip-spatial-control' in source:limitation='One fixed reused-TRAIN group OOF spatial ablation; no expert ROI, independent quality or type/rule validation; monitor time is not API latency'
+        if 'qwen-action-probe' in source:limitation='Three generated geometric cases per cell; diagnostic counts, not bank-action quality or model-capacity evidence; actual image token counts may differ'
         add(prefix,value,'see metric name',sample,source,limitation)
     elif isinstance(value,dict):
         for key,v in value.items():numeric(prefix+'_'+key,v,sample,source)
@@ -157,6 +166,11 @@ for f in sources:
     if f.parent.name in ['reliability','xclip-experimental-v2','access-preflight']:sample='synthetic' if f.name=='tests-safe-summary.json' else 'technical'
     if f.parent.name=='xclip-api-synthetic-smoke':sample='synthetic'
     if f.parent.name=='xclip-hardneg-control':sample='train'
+    if f.parent.name=='xclip-positive-plumbing':sample='synthetic'
+    if f.parent.name=='xclip-spatial-control':sample='train'
+    if f.parent.name=='qwen-action-probe':sample='synthetic'
+    if f.parent.name=='qwen-static-audit':sample='technical'
+    if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:sample='technical' if f.parent.parent.name=='xclip-spatial-control' else 'synthetic'
     if f.parent.name.startswith('oracle-diagnostic'):sample='synthetic' if f.name.startswith('synthetic') else 'train'
     if f.parent.name=='clarifications':sample='technical'
     prefix=f.stem if f.parent==root else f.parent.name
@@ -167,6 +181,8 @@ for f in sources:
     if f.parent.name=='xclip-control':prefix+='_'+f.stem
     if f.parent.name.startswith('hybrid-r22'):prefix+='_'+f.stem
     if f.parent.name in ['reliability','xclip-api-synthetic-smoke']:prefix+='_'+f.stem
+    if f.parent.name=='xclip-positive-plumbing':prefix+='_'+f.stem
+    if f.parent.name=='run' and f.parent.parent.name in ['xclip-spatial-control','qwen-action-probe']:prefix=f.parent.parent.name+'_monitor'
     for k,v in record.items():
         if k not in ['results','reports']:numeric(prefix+'_'+k,v,sample,str(f))
     metrics=record.get('results',record.get('reports',{}))
@@ -177,6 +193,7 @@ for f in sources:
         if f.parent.name=='prototype-cache':metric_split='train'
         if f.parent.name=='xclip-control':metric_split='train'
         if f.parent.name=='xclip-hardneg-control':metric_split='train'
+        if f.parent.name=='xclip-spatial-control':metric_split='train'
         if f.parent.name.startswith('hybrid-r22'):metric_split='train'
         numeric(f.parent.name+'_'+strategy,result,metric_split,str(f))
         cm=result.get('confusion_matrix_tn_fp_fn_tp')
@@ -186,6 +203,7 @@ for f in sources:
                 if f.parent.name=='prototype-cache':limitation='Reused TRAIN group OOF; original feature-cache digest inventory missing; not release evidence'
                 if f.parent.name=='xclip-control':limitation='Exploratory reused-TRAIN group OOF; automatic scene-family groups unreviewed; no type/rule validation'
                 if f.parent.name=='xclip-hardneg-control':limitation='One fixed reused-TRAIN group OOF diagnostic; useful gate failed; original baseline preserved; no type/rule validation'
+                if f.parent.name=='xclip-spatial-control':limitation='One fixed reused-TRAIN group OOF spatial ablation; useful gate failed; no type/rule/evidence validation'
                 if f.parent.name.startswith('hybrid-r22'):limitation='Limited R22 reused-TRAIN group OOF; binary labels cannot validate types or observations; cached-XCLIP Qwen-stage latency excludes feature extraction/API upload'
                 add(f.parent.name+'_'+strategy+'_'+k,v,'videos',metric_split,str(f),limitation)
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
@@ -201,6 +219,10 @@ def configured(prefix,value,source):
             add(prefix,value,'artifact/configured value','technical',source,'Official artifact identity/size or download limit; not model speed/VRAM');return
         if prefix.startswith('xclip_hardneg_protocol'):
             add(prefix,value,'configured value','XCLIP-HARDNEG-01',source,'Pre-registered one-run diagnostic configuration/target; not measured quality');return
+        if prefix.startswith('xclip_spatial_protocol'):
+            add(prefix,value,'configured value','XCLIP-SPATIAL-01',source,'Pre-registered one-run spatial geometry/budget/target; not a measured result');return
+        if prefix.startswith('qwen_action_probe'):
+            add(prefix,value,'configured value','QWEN-ACTION-CONTROL-01',source,'Pre-registered fully synthetic diagnostic; no bank-action or capacity claim');return
         if prefix.startswith('hybrid_protocol'):
             add(prefix,value,'configured value','HYBRID-R22-01',source,'Pre-registered synthetic-gated limited-rule hypothesis, not measured quality');return
         add(prefix,value,'configured value','QVT-01' if prefix.startswith('qvt_protocol') else 'ORACLE-01R1' if prefix.startswith('oracle_protocol') else 'PANEL-01' if prefix.startswith('panel_protocol') else 'GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
@@ -220,6 +242,8 @@ configured('prototype_cache_protocol',json.loads(Path('config/prototype-cache-pr
 configured('xclip_protocol',json.loads(Path('config/xclip-protocol.json').read_text()),'config/xclip-protocol.json')
 configured('xclip_artifacts',json.loads(Path('config/xclip-artifacts.json').read_text()),'config/xclip-artifacts.json')
 configured('xclip_hardneg_protocol',json.loads(Path('config/xclip-hardneg-protocol.json').read_text()),'config/xclip-hardneg-protocol.json')
+configured('xclip_spatial_protocol',json.loads(Path('config/xclip-spatial-protocol.json').read_text()),'config/xclip-spatial-protocol.json')
+configured('qwen_action_probe',json.loads(Path('config/qwen-action-probe.json').read_text()),'config/qwen-action-probe.json')
 configured('hybrid_protocol',json.loads(Path('config/hybrid-protocol.json').read_text()),'config/hybrid-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)

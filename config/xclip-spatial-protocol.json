@@ -1,0 +1,16 @@
+{
+  "protocol_id": "XCLIP-SPATIAL-01",
+  "hypothesis": "A fixed central expanded region may increase small-object scale at224; full-field letterboxing retains peripheral context. No central cash work area is asserted.",
+  "scope": "One TRAIN spatial ablation; no type/legal claim, head/threshold/ROI search or TUNE/HOLDOUT access",
+  "geometry": {"decode_max_side": 768, "output_side": 224, "full": "aspect-preserving full-field letterbox", "crop_xyxy_normalized": [0.1,0.05,0.9,0.95], "rounding": "floor left/top, ceil right/bottom; clamped within image", "padding_rgb": [124,116,104], "resize": "PIL LANCZOS", "fallback": "If cropped-video max margin is below0, use full-video result; otherwise crop. Invalid crop geometry fails instead of silently changing protocol."},
+  "encoder": "Original pinned Microsoft XCLIP weights/config/processor, ordered8-frame windows, FP16 SDPA, local only. Resizing prepared224 images is identity through the original processor.",
+  "windows": "Original frozen2-second windows/1-second stride and decoded PTS; same frames for both views",
+  "arms": ["full_field","central_crop","central_with_full_fallback"],
+  "fitting": "Separate original equal-video positive-point/negative-mean centroids per view inside each leave-one-TRAIN-group-out fold",
+  "decision": {"threshold": 0.0,"pooling": "max","fallback_ranking_score": "max(full,crop) for ROC only; branch-selected point for localization"},
+  "selection": {"unique_train": 26,"automatic_train_groups": 24,"expert_group_reviewed": false},
+  "budget": {"wall_sec": 600,"runs": 1,"max_process_rss_mib": 6000,"max_torch_reserved_mib": 5000,"per_video_sec": 100},
+  "acceptance": {"fallback_f1_min": 0.8,"fallback_tp_min": 12,"fallback_fp_max": 5,"f1_gain_over_full_min": 0.05,"fp_must_not_increase_vs_full": true,"fn_must_not_increase_vs_full": true},
+  "stop": "One preregistered run. Stop on technical failure, deadline or failed useful gate. Preserve original baseline and packs. No alternate crops, thresholds, ROI/head or fusion search after results. Holdout remains closed.",
+  "limits": ["Reused exploratory TRAIN group OOF", "Central region is geometric, not expert-validated cashier or hand area", "Cropping can lose peripheral events; letterboxing reduces object size", "Original baseline used center crop and is historical only, not the new full-field arm", "Point-time labels are nonexhaustive", "No semantic type, description, multi-event or evidence-relevance validation"]
+}
