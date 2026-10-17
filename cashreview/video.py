@@ -1,6 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
+from contextlib import contextmanager
 import av
 import numpy as np
 from PIL import Image
@@ -10,6 +11,15 @@ from PIL import Image
 class Sample:
     sec: float
     image: Image.Image
+
+
+@contextmanager
+def open_local_mov(path: Path):
+    # Force the expected demuxer: a renamed playlist must never trigger a
+    # native FFmpeg HTTP request outside the Python socket guard.
+    with Path(path).open('rb') as stream:
+        with av.open(stream,mode='r',format='mov',options={'protocol_whitelist':'file','enable_drefs':'0','use_absolute_path':'0'}) as container:
+            yield container
 
 
 def validate_input(path: Path) -> dict:
@@ -27,7 +37,7 @@ def check_dimensions(width: int, height: int):
 
 
 def inspect(path: Path, decode: bool = False) -> dict:
-    with av.open(str(path)) as c:
+    with open_local_mov(path) as c:
         s = c.streams.video[0]
         s.codec_context.thread_count=2
         info = {"duration_sec": float(c.duration / av.time_base) if c.duration else float(s.duration * s.time_base),
@@ -55,7 +65,7 @@ def sample(path: Path, times: list[float], max_side: int = 448) -> list[Sample]:
     """Sequential PTS-aware decoding; no FPS arithmetic and no audio decoding."""
     targets = sorted(set(max(0, float(t)) for t in times))
     result, i = [], 0
-    with av.open(str(path)) as c:
+    with open_local_mov(path) as c:
         s = c.streams.video[0]
         check_dimensions(s.width,s.height)
         s.codec_context.thread_count=2

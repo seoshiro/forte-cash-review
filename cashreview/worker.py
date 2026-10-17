@@ -8,6 +8,7 @@ def main():
     from .offline import deny_network
     deny_network()
     folder=Path(sys.argv[1]).resolve(); job_id=folder.name
+    (folder/'worker.pid').write_text(str(os.getpid()),encoding='ascii')
     try:
         if os.environ.get("CASH_MODE")=="synthetic_test":
             # Isolated test fixture, never a detector. Only generated test videos accepted.
@@ -16,6 +17,10 @@ def main():
             from .schemas import Done
             digest=hashlib.file_digest((folder/"input.mov").open('rb'),'sha256').hexdigest()
             if digest not in os.environ.get('CASH_TEST_HASHES','').split(','): raise ValueError('Not a whitelisted synthetic fixture')
+            # Only hash-whitelisted generated media can exercise the test delay.
+            if os.environ.get('CASH_TEST_DELAY_SEC'):
+                import time
+                time.sleep(min(30,max(0,float(os.environ['CASH_TEST_DELAY_SEC']))))
             info=inspect(folder/"input.mov",decode=True)
             if info["width"]!=320 or info["height"]!=240 or info["duration_sec"]>4: raise ValueError("Fixture only")
             fs=sample(folder/'input.mov',[.5,1,1.5],320)

@@ -27,6 +27,10 @@ sources+=list(root.glob('download-probe-safe-summary.json'))
 sources+=list(root.glob('download-test-safe-summary.json'))
 sources+=list((root/'centered-proposal').glob('safe-summary.json'))
 sources+=list(root.glob('reconnect-download-safe-summary.json'))
+sources+=list(root.glob('acceleration-safe-summary.json'))
+sources+=list(root.glob('startup-safe-summary.json'))
+sources+=list(root.glob('source-integrity-safe-summary.json'))
+sources+=list((root/'model-api-qa').glob('*/safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
     elif isinstance(value,dict):
@@ -36,8 +40,9 @@ def numeric(prefix,value,sample,source):
 for f in sources:
     record=json.loads(f.read_text());sample=record.get('split','train+tune' if f.parent.name in ['cpu-baseline','video-baseline','baseline-audit','centered-proposal'] else 'synthetic' if f.parent.name=='ui-qa' else 'technical' if f.parent==root or f.parent.name=='portable-runtime' else 'train')
     if f.name=='technical-benchmark.json':sample='train'
+    prefix=f.stem if f.parent==root else f.parent.name
     for k,v in record.items():
-        if k not in ['results','reports']:numeric(f.parent.name+'_'+k,v,sample,str(f))
+        if k not in ['results','reports']:numeric(prefix+'_'+k,v,sample,str(f))
     metrics=record.get('results',record.get('reports',{}))
     for strategy,result in metrics.items():
         metric_split='train' if strategy.startswith('train_') else 'tune'

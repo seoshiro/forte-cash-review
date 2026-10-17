@@ -1,12 +1,20 @@
 """Restart only this project's synthetic-only loopback process, temporary value."""
 from pathlib import Path
 import psutil,subprocess,os,time,json,sys
+import httpx
 root=Path(__file__).resolve().parents[1];me=psutil.Process();skip={me.pid,*[p.pid for p in me.parents()]};stopped=[]
+try:
+    health=httpx.get('http://127.0.0.1:8765/healthz',timeout=3,trust_env=False)
+    if health.status_code!=200 or health.json().get('mode')!='synthetic_test':raise RuntimeError('Refusing to replace a non-synthetic listener')
+except httpx.ConnectError:pass
 for p in psutil.process_iter():
     try:
         if p.pid in skip or p.name().lower()!='python.exe':continue
         if Path(p.cwd()).resolve()!=root:continue
-        if any(x.replace('\\','/').endswith('scripts/serve.py') for x in p.cmdline()):stopped.append(p)
+        args=p.cmdline()
+        if '--synthetic-test' not in args:continue
+        if '--port' in args and args[args.index('--port')+1]!='8765':continue
+        if any(x.replace('\\','/').endswith('scripts/serve.py') for x in args):stopped.append(p)
     except (psutil.Error,OSError):continue
 for p in reversed(stopped):
     try:p.terminate()

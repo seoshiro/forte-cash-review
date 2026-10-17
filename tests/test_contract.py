@@ -1,6 +1,8 @@
 from pathlib import Path
-import sys, time, hashlib, json, asyncio
+import sys, time, hashlib, json, asyncio,os,subprocess
+import pytest
 import httpx
+import psutil
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from fastapi.testclient import TestClient
 from cashreview.api import create_app
@@ -105,3 +107,51 @@ def test_stalled_upload_releases_capacity(tmp_path,monkeypatch):
                 r=await c.post('/api/v1/analyze',headers={'X-API-Key':'temporary-test-a'},files={'file':('bad.mp4',b'x')})
                 assert r.status_code==415
     asyncio.run(check())
+
+
+def test_timeout_kills_actual_worker_beyond_windows_venv_launcher(tmp_path,monkeypatch):
+    monkeypatch.setenv('CASH_JOB_BUDGET_SEC','1')
+    monkeypatch.setenv('CASH_TEST_DELAY_SEC','30')
+    app,files=setup_app(tmp_path,monkeypatch)
+    with TestClient(app) as c:
+        h={'X-API-Key':'temporary-test-a'}
+        r=c.post('/api/v1/analyze',headers=h,files={'file':('safe.mov',files[0].read_bytes())})
+        job=r.json()['job_id'];assert poll(c,job,h)['status']=='failed'
+        pid=int((tmp_path/'private/jobs'/job/'worker.pid').read_text())
+        assert not psutil.pid_exists(pid)
+
+
+def delayed_orphan(tmp_path,monkeypatch,live_owner=False):
+    app,files=setup_app(tmp_path,monkeypatch);monkeypatch.setenv('CASH_TEST_DELAY_SEC','30')
+    folder=tmp_path/'private/jobs'/('b'*32);folder.mkdir()
+    (folder/'input.mov').write_bytes(files[0].read_bytes())
+    meta={'owner':hashlib.sha256(b'temporary-test-a').hexdigest(),'created':time.time()}
+    if live_owner:meta.update(server_pid=os.getpid(),server_created=psutil.Process().create_time())
+    (folder/'meta.json').write_text(json.dumps(meta))
+    proc=subprocess.Popen([sys.executable,'-m','cashreview.worker',str(folder)],cwd=Path(__file__).resolve().parents[1],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+    deadline=time.monotonic()+5
+    while not (folder/'worker.pid').exists():
+        if time.monotonic()>deadline:raise AssertionError('Synthetic worker did not start')
+        time.sleep(.02)
+    return app,folder,proc,int((folder/'worker.pid').read_text())
+
+
+def test_restart_reaps_verified_orphan_worker(tmp_path,monkeypatch):
+    from cashreview.processes import kill_tree
+    app,folder,proc,pid=delayed_orphan(tmp_path,monkeypatch)
+    try:
+        with TestClient(app) as c:
+            assert not psutil.pid_exists(pid)
+            assert c.get('/api/v1/jobs/'+'b'*32,headers={'X-API-Key':'temporary-test-a'}).json()['status']=='failed'
+    finally:kill_tree(proc.pid)
+
+
+def test_second_service_cannot_kill_live_job_owner(tmp_path,monkeypatch):
+    from cashreview.processes import kill_tree
+    app,folder,proc,pid=delayed_orphan(tmp_path,monkeypatch,live_owner=True)
+    try:
+        with pytest.raises(RuntimeError,match='live owner'):
+            with TestClient(app):pass
+        assert psutil.pid_exists(pid)
+        assert not (folder/'failed').exists()
+    finally:kill_tree(proc.pid)

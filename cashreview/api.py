@@ -6,6 +6,8 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 import asyncio, hashlib, secrets, os, json, sys, time, shutil, re
 from .schemas import Done
+from .processes import kill_tree,reap_orphan
+import psutil
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -17,7 +19,7 @@ def create_app():
     if not keys: raise RuntimeError("Set CASH_API_KEY locally before starting")
     budget=float(os.environ.get('CASH_JOB_BUDGET_SEC','295'))
     if not 0<budget<=295:raise RuntimeError('Job budget must be within 295 seconds')
-    lock=asyncio.Lock(); active={}; tasks=set()
+    lock=asyncio.Lock(); active={}; tasks=set(); capacity_blocked=False
 
     def valid_key(value):
         supplied=value.encode('utf-8')
@@ -41,6 +43,7 @@ def create_app():
         return folder,meta
 
     async def run_job(folder,created):
+        nonlocal capacity_blocked
         proc=None
         try:
             remaining=budget-(time.time()-created)
@@ -52,12 +55,19 @@ def create_app():
             for k in ['HF_TOKEN','HUGGING_FACE_HUB_TOKEN','OPENAI_API_KEY','ANTHROPIC_API_KEY']: child_env.pop(k,None)
             proc=await asyncio.create_subprocess_exec(sys.executable,"-m","cashreview.worker",str(folder),cwd=str(ROOT),env=child_env,stdout=asyncio.subprocess.DEVNULL,stderr=asyncio.subprocess.DEVNULL)
             active[folder.name]=proc
+            remaining=budget-(time.time()-created)
+            if remaining<=0:raise TimeoutError()
             await asyncio.wait_for(proc.wait(),timeout=remaining)
             if proc.returncode or not (folder/"result.json").exists(): (folder/"failed").touch()
         except (TimeoutError,asyncio.TimeoutError,asyncio.CancelledError):
-            if proc and proc.returncode is None: proc.kill(); await proc.wait()
+            if proc and proc.returncode is None:
+                if not await asyncio.to_thread(kill_tree,proc.pid):capacity_blocked=True
+                await proc.wait()
             (folder/"failed").touch()
         except Exception:
+            if proc and proc.returncode is None:
+                if not await asyncio.to_thread(kill_tree,proc.pid):capacity_blocked=True
+                await proc.wait()
             (folder/"failed").touch()
         finally:
             active.pop(folder.name,None)
@@ -77,7 +87,11 @@ def create_app():
     async def lifespan(app):
         # Interrupted jobs become failed; never reinterpret a crash as no_violation.
         for folder in jobs.iterdir():
-            if folder.is_dir() and not (folder/"result.json").exists(): (folder/"failed").touch()
+            if folder.is_dir() and not (folder/"result.json").exists():
+                try:meta=json.loads((folder/'meta.json').read_text())
+                except (FileNotFoundError,ValueError):meta={}
+                if not await asyncio.to_thread(reap_orphan,folder,ROOT,meta):raise RuntimeError('Private jobs have a live owner or worker cleanup failed')
+                (folder/"failed").touch()
         cleaner=asyncio.create_task(cleanup())
         yield
         cleaner.cancel()
@@ -108,6 +122,7 @@ def create_app():
                 return message
             request._receive=limited_receive
         if request.method=='POST' and path=='/api/v1/analyze':
+            if capacity_blocked:return JSONResponse({'detail':'Worker cleanup requires local restart'},status_code=503)
             if lock.locked():return JSONResponse({'detail':'Processing capacity busy; retry shortly'},status_code=429,headers={'Retry-After':'15'})
             await lock.acquire();reserved=True
         try:
@@ -135,7 +150,7 @@ def create_app():
                     if total>128*1024*1024: raise HTTPException(413,"Upload too large")
                     out.write(chunk)
             if not total: raise HTTPException(400,"Empty upload")
-            (folder/"meta.json").write_text(json.dumps({"owner":owner,"created":created}),encoding="ascii")
+            (folder/"meta.json").write_text(json.dumps({"owner":owner,"created":created,"server_pid":os.getpid(),"server_created":psutil.Process().create_time()}),encoding="ascii")
             t=asyncio.create_task(run_job(folder,created)); tasks.add(t); t.add_done_callback(tasks.discard)
             request.state.capacity_transferred=True
             return {"job_id":job_id}
@@ -162,7 +177,7 @@ def create_app():
         except FileNotFoundError:raise HTTPException(404,"No detail")
 
     @app.get("/healthz")
-    async def health(): return {"status":"ok","mode":os.environ.get("CASH_MODE","model")}
+    async def health(): return {"status":"degraded" if capacity_blocked else "ok","mode":os.environ.get("CASH_MODE","model")}
 
     @app.get("/")
     async def index(): return FileResponse(ROOT/"static/index.html")
