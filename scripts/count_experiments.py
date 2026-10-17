@@ -15,6 +15,7 @@ counts={'window_cpu_tune_configurations':len(cpu['results']),
         'completed_cpu_hypothesis_families':3,
         'qwen_format_configurations':sum((private/folder/'safe-summary.json').is_file() for folder in ['benchmark-bf16-initial','benchmark-compact-json-2','benchmark']),
         'registered_new_architecture_candidates':1,'registered_train_only_syntax_repairs_max':1,
+        'budget_protocol_registrations':2,'budget_protocols_superseded_before_model_execution':1,
         'candidate_tune_evaluations_per_configuration_max':1,
         'holdout_opened':False}
 counts['completed_cpu_tune_configurations']=sum(counts[k] for k in ['window_cpu_tune_configurations','video_cpu_tune_configurations','centered_cpu_tune_configurations'])

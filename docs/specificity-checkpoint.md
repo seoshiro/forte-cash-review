@@ -1,0 +1,13 @@
+# Отрицательные ответы и ограниченный следующий эксперимент
+
+Uniform TUNE: specificity 0, balanced accuracy 0.5, recall 1. Always-positive даёт те же значения и F1 0.714286; always-negative — specificity 1, recall 0, balanced accuracy 0.5, F1 0. Это отрицательный baseline. Текущий TUNE уже использовался в CPU экспериментах; он не является независимым final evidence.
+
+Локальный анализ только численных полей сохранённых результатов: 9 observations, 36 raw events, 0 пустых, 0 с false applicability, 0 ниже порога. Описания, rule IDs и per-video результаты не выводились. Это показывает систематические положительные ответы модели, но не устанавливает причину.
+
+Схема LMFE допускает events=[], postprocessing сохраняет no_violation, не создаёт default event, отбрасывает неподтверждённые условия и отрицательное уточнение. CPU-only проверка через настоящий tokenizer и candidate observe подтвердила доступность пустого JSON и разрешённого EOS; веса и CUDA не загружались. Это проверка механики, не смыслового качества модели.
+
+Технический профиль одного TRAIN: engine 724.11 s, generation wall 709.453 s, CPU token filter 5.124 s, input decode 3.828 s, preprocess 0.141 s, evidence decode 10.297 s. Callback wall и GPU event intervals перекрываются; их нельзя складывать. Измерения инструментированы, overhead не установлен. Снимок Windows во время прогона подтвердил shared GPU memory; прямой причинный эффект paging пока не измерен. Профиль не заменяет полный API тест.
+
+До первой модельной проверки уточнена незапущенная регистрация BUDGET-01 → BUDGET-01R1. Оригинал и его SHA сохранены в .private/protocol-history; original candidate model/TUNE runs = 0. Это одна исполняемая гипотеза, две регистрации, первая superseded до исполнения. После профиля зафиксированы: короткий ответ, только visible_conditions/exclusions в model prompt, без служебных enabled flags и длинных нормативных цитат; явный обязательный exclusion status, unknown/present не проходят положительный gate. Отсутствие доказательств соблюдения не трактуется как нарушение. Это гипотеза о полезности projection/gates, а не доказательство причины прежних ложных срабатываний.
+
+Resource bundle: 8 coarse frames, максимум одно уточнение на 4 кадрах; 192/128 output tokens, максимум два coarse events, краткое наблюдение до 48 символов. Полный проверенный нормативный реестр остаётся серверным источником ссылок. Ограничения на короткие/многочисленные/неразборчивые события сохраняются. Порог не подбирается заново. Сначала TRAIN probes, затем один frozen TUNE при пригодном техническом результате, контроли и end-to-end API с целевым запасом. Recall, specificity и balanced accuracy обязательны для решения; all-positive и all-negative не принимаются как пригодные.

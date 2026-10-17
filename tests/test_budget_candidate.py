@@ -58,7 +58,7 @@ def test_bounded_sequence_refines_only_one_event_and_preserves_other_evidence(tm
                         {'events':[],'limitation':'Тест'}])
     path=generate(tmp_path/'artificial.mov',positive=True)
     result=engine.analyze(path,'safe-synthetic-job',tmp_path/'private')
-    assert engine.calls==[(8,3,384),(4,1,192)]
+    assert engine.calls==[(8,2,192),(4,1,128)]
     assert result['verdict']=='violation' and len(result['violations'])==1
     assert verify_frames(path,result)>=1
     assert not engine.calls or len(engine.calls)<=2
@@ -69,3 +69,18 @@ def test_model_contract_failure_remains_technical_failure(tmp_path):
     with pytest.raises(ObservationError,match='invalid_budget_structure'):
         engine.analyze(path,'safe-synthetic-job',tmp_path/'private')
     assert not (tmp_path/'private/result.json').exists()
+
+@pytest.mark.parametrize('kind',['empty','conditions_not_met','below_threshold','refinement_rejects'])
+def test_empty_or_unsupported_events_remain_no_violation(tmp_path,kind):
+    root=Path(__file__).resolve().parents[1]
+    rule=next(r['id'] for r in json.loads((root/'config/rules.json').read_text(encoding='utf-8'))['rules'] if r['enabled'])
+    event={'rule_id':rule,'timestamp_sec':1.,'confidence':.9,'all_conditions_visible':True,
+           'observation':'Искусственный тест.','limitation':''}
+    if kind=='conditions_not_met':event['all_conditions_visible']=False
+    if kind=='below_threshold':event['confidence']=.79
+    first={'events':[] if kind=='empty' else [event],'limitation':'Нет подтверждения'}
+    answers=[first]+([{'events':[],'limitation':'Не подтверждено'}] if kind=='refinement_rejects' else [])
+    engine=fake_engine(answers);path=generate(tmp_path/'artificial.mov',positive=False)
+    result=engine.analyze(path,'safe-synthetic-job',tmp_path/'private')
+    assert result['verdict']=='no_violation' and result['violations']==[]
+    assert len(engine.calls)==(2 if kind=='refinement_rejects' else 1)

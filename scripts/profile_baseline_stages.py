@@ -77,5 +77,5 @@ report={'sample_count':1,'split':'train','selection':'longest TRAIN duration, te
         'vram_allocated_peak_mib':engine.torch.cuda.max_memory_allocated()/2**20,
         'vram_reserved_peak_mib':engine.torch.cuda.max_memory_reserved()/2**20,
         'holdout_read':False,'per_video_outputs_private':True,
-        'limitations':'One instrumented TRAIN case, not quality evidence. Callback wall includes GPU synchronization; GPU event and CPU wall measurements can overlap and must not be summed. Timing wrappers add small unmeasured overhead.'}
+        'limitations':'One instrumented TRAIN case, not quality evidence. Callback wall includes GPU synchronization; GPU event and CPU wall measurements can overlap and must not be summed. Instrumentation overhead is unmeasured and may be significant; GPU intervals include scheduling/page movement and are not pure compute.'}
 (out/'safe-summary.json').write_text(json.dumps(report,indent=2),encoding='utf-8');print(json.dumps(report),flush=True)

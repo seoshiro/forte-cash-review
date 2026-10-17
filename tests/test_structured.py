@@ -19,6 +19,7 @@ def accepted(text):
 
 
 def test_grammar_allows_russian_and_restricts_ids_and_structure():
+    assert accepted('{"events":[],"limitation":""}')
     data={'events':[synthetic_event()],'limitation':''}
     assert accepted(json.dumps(data,ensure_ascii=False))
     data['events'][0]['frame_id']='F9'
