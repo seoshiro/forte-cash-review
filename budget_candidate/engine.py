@@ -135,13 +135,23 @@ class BudgetEngine:
         tick=time.monotonic();frames=sample(path,np.linspace(0,max(0,duration-.1),cfg['coarse_frames']).tolist(),cfg['max_side']);phases['coarse_decode_sec']=time.monotonic()-tick
         observation=self.observe(frames,cfg['max_events_coarse'],cfg['max_new_tokens_coarse'],deadline);observations.append(observation)
         accepted=[e for e in observation['events'] if e['all_conditions_visible'] and e['confidence']>=cfg['threshold']]
+        contexts={id(event):{'status':'limited','result':'Оценена общая последовательность; детальный повторный проход для этого эпизода не выполнялся.',
+              'limitation':'Проверьте контекст до и после события вручную.',
+              'start_sec':max(0,event['timestamp_sec']-3),'end_sec':min(duration,event['timestamp_sec']+3)} for event in accepted}
         if accepted:
             selected=max(accepted,key=lambda e:(e['confidence'],-e['timestamp_sec']));t=selected['timestamp_sec']
             tick=time.monotonic();finer=sample(path,np.linspace(max(0,t-3),min(duration-.1,t+3),cfg['refine_frames']).tolist(),cfg['max_side']);phases['refine_decode_sec']=time.monotonic()-tick
             verified=self.observe(finer,cfg['max_events_refine'],cfg['max_new_tokens_refine'],deadline);observations.append(verified)
             matches=[e for e in verified['events'] if e['rule_id']==selected['rule_id'] and e['all_conditions_visible'] and e['confidence']>=cfg['threshold']]
             accepted.remove(selected)
-            if matches:accepted.append(max(matches,key=lambda e:e['confidence']))
+            if matches:
+                chosen=max(matches,key=lambda e:e['confidence']);accepted.append(chosen)
+                before=finer[0].sec<chosen['timestamp_sec'];after=finer[-1].sec>chosen['timestamp_sec']
+                contexts[id(chosen)]={'status':'reviewed' if before and after else 'limited',
+                    'result':'Локальная модель повторно поддержала признак на доступных кадрах.',
+                    'limitation':verified.get('limitation','') or ('Проверен ограниченный набор кадров; вывод требует человека.' if before and after else 'Контекст до или после события доступен не полностью.'),
+                    'before_available':before,'after_available':after,'frames_considered':len(finer),
+                    'start_sec':finer[0].sec,'end_sec':finer[-1].sec}
         merged=[]
         for event in sorted(accepted,key=lambda e:(-e['confidence'],e['timestamp_sec'])):
             if not any(e['rule_id']==event['rule_id'] and abs(e['timestamp_sec']-event['timestamp_sec'])<6 for e in merged):merged.append(event)
@@ -159,7 +169,8 @@ class BudgetEngine:
                'description':f'{event["observation"]} Возможный признак для проверки человеком. {self.registry["document"]}, п. {rule["paragraph"]}. {self.registry["source"]}',
                'evidence_frames':encoded})
             details.append({'rule_id':rule['id'],'rule':rule,'observation':event['observation'],
-                            'limitation':event['limitation'],'start_sec':max(0,t-3),'end_sec':min(duration,t+3),'source':self.registry['source']})
+                            'limitation':event['limitation'],'start_sec':max(0,t-3),'end_sec':min(duration,t+3),'source':self.registry['source'],
+                            'context':contexts[id(event)]})
         payload=Done(job_id=job_id,verdict='violation' if results else 'no_violation',violations=results).model_dump()
         private=Path(private);private.mkdir(parents=True,exist_ok=True)
         (private/'observations.json').write_text(json.dumps(observations,ensure_ascii=False),encoding='utf-8')

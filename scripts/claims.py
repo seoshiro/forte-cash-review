@@ -47,6 +47,12 @@ sources+=list(root.glob('experiment-count-safe-summary.json'))
 sources+=list(root.glob('status-eta-safe-summary.json'))
 sources+=list(root.glob('budget-preflight-safe-summary.json'))
 sources+=list((root/'model-api-qa').glob('*/safe-summary.json'))
+sources+=list((root/'structured').glob('tune-uniform.safe-summary.json'))
+sources+=list((root/'stage-profile').glob('*/safe-summary.json'))
+sources+=list((root/'budget-benchmark').glob('*/safe-summary.json'))
+sources+=list((root/'baseline-negative').glob('safe-summary.json'))
+sources+=list((root/'ui-review-qa').glob('safe-summary.json'))
+sources+=list(root.glob('review-tests-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
     elif isinstance(value,dict):

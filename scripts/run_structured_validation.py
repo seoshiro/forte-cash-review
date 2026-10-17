@@ -26,10 +26,8 @@ try:
     if bench['json_success_count']!=bench['sample_count'] or not bench['uniform_probe_json_valid']:raise RuntimeError('benchmark_contract_failed')
     stage('structured_tune_uniform')
     if run(['scripts/evaluate.py','--split','tune','--strategy','uniform'],'tune-uniform',2400):raise RuntimeError('tune_failed')
-    stage('structured_train_uniform')
-    if run(['scripts/evaluate.py','--split','train','--strategy','uniform'],'train-uniform',4800):raise RuntimeError('train_failed')
     run(['scripts/claims.py'],'claims',60)
-    stage('uniform_complete_holdout_closed')
+    stage('uniform_tune_complete_holdout_closed',full_train_queued=False)
 except Exception as error:
     # Only fixed errors/types. Never serialize an inference exception message.
     stage('blocked',error_type=type(error).__name__)

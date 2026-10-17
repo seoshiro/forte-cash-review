@@ -5,11 +5,11 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT));os.chdir(R
 def ensure_idle():
     for relative in ['structured/status.json','vlm-pipeline/status.json']:
         p=ROOT/'.private'/relative
-        if p.exists() and json.loads(p.read_text())['stage'] in ['download_preparation','technical_benchmark','tuning_uniform','tuning_coarse_refine','structured_technical_benchmark','structured_tune_uniform','structured_train_uniform']:
+        if p.exists() and json.loads(p.read_text())['stage'] in ['download_preparation','technical_benchmark','tuning_uniform','tuning_coarse_refine','structured_technical_benchmark','structured_tune_uniform','structured_train_uniform','latency_profile']:
             raise RuntimeError('Frozen baseline is active; no candidate GPU workload started')
     for process in psutil.process_iter():
         try:
-            if process.pid!=os.getpid() and Path(process.cwd()).resolve()==ROOT and any(Path(x).name in {'benchmark.py','evaluate.py','diagnose_synthetic_structure.py','qa_model_api.py'} for x in process.cmdline()[1:]):
+            if process.pid!=os.getpid() and Path(process.cwd()).resolve()==ROOT and any(Path(x).name in {'benchmark.py','evaluate.py','diagnose_synthetic_structure.py','qa_model_api.py','profile_baseline_stages.py'} for x in process.cmdline()[1:]):
                 raise RuntimeError('Another owned model workload is active')
         except (psutil.Error,OSError,ValueError):pass
 

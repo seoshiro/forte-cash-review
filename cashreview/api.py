@@ -7,6 +7,8 @@ from fastapi.staticfiles import StaticFiles
 import asyncio, hashlib, secrets, os, json, sys, time, shutil, re
 from .schemas import Done
 from .processes import kill_tree,reap_orphan
+from . import reviews
+from filelock import Timeout as ReviewLockTimeout
 import psutil
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -110,15 +112,16 @@ def create_app():
             key=request.headers.get('x-api-key','')
             if not valid_key(key): return JSONResponse({'detail':'API key required'},status_code=401)
         # Multipart parser may spool. Bound the whole body before it reaches it.
-        if request.method=="POST":
+        if request.method in ('POST','PUT'):
+            body_limit=129*1024*1024 if path=='/api/v1/analyze' else 16*1024
             try: length=int(request.headers.get('content-length','0'))
             except ValueError: return JSONResponse({'detail':'Invalid content length'},status_code=400)
-            if length>129*1024*1024: return JSONResponse({"detail":"Upload too large"},status_code=413)
+            if length>body_limit: return JSONResponse({"detail":"Request body too large"},status_code=413)
             size=0; receive=request._receive
             async def limited_receive():
                 nonlocal size
                 message=await receive(); size+=len(message.get("body",b""))
-                if size>129*1024*1024: raise HTTPException(413,"Upload too large")
+                if size>body_limit: raise HTTPException(413,"Request body too large")
                 return message
             request._receive=limited_receive
         if request.method=='POST' and path=='/api/v1/analyze':
@@ -172,9 +175,32 @@ def create_app():
     @app.get("/api/ui/jobs/{job_id}/detail")
     async def detail(job_id:str,owner:str=Depends(auth)):
         folder,_=folder_for(job_id,owner)
-        if not (folder/"result.json").exists(): raise HTTPException(409,"Job not complete")
+        if job_id in active or (folder/'failed').exists() or not (folder/"result.json").exists(): raise HTTPException(409,"Job not complete")
         try:return json.loads((folder/"detail.json").read_text(encoding="utf-8"))
         except FileNotFoundError:raise HTTPException(404,"No detail")
+
+    async def review_input(job_id,owner):
+        folder,_=folder_for(job_id,owner)
+        result=await status(job_id,owner)
+        if result['status']!='done':return folder,None,None
+        try:detail=json.loads((folder/'detail.json').read_text(encoding='utf-8'))
+        except FileNotFoundError:return folder,None,None
+        return folder,result,detail
+
+    @app.get('/api/ui/jobs/{job_id}/reviews')
+    async def review_state(job_id:str,owner:str=Depends(auth)):
+        folder,result,detail=await review_input(job_id,owner)
+        if result is None:return {'job_id':job_id,'ready':False,'reviews':{},'contexts':[],'notification':None}
+        try:return reviews.state(folder,result,detail)
+        except reviews.ReviewConflict:raise HTTPException(409,'Automatic result changed')
+
+    @app.put('/api/ui/jobs/{job_id}/reviews/{event_index}')
+    async def decide(job_id:str,event_index:int,decision:reviews.ReviewDecision,owner:str=Depends(auth)):
+        folder,result,detail=await review_input(job_id,owner)
+        if result is None:raise HTTPException(409,'Analysis is not complete')
+        try:return await asyncio.to_thread(reviews.save,folder,result,detail,event_index,decision,owner)
+        except IndexError:raise HTTPException(404,'Unknown event')
+        except (reviews.ReviewConflict,ReviewLockTimeout):raise HTTPException(409,'Review state is not ready or changed')
 
     @app.get("/healthz")
     async def health(): return {"status":"degraded" if capacity_blocked else "ok","mode":os.environ.get("CASH_MODE","model")}

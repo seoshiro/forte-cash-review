@@ -21,7 +21,7 @@ try:
     pids=set()
     for p in psutil.process_iter():
         try:
-            if Path(p.cwd()).resolve()==ROOT and any(Path(x).name in {'benchmark.py','evaluate.py','diagnose_synthetic_structure.py'} for x in p.cmdline()[1:]):pids.add(p.pid)
+            if Path(p.cwd()).resolve()==ROOT and any(Path(x).name in {'benchmark.py','evaluate.py','diagnose_synthetic_structure.py','profile_baseline_stages.py','benchmark_budget.py'} for x in p.cmdline()[1:]):pids.add(p.pid)
         except (psutil.Error,OSError,ValueError):pass
     report['owned_model_processes']=len(pids);values={}
     for name,counter in counters.items():

@@ -18,12 +18,12 @@ if not a.prepare:
 state=json.loads((ROOT/'.private/vlm-pipeline/status.json').read_text())
 if state['stage'] in ['download_preparation','technical_benchmark','tuning_uniform','tuning_coarse_refine']:raise RuntimeError('Active pipeline must finish before staging another runtime')
 structured=ROOT/'.private/structured/status.json'
-if structured.exists() and json.loads(structured.read_text())['stage'] in ['structured_technical_benchmark','structured_tune_uniform','structured_train_uniform']:
+if structured.exists() and json.loads(structured.read_text())['stage'] in ['structured_technical_benchmark','structured_tune_uniform','structured_train_uniform','latency_profile','budget_technical_benchmark']:
     raise RuntimeError('Active structured evaluation must finish before staging another runtime')
 import psutil
 for process in psutil.process_iter():
     try:
-        if Path(process.cwd()).resolve()==ROOT and any(Path(x).name in {'benchmark.py','evaluate.py','diagnose_synthetic_structure.py','qa_model_api.py'} for x in process.cmdline()[1:]):
+        if Path(process.cwd()).resolve()==ROOT and any(Path(x).name in {'benchmark.py','evaluate.py','diagnose_synthetic_structure.py','qa_model_api.py','profile_baseline_stages.py','benchmark_budget.py'} for x in process.cmdline()[1:]):
             raise RuntimeError('Owned model workload is active; no environment prepared')
     except (psutil.Error,OSError,ValueError):pass
 driver=ctypes.WinDLL('nvcuda.dll');version=ctypes.c_int()

@@ -8,6 +8,10 @@
 
 ## Результаты
 
+Qwen uniform TUNE завершён 17.10: 9/9, технических ошибок 0. TN/FP/FN/TP = 0/4/0/5; precision 0.555556, recall 1, F1 0.714286. Все 9 verdict положительны; это совпадает с постоянным положительным контролем и не демонстрирует полезной specificity. Baseline сохранён как отрицательный результат, полный TRAIN отменён по последующему указанию пользователя.
+
+Время engine.analyze: mean 384.8838 s, p50 392.063 s, p90 421.916 s, p95 427.216 s, max 432.516 s; 8/9 превышают 300 s. Upload, queue и one-time model load 22.39 s сюда не включены. Таймкод MAE 3.9134 s по 5 бинарным TP; это не оценка релевантности evidence или правильности типа. Полный официальный API SLA не пройден. Источник .private/structured/tune-uniform.safe-summary.json; численные claims воспроизводит ledger. Holdout закрыт. После TUNE выполняется один TRAIN технический профиль стадий, затем заранее записанный BUDGET-01, без второго GPU workload.
+
 Расчёты .private/cpu-baseline/safe-summary.json, .private/video-baseline/safe-summary.json и .private/baseline-audit/safe-summary.json. Числа для использования только из docs/claim-ledger.csv. Train — in-sample, tuning — повторно используемая exploratory проверка; это не официальный балл и не final holdout.
 
 | Метод | Split | TN / FP / FN / TP | Precision | Recall | F1 | MAE таймкода, с |

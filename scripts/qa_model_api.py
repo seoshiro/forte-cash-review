@@ -32,7 +32,7 @@ def main():
     os.chdir(ROOT);status=json.loads((ROOT/'.private/vlm-pipeline/status.json').read_text())
     if status['stage'] in ['download_preparation','technical_benchmark','tuning_uniform','tuning_coarse_refine']:raise RuntimeError('Wait for active artifact/GPU pipeline first')
     structured=ROOT/'.private/structured/status.json'
-    if structured.exists() and json.loads(structured.read_text())['stage'] in ['structured_technical_benchmark','structured_tune_uniform','structured_train_uniform']:
+    if structured.exists() and json.loads(structured.read_text())['stage'] in ['structured_technical_benchmark','structured_tune_uniform','structured_train_uniform','latency_profile','budget_technical_benchmark']:
         raise RuntimeError('Wait for active structured TRAIN/TUNE pipeline first')
     weights=ROOT/'models/qwen3-vl-2b/model.safetensors';provenance=json.loads((ROOT/'models/provenance.json').read_text())
     with weights.open('rb') as f:verified=hashlib.file_digest(f,'sha256').hexdigest()==provenance['weights_sha256']
