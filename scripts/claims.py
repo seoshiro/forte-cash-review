@@ -151,6 +151,11 @@ for name in ['safe-summary.json','rollback-safe-summary.json','process-cleanup-s
     sources+=list((root/'access-synthetic').glob(name))
 sources+=list((root/'cloudflared-prepare').glob('safe-summary.json'))
 sources+=list((root/'release').glob('capability-inventory-safe-summary.json'))
+sources+=list((root/'train-preparation-audit').glob('safe-summary.json'))
+sources+=list((root/'xclip-temporal-control').glob('*safe-summary.json'))
+sources+=list((root/'xclip-temporal-control/run').glob('terminal-safe-summary.json'))
+sources+=list((root/'sources/current-nb231').glob('safe-summary.json'))
+sources+=list((root/'domain-checkpoint').glob('safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -177,6 +182,10 @@ def numeric(prefix,value,sample,source):
         if 'access-synthetic' in source:limitation='Synthetic-only temporary HTTPS/auth/isolation and rollback test with intentional delay; no bank inputs/model quality or persistent public availability'
         if 'cloudflared-prepare' in source:limitation='Pinned portable connector preparation only; artifact download time is not service latency'
         if 'capability-inventory-safe-summary' in source:limitation='Public code/config inventory and explicit acceptance state only; no legal currency/applicability or visual recognition validation'
+        if 'train-preparation-audit' in source:limitation='All42 workbook/manifest metadata integrity, then TRAIN source/cache checks; no new bank decoding/inference. Center gap is not sampled-frame coverage; automatic scene groups unreviewed'
+        if 'xclip-temporal-control' in source:limitation='One fixed post-TUNE exploratory TRAIN LOGO temporal-learning attempt; model gates failed, baseline preserved. CPU cache-training costs exclude backbone/decode/upload; monitor includes cleanup. No independent/type/rule/evidence claim'
+        if 'current-nb231' in source:limitation='Fresh official-source/version/quotation provenance only; no visual applicability or detector acceptance'
+        if 'domain-checkpoint' in source:limitation='Engineering/synthetic regression and source-integrity checkpoint only; no accepted model-quality or submission claim'
         if 'geometry_first_prompt_rule_or_allowed_token_selection' in prefix:limitation+='; legacy metric name counts first-definition semantics only, not allowed-list selection'
         add(prefix,value,'see metric name',sample,source,limitation)
     elif isinstance(value,dict):
@@ -209,6 +218,8 @@ for f in sources:
     if f.parent.name=='access-synthetic':sample='synthetic'
     if f.parent.name=='cloudflared-prepare':sample='technical'
     if f.name=='capability-inventory-safe-summary.json':sample='technical'
+    if f.parent.name in ['train-preparation-audit','current-nb231','domain-checkpoint']:sample='technical'
+    if f.parent.name=='xclip-temporal-control':sample='train'
     if f.parent.name=='xclip-positive-plumbing':sample='synthetic'
     if f.parent.name=='xclip-spatial-control':sample='train'
     if f.parent.name=='qwen-action-probe':sample='synthetic'
@@ -242,6 +253,8 @@ for f in sources:
     if f.parent.name in ['internvl-prepare','internvl-control']:prefix+='_'+f.stem
     if f.parent.name=='xclip-linear-control':prefix+='_'+f.stem
     if f.parent.name in ['xclip-tune-control','access-synthetic','cloudflared-prepare']:prefix+='_'+f.stem
+    if f.parent.name in ['xclip-temporal-control','train-preparation-audit','current-nb231','domain-checkpoint']:prefix+='_'+f.stem
+    if f.parent.name=='run' and f.parent.parent.name=='xclip-temporal-control':sample='technical';prefix='xclip-temporal-control_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='runtime-template-audit':sample='synthetic';prefix='runtime-template-audit_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-text-discrimination':sample='synthetic';prefix='qwen-text-discrimination_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-decomposition':sample='synthetic';prefix='qwen-decomposition_monitor'
@@ -263,6 +276,7 @@ for f in sources:
         if f.parent.name=='xclip-hardneg-control':metric_split='train'
         if f.parent.name=='xclip-spatial-control':metric_split='train'
         if f.parent.name=='xclip-linear-control':metric_split='train'
+        if f.parent.name=='xclip-temporal-control':metric_split='train'
         if f.parent.name.startswith('hybrid-r22'):metric_split='train'
         numeric(f.parent.name+'_'+strategy,result,metric_split,str(f))
         cm=result.get('confusion_matrix_tn_fp_fn_tp')
@@ -274,6 +288,7 @@ for f in sources:
                 if f.parent.name=='xclip-hardneg-control':limitation='One fixed reused-TRAIN group OOF diagnostic; useful gate failed; original baseline preserved; no type/rule validation'
                 if f.parent.name=='xclip-spatial-control':limitation='One fixed reused-TRAIN group OOF spatial ablation; useful gate failed; no type/rule/evidence validation'
                 if f.parent.name=='xclip-linear-control':limitation='One frozen cache-only reused-TRAIN LOGO head; no independent/type/rule/evidence validation; original baseline preserved'
+                if f.parent.name=='xclip-temporal-control':limitation='One frozen post-TUNE exploratory TRAIN LOGO temporal head; all gates failed, original baseline preserved; no independent/type/rule/evidence validation'
                 if f.parent.name.startswith('hybrid-r22'):limitation='Limited R22 reused-TRAIN group OOF; binary labels cannot validate types or observations; cached-XCLIP Qwen-stage latency excludes feature extraction/API upload'
                 add(f.parent.name+'_'+strategy+'_'+k,v,'videos',metric_split,str(f),limitation)
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
@@ -309,6 +324,8 @@ def configured(prefix,value,source):
             add(prefix,value,'artifact/preflight value','technical',source,'Official pinned artifact sizes or recorded selection RAM snapshot; not measured inference fit, speed or quality');return
         if prefix.startswith('xclip_linear_protocol'):
             add(prefix,value,'configured value','XCLIP-LINEAR-01',source,'One fixed cache-only TRAIN LOGO configuration/acceptance target; not measured quality or complete API runtime');return
+        if prefix.startswith('xclip_temporal_protocol'):
+            add(prefix,value,'configured value','XCLIP-TEMPORAL-01',source,'One fixed prospective post-TUNE TRAIN temporal-learning configuration/acceptance target; not measured quality or end-to-end runtime');return
         if prefix.startswith('hybrid_protocol'):
             add(prefix,value,'configured value','HYBRID-R22-01',source,'Pre-registered synthetic-gated limited-rule hypothesis, not measured quality');return
         add(prefix,value,'configured value','QVT-01' if prefix.startswith('qvt_protocol') else 'ORACLE-01R1' if prefix.startswith('oracle_protocol') else 'PANEL-01' if prefix.startswith('panel_protocol') else 'GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
@@ -338,6 +355,7 @@ configured('qwen_cpu_facts_protocol',json.loads(Path('config/qwen-cpu-facts-prot
 configured('internvl_protocol',json.loads(Path('config/internvl-protocol.json').read_text()),'config/internvl-protocol.json')
 configured('internvl_artifacts',json.loads(Path('config/internvl-artifacts.json').read_text()),'config/internvl-artifacts.json')
 configured('xclip_linear_protocol',json.loads(Path('config/xclip-linear-protocol.json').read_text()),'config/xclip-linear-protocol.json')
+configured('xclip_temporal_protocol',json.loads(Path('config/xclip-temporal-protocol.json').read_text()),'config/xclip-temporal-protocol.json')
 configured('hybrid_protocol',json.loads(Path('config/hybrid-protocol.json').read_text()),'config/hybrid-protocol.json')
 from ledger_chunks import write_parts
 parts=write_parts(out.parent,rows)

@@ -4,6 +4,8 @@
 
 Команда **TerenOi** · Datathon NU 2026 · кейс ForteBank
 
+[Приватный репозиторий исходного кода](https://github.com/seoshiro/forte-cash-review) · доступ по правам GitHub
+
 Контур связывает момент на видео, контекст до и после, исходные кадры и проверяемое правило. Проверяющий может перейти к эпизоду и оценить основание вывода. Решение остаётся за человеком.
 
 > **Исследовательский прототип.** Загрузка, фоновые задания, интерфейс и API-контракт проверены на искусственных MOV. Есть локальная экспериментальная бинарная модель XCLIP. Принятого классификатора типов и применимости правил пока нет. Независимое качество и готовность к конкурсной проверке не подтверждены; публичный сервис не запущен.
@@ -108,14 +110,15 @@ curl.exe "$taskBase/api/v1/jobs/JOB_ID_FROM_POST" -H "X-API-Key: $taskKey"
 | Тот же cosine baseline на TUNE | TN 1 · FP 3 · FN 4 · TP 1; F1 0.222222 | Одна frozen оценка: 9 исходных роликов, 8 уникальных содержимых; не финальный тест |
 | TUNE: время и кандидатная точка | Median 29.938 с; p95 41.4782 с; max 42.547 с; MAE точки 3.0 с при n=1 TP | Полный локальный cold worker, без HTTP upload; типы, правила и релевантность кадров не валидированы |
 | XCLIP fixed logistic head | TN 4 · FP 8 · FN 4 · TP 10; F1 0.625 | Один frozen TRAIN group-CV опыт на том же кэше; ухудшение, кандидат отклонён |
+| XCLIP temporal head, 209 параметров | TN 12 · FP 0 · FN 14 · TP 0; F1 0 | Один frozen post-TUNE TRAIN group-CV опыт; все решения отрицательные, кандидат отклонён |
 | Время кандидата XCLIP | MAE 8.833333 с на 12 true-positive видео | Единственная официальная точка; не границы события или релевантность JPEG |
 | Actual-model XCLIP API | 22.375 и 18.360 с от загрузки до результата | Два искусственных MOV-запроса; не SLA и не качество на банковских видео |
 | InternVL3.5-1B visual control | 3/6 верных последовательностей, 1/2 UNKNOWN без изображения | Gate не пройден; TRAIN не запускался |
 | Ресурсы InternVL control | Пик устройства 2367 МиБ; минимум доступной RAM 2.334 ГиБ; monitor 57.203 с | Только 4 искусственных кадра/blank; не fit реального видео |
 | Синтетический внешний HTTPS | 2 задания, 3 исходных JPEG проверены; auth/изоляция/rollback PASS | Искусственные MOV, задержка 10 с; туннель и сервер остановлены; не качество модели |
-| Последний checkpoint | 301 тест passed, без failures/errors/skips | Инженерные и synthetic проверки; не точность детектора |
+| Последний checkpoint | 344 теста passed, без failures/errors/skips | Инженерные и synthetic проверки; не точность детектора |
 
-Расчёты: [XCLIP](docs/xclip-candidate.md), [logistic head и paired point diagnostics](docs/xclip-linear-head.md), [research API](docs/xclip-experimental-api.md), [InternVL](docs/internvl-visual-control.md), [TUNE](docs/xclip-tune.md), [claim ledger](docs/claim-ledger-index.md). Logistic head уменьшил MAE кандидатной точки с 9 до 8.928571 с на тех же 14 positive видео, но увеличил FN/FP; это не принято как преимущество. Полный cache-only CPU процесс занял 3.75 с, без декодирования и encoder inference. Неудачные опыты сохраняются; параметры после результата не подбираются.
+Расчёты: [XCLIP](docs/xclip-candidate.md), [logistic head и paired point diagnostics](docs/xclip-linear-head.md), [research API](docs/xclip-experimental-api.md), [InternVL](docs/internvl-visual-control.md), [TUNE](docs/xclip-tune.md), [temporal learning](docs/xclip-temporal-head.md), [аудит подготовки](docs/train-preparation-audit.md), [claim ledger](docs/claim-ledger-index.md). Logistic head уменьшил MAE кандидатной точки с 9 до 8.928571 с на тех же 14 positive видео, но увеличил FN/FP; это не принято как преимущество. Полный cache-only CPU процесс занял 3.75 с, без декодирования и encoder inference. Неудачные опыты сохраняются; параметры после результата не подбираются.
 
 ## Ограничения
 
@@ -126,7 +129,7 @@ curl.exe "$taskBase/api/v1/jobs/JOB_ID_FROM_POST" -H "X-API-Key: $taskKey"
 - Worker ограничивает сетевые обращения и использует заранее загруженные веса. Физическая автономность при отключённом интернете отдельно не подтверждена.
 - Синтетический публичный HTTPS проверен и остановлен. Работающего адреса конкурсного сервиса, постоянного ключа жюри и подтверждения приёма пока нет. Форма не отправлена.
 
-[TUNE checkpoint](docs/xclip-tune.md), [доступ и rollback](docs/external-access-preflight.md), [фактические возможности правил](docs/semantic-capability-inventory.md), [предыдущий checkpoint](docs/current-checkpoint.md) и [матрица критериев](docs/submission-criteria-matrix.md) отделяют работающую механику от незакрытого качества.
+[TUNE checkpoint](docs/xclip-tune.md), [доступ и rollback](docs/external-access-preflight.md), [фактические возможности правил](docs/semantic-capability-inventory.md), [текущий checkpoint](docs/current-checkpoint.md) и [матрица критериев](docs/submission-criteria-matrix.md) отделяют работающую механику от незакрытого качества.
 
 ## Защита данных
 
@@ -134,7 +137,7 @@ curl.exe "$taskBase/api/v1/jobs/JOB_ID_FROM_POST" -H "X-API-Key: $taskKey"
 
 Приватные папки, модели, среды, кэши, медиа, таблицы, результаты и секреты исключены из Git. Единственное разрешённое изображение — пустой UI выше: точные путь, размер и SHA256 закреплены в release gate. Любое другое изображение или изменение его байтов блокируется.
 
-UI использует локальные ресурсы без CDN и аналитики. API не открывает каталог данных и незащищённые кадры. Разрешённая синтетическая HTTPS-проверка выполнена в отдельном экземпляре и завершена остановкой собственных процессов. Demo-ключи хранятся локально под DPAPI USER; постоянный ключ жюри ещё не создан. Тестовое значение не подходит для жюри. Платные функции запрещены; remote/push на этапе упаковки не выполняются.
+UI использует локальные ресурсы без CDN и аналитики. API не открывает каталог данных и незащищённые кадры. Разрешённая синтетическая HTTPS-проверка выполнена в отдельном экземпляре и завершена остановкой собственных процессов. Demo-ключи хранятся локально под DPAPI USER; постоянный ключ жюри ещё не создан. Тестовое значение не подходит для жюри. Платные функции запрещены. Исходный код загружается только в приватный GitHub после аудита рабочего дерева и всей истории; банковские данные и ключи исключены.
 
 ## Проверки и устройство репозитория
 
@@ -166,6 +169,6 @@ git status --short
 | InternVL3.5-1B-HF | Apache-2.0 native Transformers, без remote code | Apache-2.0; исследовательский кандидат отклонён |
 | Qwen3-VL / DINOv2 | Apache-2.0 | Apache-2.0; исследовательские ветки, не принятые детекторы |
 
-Код и веса проверяются отдельно; attribution сохраняется. Нативные FFmpeg-библиотеки и CUDA имеют отдельные условия. PyAV wheel не объявляется permissive-only и не перепаковывается здесь. [Полный реестр лицензий](docs/licenses.md), [XCLIP provenance](docs/xclip-candidate.md), [InternVL provenance](docs/internvl-visual-control.md).
+Код и веса проверяются отдельно; attribution сохраняется. Нативные FFmpeg-библиотеки и CUDA имеют отдельные условия. PyAV wheel не объявляется permissive-only и не перепаковывается здесь. [Проверенная связь нормативных источников](docs/legal-source-provenance.md), [полный реестр лицензий](docs/licenses.md), [XCLIP provenance](docs/xclip-candidate.md), [InternVL provenance](docs/internvl-visual-control.md).
 
 Для команды **TerenOi** подготовлены [комплект сдачи](docs/submission.md), [локальное демо](docs/local-demo-runbook.md) и [порядок внешнего доступа](docs/external-access-preflight.md). README не отправляет заявку и не подтверждает готовность сервиса.

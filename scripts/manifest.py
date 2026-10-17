@@ -1,6 +1,6 @@
 """Read-only dataset audit. Per-video information is written ONLY to .private."""
 from pathlib import Path
-import argparse, csv, hashlib, json, re, sys, random
+import argparse, csv, hashlib, json, re, sys, random, math
 from collections import Counter, defaultdict
 import openpyxl
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -15,12 +15,38 @@ def seconds(value):
     if value is None or not str(value).strip(): return None
     t = str(value).lower().strip()
     if ":" in t:
-        parts = [float(x) for x in t.split(":")]
+        if not re.fullmatch(r'\d+:\d+(?::\d+)?(?:[.,]\d+)?',t):raise ValueError('Invalid timestamp syntax')
+        parts = [float(x.replace(',','.')) for x in t.split(":")]
+        if any(x>=60 for x in parts[1:]):raise ValueError('Invalid timestamp component')
         return sum(v * 60**i for i, v in enumerate(reversed(parts)))
-    m = re.search(r"(\d+)\s*м", t)
-    s = re.search(r"(\d+(?:[.,]\d+)?)\s*с", t)
-    if m or s: return (int(m[1])*60 if m else 0) + (float(s[1].replace(",", ".")) if s else 0)
-    return float(t.replace(",", "."))
+    if re.fullmatch(r'\d+(?:[.,]\d+)?',t):
+        result=float(t.replace(',','.'))
+        if not math.isfinite(result):raise ValueError('Nonfinite timestamp')
+        return result
+    match=re.fullmatch(r'(?:(\d+)\s*(?:минута|минуты|минут|мин|м)\.?\s*)?(?:(\d+(?:[.,]\d+)?)\s*(?:секунда|секунды|секунд|сек|с)\.?)?',t)
+    if not match or not any(match.groups()):raise ValueError('Invalid timestamp syntax')
+    minutes=int(match[1]) if match[1] else 0;secs=float(match[2].replace(',','.')) if match[2] else 0.
+    if not math.isfinite(secs) or match[1] and secs>=60:raise ValueError('Invalid timestamp component')
+    return minutes*60+secs
+
+
+def label_error(target,point,duration):
+    if target and point is None:return 'positive_missing_timestamp'
+    if not target and point is not None:return 'negative_has_timestamp'
+    if point is not None and (not math.isfinite(point) or not 0<=point<duration):return 'label_outside_video'
+    return None
+
+
+def validate_saved_split(split,records,labels_sha256):
+    if split.get('labels_sha256')!=labels_sha256:raise ValueError('Saved split label source changed')
+    expected={row['sha256'] for row in records}
+    if set(split['assignments'])!=expected or set(split['groups'])!=expected:raise ValueError('Saved split source inventory changed')
+    grouped=defaultdict(set)
+    for row in records:
+        key=row['sha256'];part=split['assignments'][key]
+        if part not in ['train','tune','holdout'] or split['groups'][key]!=row['group']:raise ValueError('Saved split grouping changed')
+        grouped[row['group']].add(part)
+    if any(len(parts)!=1 for parts in grouped.values()):raise ValueError('Saved group crosses splits')
 
 
 def main():
@@ -49,11 +75,11 @@ def main():
             f=matches[0]; used.add(f); r["path"]=str(f.resolve()); r["sha256"]=hashlib.file_digest(f.open("rb"),"sha256").hexdigest()
             try:
                 r.update(inspect(f,decode=True))
-                if r["label_sec"] is not None and not 0<=r["label_sec"]<r["duration_sec"]: r["error"]="label_outside_video"
-                if not r["target"] and r["label_sec"] is not None: r["error"]="negative_has_timestamp"
+                r['error']=label_error(r['target'],r['label_sec'],r['duration_sec']) or (None if r['decode_ok'] and r['pts_monotonic'] else 'invalid_decoded_pts')
                 r["fingerprint"]=[dhash(s.image) for s in sample(f,[r["duration_sec"]*q for q in [.1,.3,.5,.7,.9]],max_side=96)]
             except Exception as exc: r["error"]=type(exc).__name__
         records.append(r)
+    if collisions or any(row['error'] for row in records):raise ValueError('Dataset has unresolved validation errors')
     # Exact/near duplicates always remain together. This is not a face/identity grouping.
     parent=list(range(len(records)))
     def root(i):
@@ -77,7 +103,8 @@ def main():
         split={"seed":261017,"group_method":"exact sha256 + 5-frame dhash distance<=6, duration<1s; scene-family grouping requires human review", "holdout_opened":False,"labels_sha256":hashlib.file_digest(a.labels.open("rb"),"sha256").hexdigest(),"assignments":{r["sha256"]:splits[r["group"]] for r in records if r.get("sha256")},"groups":{r["sha256"]:r["group"] for r in records if r.get("sha256")}}
         split_path.write_text(json.dumps(split,ensure_ascii=False,indent=2),encoding="utf-8")
     split=json.loads(split_path.read_text(encoding="utf-8"))
-    for r in records: r["split"]=split["assignments"].get(r.get("sha256"))
+    validate_saved_split(split,records,hashlib.file_digest(a.labels.open('rb'),'sha256').hexdigest())
+    for r in records: r["split"]=split["assignments"][r['sha256']]
     (a.out/"manifest.json").write_text(json.dumps(records,ensure_ascii=False,indent=2),encoding="utf-8")
     (a.out/"unmatched.json").write_text(json.dumps([str(f) for fs in files.values() for f in fs if f not in used],ensure_ascii=False),encoding="utf-8")
     ok=[r for r in records if r.get("decode_ok")]
@@ -86,4 +113,6 @@ def main():
     print(json.dumps(summary))
     if collisions or summary["errors"]: sys.exit(2)
 
-if __name__=="__main__": main()
+if __name__=="__main__":
+    try:main()
+    except Exception as error:print(json.dumps({'status':'failed','technical_error_type':type(error).__name__,'raw_private_content_emitted':False}));sys.exit(1)

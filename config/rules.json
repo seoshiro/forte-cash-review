@@ -1,5 +1,5 @@
 {
-  "source_status": "Full official text retrieved. Source history marks this UUID current. Selected paragraphs and exclusions inspected; application requires all visual conditions.",
+  "source_status": "Current official API edition and direct HTML quotes freshly verified through one linked provenance manifest; no visual detector or video applicability established.",
   "source": "https://adilet.zan.kz/rus/docs/V1900019680",
   "document": "Постановление Правления НБРК №231 от 29 ноября 2019 года",
   "rules": [
@@ -8,22 +8,35 @@
       "paragraph": "20",
       "type": "Возможное несоблюдение порядка приёма и пересчёта",
       "requirement": "Приём и пересчёт при клиенте; ранее принятые деньги помещаются в специальные запираемые устройства рабочего места.",
-      "visual_conditions": "Последовательность текущей и предыдущей операции различима; видны действия с ранее принятыми деньгами, их оставление вне устройства после перехода к следующей операции.",
-      "exclusions": "Отсутствие клиента в поле камеры или невидимый замок не доказывают нарушение. Не угадывать завершённость операции, количество денег и корректность проводки.",
+      "visual_conditions": "Подтверждены приём наличных, принадлежность денег к ранее принятой операции, рабочее место и последовательность до/после; ранее принятые деньги наблюдаемо остаются вне подходящего устройства. Если назначение устройства или принадлежность денег не установлены, условие не установлено. Присутствие клиента при пересчёте — отдельная ветвь, автоматически не распознаётся.",
+      "exclusions": "Отсутствие клиента в поле камеры или невидимый замок не доказывают нарушение. Не угадывать завершённость операции, количество денег и корректность проводки. Видимый замок или положение крышки сами по себе не устанавливают соответствие устройства требованию «закрывающихся на ключ».",
       "enabled": true,
-      "verified_source_text": "20. Наличные деньги принимаются и пересчитываются кассовым работником в присутствии клиента.\n\n\n На рабочем месте кассового работника находятся наличные деньги клиента. Все ранее принятые наличные деньги хранятся в специальных устройствах, находящихся на рабочем месте кассового работника, закрывающихся на ключ, предназначенных для хранения наличных денег (металлический шкаф, сейф, тележка, ящики стола, тумба).",
-      "verification": "Exact paragraph and exceptions read from full official current document; does not establish applicability to any particular video."
+      "verified_source_text": "20. Наличные деньги принимаются и пересчитываются кассовым работником в присутствии клиента.\n\nНа рабочем месте кассового работника находятся наличные деньги клиента. Все ранее принятые наличные деньги хранятся в специальных устройствах, находящихся на рабочем месте кассового работника, закрывающихся на ключ, предназначенных для хранения наличных денег (металлический шкаф, сейф, тележка, ящики стола, тумба).",
+      "verification": "Direct extraction from pinned current official text_content; exact quote hashes and existing-registry comparison passed. No visual applicability or detector acceptance implied.",
+      "source_anchors": [
+        "https://adilet.zan.kz/rus/docs/V1900019680#z111",
+        "https://adilet.zan.kz/rus/docs/V1900019680#z112"
+      ],
+      "canonical_quote_sha256": "d9e9546ab90f627ff36a016754d0af707c3cb0c66e6ae893b5abd39e92db1033",
+      "semantic_detector_accepted": false,
+      "applicability_scope": "Глава 2, параграф 2: приём наличных денег. Пункт содержит две самостоятельные ветви; текущая гипотеза охватывает только хранение ранее принятой наличности."
     },
     {
       "id": "R22",
       "paragraph": "22",
       "type": "Возможное оставление рабочего места при обслуживании",
       "requirement": "Нельзя покидать рабочее место до окончания обслуживания клиента.",
-      "visual_conditions": "Видны незавершённое обслуживание, границы места и уход работника из него в последовательности до/после.",
+      "visual_conditions": "Подтверждены приём наличных, незавершённое обслуживание клиента, границы рабочего места, роль кассового работника и фактический уход в последовательности до/после.",
       "exclusions": "Короткое движение в пределах рабочего места или неизвестное состояние обслуживания недостаточны.",
       "enabled": true,
       "verified_source_text": "22. Кассовому работнику не допускается покидать рабочее место до окончания обслуживания клиента.",
-      "verification": "Exact paragraph and exceptions read from full official current document; does not establish applicability to any particular video."
+      "verification": "Direct extraction from pinned current official text_content; exact quote hashes and existing-registry comparison passed. No visual applicability or detector acceptance implied.",
+      "source_anchors": [
+        "https://adilet.zan.kz/rus/docs/V1900019680#z114"
+      ],
+      "canonical_quote_sha256": "e60677f04500cb1eb31ca5f734c00838cef5bf76aadf2ea086a17d768791c017",
+      "semantic_detector_accepted": false,
+      "applicability_scope": "Глава 2, параграф 2: консервативно ограничено подтверждённой процедурой приёма наличных, без расширения на любое обслуживание."
     },
     {
       "id": "R31",
@@ -31,10 +44,18 @@
       "type": "Возможное несоблюдение порядка выдачи",
       "requirement": "Выдача с пересчётом при клиенте с предусмотренными исключениями для неповреждённых упаковок.",
       "visual_conditions": "Видны вся процедура выдачи, отдельные купюры/монеты и отсутствие пересчёта до передачи в наблюдаемой последовательности.",
-      "exclusions": "Нельзя объявлять нарушением отсутствие ручного пересчёта при неповреждённой упаковке или вне поля камеры.",
+      "exclusions": "Учитывать перечисленные пунктом 32 условия выдачи по обозначенным суммам в упаковках при целостности. Неполная пачка и неполный корешок различаются: банкноты из неполных либо повреждённых корешков требуют полистного пересчёта, монеты из неполных мешков — пересчёта по кружкам. Неустановленные полнота, целостность, вид упаковки или последовательность означают неустановленность условия; отсутствие видимого ручного пересчёта само по себе недостаточно.",
       "enabled": true,
-      "verified_source_text": "31, подпункт 4: 4) пересчитывает подготовленные к выдаче наличные деньги в присутствии клиента, выдает клиенту наличные деньги;\n\n32. Кассовый работник выдает клиенту банкноты полными, неполными пачками и (или) отдельными корешками банкнот по обозначенным на упаковке суммам без полистного пересчета при условии сохранения неповрежденной упаковки. Банкноты из неполных, а также поврежденных корешков выдаются кассовым работником полистным пересчетом.\n\n\n Монеты, упакованные в мешки, выдаются по надписям на ярлыках, прикрепленных к мешкам, а упакованные в пакеты (тюбики, коробки) – по надписям на них. Монеты из неполных мешков выдаются кассовым работником с пересчетом по кружкам.",
-      "verification": "Exact paragraph and exceptions read from full official current document; does not establish applicability to any particular video."
+      "verified_source_text": "31, подпункт 4: 4) пересчитывает подготовленные к выдаче наличные деньги в присутствии клиента, выдает клиенту наличные деньги;\n\n32. Кассовый работник выдает клиенту банкноты полными, неполными пачками и (или) отдельными корешками банкнот по обозначенным на упаковке суммам без полистного пересчета при условии сохранения неповрежденной упаковки. Банкноты из неполных, а также поврежденных корешков выдаются кассовым работником полистным пересчетом.\n\nМонеты, упакованные в мешки, выдаются по надписям на ярлыках, прикрепленных к мешкам, а упакованные в пакеты (тюбики, коробки) – по надписям на них. Монеты из неполных мешков выдаются кассовым работником с пересчетом по кружкам.",
+      "verification": "Direct extraction from pinned current official text_content; exact quote hashes and existing-registry comparison passed. No visual applicability or detector acceptance implied.",
+      "source_anchors": [
+        "https://adilet.zan.kz/rus/docs/V1900019680#z454",
+        "https://adilet.zan.kz/rus/docs/V1900019680#z150",
+        "https://adilet.zan.kz/rus/docs/V1900019680#z151"
+      ],
+      "canonical_quote_sha256": "4959aa974a8d1e7a0d9ba374249555e3dea92047df777955ba2c76acff7f9f63",
+      "semantic_detector_accepted": false,
+      "applicability_scope": "Глава 2, параграф 3: выдача наличных. Применять вместе со всеми исключениями пункта 32 для целой упаковки банкнот и условий выдачи монет; неподтверждённая целостность не означает нарушение."
     },
     {
       "id": "R42",
@@ -45,15 +66,45 @@
       "exclusions": "Обычный приём или выдача клиенту прямо исключены. Не считать любого второго человека контролёром.",
       "enabled": true,
       "verified_source_text": "42. Кассовые операции по пересчету, сортировке и упаковке наличных денег осуществляются кассовым работником в присутствии контролирующего работника, за исключением случаев совершения кассовых операций по приему и выдаче наличных денег клиенту.",
-      "verification": "Exact paragraph and exceptions read from full official current document; does not establish applicability to any particular video."
+      "verification": "Direct extraction from pinned current official text_content; exact quote hashes and existing-registry comparison passed. No visual applicability or detector acceptance implied.",
+      "source_anchors": [
+        "https://adilet.zan.kz/rus/docs/V1900019680#z163"
+      ],
+      "canonical_quote_sha256": "d01c48b8660439b7cfc85d5f77da25400cdbd89316670b140076ea3297c13c50",
+      "semantic_detector_accepted": false,
+      "applicability_scope": "Глава 2, параграф 4: внутренние кассовые операции. Приём/выдача клиентам прямо исключены; роль контролирующего работника определена пунктом 2(2), а не наличием второго человека.",
+      "role_reference_urls": [
+        "https://adilet.zan.kz/rus/docs/V1900019680#z531",
+        "https://adilet.zan.kz/rus/docs/V1900019680#z539"
+      ]
     }
   ],
   "edition": {
+    "document_url": "https://adilet.zan.kz/rus/docs/V1900019680",
+    "api_url": "https://adilet.zan.kz/api/documents/c4cd4052-63e3-475b-ba9e-93f23de13fdb",
+    "versions_url": "https://adilet.zan.kz/api/documents/c4cd4052-63e3-475b-ba9e-93f23de13fdb/versions?page=1&page_size=500",
     "official_document_id": "c4cd4052-63e3-475b-ba9e-93f23de13fdb",
+    "official_name": "Постановление Правления Национального Банка Республики Казахстан от 29 ноября 2019 года № 231. Зарегистрировано в Министерстве юстиции Республики Казахстан 3 декабря 2019 года № 19680.",
     "official_is_current": true,
     "official_revision_timestamp": "2026-07-11T18:00:00.000Z",
-    "body_effective_date_note": "Amendments effective 12.07.2026 appear in the source text. Database end_date is not interpreted as repeal.",
-    "retrieved_utc": "2026-10-17T09:14:00Z",
+    "retrieved_utc": "2026-10-17T23:09:16.966855+00:00",
+    "text_content_sha256": "1798a349b2326ba4c32a007a62db532ea6de906e71f0249a9de8dc81aa915de8",
+    "response_sha256": {
+      "document": "87513c6365011bc2ab82c80a3b94d7f488de213218114c88fd6aa7d8aff5d171",
+      "versions": "662846a3a9713fd2ec971d2491ebfd762ccc86c5f9a41166672dc86010f701da"
+    },
+    "canonical_quote_sha256": {
+      "R20": "d9e9546ab90f627ff36a016754d0af707c3cb0c66e6ae893b5abd39e92db1033",
+      "R22": "e60677f04500cb1eb31ca5f734c00838cef5bf76aadf2ea086a17d768791c017",
+      "R31": "4959aa974a8d1e7a0d9ba374249555e3dea92047df777955ba2c76acff7f9f63",
+      "R42": "d01c48b8660439b7cfc85d5f77da25400cdbd89316670b140076ea3297c13c50"
+    },
+    "parser": "stdlib HTMLParser p-id extraction + Unicode whitespace normalization",
+    "parser_code_sha256": "7f5cb61ac4eae6266a09d28b03c17a0df817a373ef191c218a15c5f3b798b897",
+    "refresh_code_sha256": "e9d0da6fe4723facfbe7a3aa774dce65ef4449dfea265cea6450d40be885dfb9",
+    "source_pin_sha256": "db9da07903eb79c7f55250fe42f658215a65bfc2b7724666c2bf3c3f7e2cb54f",
+    "separate_plain_text_input_used": false,
+    "semantic_detector_accepted": false,
     "source_text_sha256": "1798a349b2326ba4c32a007a62db532ea6de906e71f0249a9de8dc81aa915de8"
   }
 }

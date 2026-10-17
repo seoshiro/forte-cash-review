@@ -1,0 +1,16 @@
+# Linked official legal-source provenance
+
+The earlier separate-plaintext provenance gap is closed. A fresh public-source check at **2026-10-17 23:09 UTC** retrieved the [official document API](https://adilet.zan.kz/api/documents/c4cd4052-63e3-475b-ba9e-93f23de13fdb) and [version history](https://adilet.zan.kz/api/documents/c4cd4052-63e3-475b-ba9e-93f23de13fdb/versions?page=1&page_size=500). Among 19 records, the single current edition has UUID `c4cd4052-63e3-475b-ba9e-93f23de13fdb`, revision timestamp `2026-07-11T18:00:00Z`. The document API reports actual status. These are recorded metadata; no API adoption/end-date field is reinterpreted as a legal conclusion.
+
+The official HTML SHA256 remains `1798a349b2326ba4c32a007a62db532ea6de906e71f0249a9de8dc81aa915de8`. Quotes are extracted directly from unique paragraph IDs in this exact `text_content`, not a separate plain-text file. Their Unicode-whitespace-normalized hashes and prior registry text match. Raw response hashes, source URLs, current UUID/revision, retrieval time, parser/refresh code hashes, source pin and quote hashes are linked in one local provenance manifest. The offline verifier additionally checks exact unique registry IDs, the entire edition record and each rule's quote digest/anchors.
+
+| Rule | Direct official anchors | Applicability limit retained |
+|---|---|---|
+| R20 | [z111](https://adilet.zan.kz/rus/docs/V1900019680#z111), [z112](https://adilet.zan.kz/rus/docs/V1900019680#z112) | Receipt section; customer presence and prior-cash storage are distinct branches. The storage hypothesis requires identifiable prior cash outside a suitable device. Device purpose unknown means condition unestablished; visible lock/lid alone is insufficient. |
+| R22 | [z114](https://adilet.zan.kz/rus/docs/V1900019680#z114) | Conservatively limited to confirmed receipt and unfinished service, with operational role/workstation/departure established. |
+| R31 | [z454](https://adilet.zan.kz/rus/docs/V1900019680#z454), [z150](https://adilet.zan.kz/rus/docs/V1900019680#z150), [z151](https://adilet.zan.kz/rus/docs/V1900019680#z151) | Issue section with all paragraph32 exceptions. Incomplete packets and incomplete straps differ; incomplete/damaged straps require individual-note counting, incomplete coin bags require coin counting. Unknown packaging state does not establish a violation. |
+| R42 | [z163](https://adilet.zan.kz/rus/docs/V1900019680#z163) | Internal operations; customer receipt/issue excluded. Control-worker role has a specific definition; a second person alone does not establish it. |
+
+The `31, подпункт 4:` prefix is a registry label, not part of the official quotation hash. Source verification establishes none of the necessary visual facts. All four entries retain `semantic_detector_accepted=false`; **accepted semantic detectors remain zero**.
+
+Code: [source pin](../config/legal-source-pin.json), [deterministic parser/validation](../cashreview/legal_sources.py), [public-only refresh](../scripts/refresh_legal_source.py), [offline verification](../scripts/verify_rules.py). Synthetic regressions reject altered text, ambiguous/missing anchors, wrong/current editions, empty/duplicate rules and changed provenance fields. [Claim ledger](claim-ledger-index.md).

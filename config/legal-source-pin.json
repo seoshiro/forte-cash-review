@@ -1,0 +1,15 @@
+{
+  "group_number": "V1900019680",
+  "document_id": "c4cd4052-63e3-475b-ba9e-93f23de13fdb",
+  "document_url": "https://adilet.zan.kz/rus/docs/V1900019680",
+  "api_url": "https://adilet.zan.kz/api/documents/c4cd4052-63e3-475b-ba9e-93f23de13fdb",
+  "versions_url": "https://adilet.zan.kz/api/documents/c4cd4052-63e3-475b-ba9e-93f23de13fdb/versions?page=1&page_size=500",
+  "text_content_sha256": "1798a349b2326ba4c32a007a62db532ea6de906e71f0249a9de8dc81aa915de8",
+  "quotes": {
+    "R20": {"anchors": ["z111", "z112"], "first_prefix": "20.", "canonical_sha256": "d9e9546ab90f627ff36a016754d0af707c3cb0c66e6ae893b5abd39e92db1033"},
+    "R22": {"anchors": ["z114"], "first_prefix": "22.", "canonical_sha256": "e60677f04500cb1eb31ca5f734c00838cef5bf76aadf2ea086a17d768791c017"},
+    "R31": {"anchors": ["z454", "z150", "z151"], "first_prefix": "4)", "canonical_sha256": "4959aa974a8d1e7a0d9ba374249555e3dea92047df777955ba2c76acff7f9f63"},
+    "R42": {"anchors": ["z163"], "first_prefix": "42.", "canonical_sha256": "d01c48b8660439b7cfc85d5f77da25400cdbd89316670b140076ea3297c13c50"}
+  },
+  "policy": "Exact official-source pin independently checked by code-only reviewer. Fail closed on a new edition or changed quotes; not detector acceptance or automatic legal applicability."
+}
