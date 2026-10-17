@@ -18,7 +18,7 @@ gpu_vram,6141,MiB,NVIDIA SMI,not applicable,"nvidia-smi --query-gpu=name,memory.
 ram_bytes,16438312960,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 ram_gib,15.309371948242188,GiB,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 logical_cpus,12,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
-free_disk_bytes,262122348544,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
+free_disk_bytes,255855804416,count/bytes,hardware,not applicable,scripts/claims.py -> .private/environment.json,local calculation,
 benchmark_sample_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_json_success_count,3,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
 benchmark_model_load_sec,23.25,see metric name,train,train,.private\benchmark\safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -857,6 +857,56 @@ empty-decoder-safe-summary_model_eos_1,151643,see metric name,technical,not appl
 20261017T125814Z_input_audit_example_attention_mask_shape_1,1572,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T125814Z\safe-summary.json,local calculation,Internal measurement; not official jury score
 20261017T125814Z_input_audit_example_user_message_count,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T125814Z\safe-summary.json,local calculation,Internal measurement; not official jury score
 20261017T125814Z_input_audit_example_prior_assistant_response_count,0,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T125814Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_model_load_sec,49.60899999999674,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_cases,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_image_count_per_case,8,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_vision_weight_tensors,315,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_total_weight_tensors,625,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_model_technical_registered_parameter_storage_bytes_by_device_cuda:0,4255064064,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_model_technical_quantized_text_linear_modules,0,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_model_technical_quantized_vision_linear_modules,0,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_generation_sec_by_case_short_domain_gate,16.671999999991385,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_batch_size,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_input_tokens,1572,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_vision_start_count,8,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_vision_end_count,8,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_token_count,968,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_video_token_count,0,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_expected_image_tokens,968,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_0_0,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_0_1,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_0_2,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_1_0,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_1_1,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_1_2,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_2_0,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_2_1,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_2_2,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_3_0,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_3_1,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_3_2,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_4_0,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_4_1,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_4_2,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_5_0,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_5_1,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_5_2,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_6_0,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_6_1,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_6_2,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_7_0,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_7_1,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_image_grid_thw_7_2,22,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_pixel_shape_0,3872,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_pixel_shape_1,1536,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_pixel_min,-0.003921568859368563,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_pixel_max,-0.003921568859368563,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_pixel_mean,-0.003921568393707275,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_pixel_std,0.0,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_attention_mask_shape_0,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_attention_mask_shape_1,1572,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_user_message_count,1,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
+20261017T144419Z_input_audit_example_prior_assistant_response_count,0,see metric name,synthetic,not applicable,.private\synthetic-semantics\20261017T144419Z\safe-summary.json,local calculation,Internal measurement; not official jury score
 synthetic-format-safe-summary_generated_tokens,192,see metric name,synthetic,not applicable,.private\synthetic-format-safe-summary.json,local calculation,Internal measurement; not official jury score
 synthetic-format-safe-summary_response_chars,457,see metric name,synthetic,not applicable,.private\synthetic-format-safe-summary.json,local calculation,Internal measurement; not official jury score
 test-suite-safe-summary_tests,37,see metric name,technical,not applicable,.private\test-suite-safe-summary.json,local calculation,Internal measurement; not official jury score
@@ -864,27 +914,134 @@ test-suite-safe-summary_errors,0,see metric name,technical,not applicable,.priva
 test-suite-safe-summary_failures,0,see metric name,technical,not applicable,.private\test-suite-safe-summary.json,local calculation,Internal measurement; not official jury score
 test-suite-safe-summary_skipped,0,see metric name,technical,not applicable,.private\test-suite-safe-summary.json,local calculation,Internal measurement; not official jury score
 test-suite-safe-summary_time_sec,12.46,see metric name,technical,not applicable,.private\test-suite-safe-summary.json,local calculation,Internal measurement; not official jury score
-budget_protocol_baseline_frames,12,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_baseline_max_new_tokens,512,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_baseline_max_side,448,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_baseline_threshold,0.8,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_coarse_frames,8,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_max_coarse_passes,1,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_max_refinements,1,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_refine_frames,4,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_refine_radius_sec,3,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_max_new_tokens_coarse,192,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_max_new_tokens_refine,128,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_max_side,384,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_processor_max_pixels,131072,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_threshold,0.8,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_max_events_coarse,2,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_max_events_refine,1,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_observation_max_chars,48,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_candidate_limitation_max_chars,32,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_technical_gate_train_probe_count,3,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_technical_gate_max_train_only_syntax_repairs,1,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_technical_gate_request_target_max_sec,240,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_technical_gate_absolute_api_deadline_sec,295,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_technical_gate_engine_analysis_deadline_sec,220,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
-budget_protocol_quality_gate_tune_evaluations_per_configuration,1,configured value,BUDGET-01,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate-control_seed,26101731,see metric name,train,train,.private\gate-control\registration-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_selected,8,see metric name,train,train,.private\gate-control\registration-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_positive,4,see metric name,train,train,.private\gate-control\registration-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_negative,4,see metric name,train,train,.private\gate-control\registration-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_unique_groups,8,see metric name,train,train,.private\gate-control\registration-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_requested,8,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_completed,8,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_coarse_gate_confusion_matrix_tn_fp_fn_tp_0_0,4,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_coarse_gate_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_coarse_gate_confusion_matrix_tn_fp_fn_tp_1_0,4,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_coarse_gate_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_coarse_gate_precision,0.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_coarse_gate_recall,0.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_coarse_gate_specificity,1.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_coarse_gate_balanced_accuracy,0.5,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_coarse_gate_f1,0.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_final_pipeline_confusion_matrix_tn_fp_fn_tp_0_0,4,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_final_pipeline_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_final_pipeline_confusion_matrix_tn_fp_fn_tp_1_0,4,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_final_pipeline_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_final_pipeline_precision,0.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_final_pipeline_recall,0.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_final_pipeline_specificity,1.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_final_pipeline_balanced_accuracy,0.5,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_final_pipeline_f1,0.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_positive_control_confusion_matrix_tn_fp_fn_tp_0_0,0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_positive_control_confusion_matrix_tn_fp_fn_tp_0_1,4,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_positive_control_confusion_matrix_tn_fp_fn_tp_1_0,0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_positive_control_confusion_matrix_tn_fp_fn_tp_1_1,4,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_positive_control_precision,0.5,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_positive_control_recall,1.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_positive_control_specificity,0.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_positive_control_balanced_accuracy,0.5,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_positive_control_f1,0.6666666666666666,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_negative_control_confusion_matrix_tn_fp_fn_tp_0_0,4,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_negative_control_confusion_matrix_tn_fp_fn_tp_0_1,0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_negative_control_confusion_matrix_tn_fp_fn_tp_1_0,4,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_negative_control_confusion_matrix_tn_fp_fn_tp_1_1,0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_negative_control_precision,0.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_negative_control_recall,0.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_negative_control_specificity,1.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_negative_control_balanced_accuracy,0.5,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_always_negative_control_f1,0.0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_model_load_sec,4961.593999999997,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_engine_latency_mean_sec,23.97649999999703,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_engine_latency_max_sec,28.780999999988126,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_gate_generation_calls,8,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_coarse_positive_without_final_event,0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_timestamp_matched_positive_count,0,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+gate-control_vram_allocated_peak_mib,4557.61962890625,see metric name,train,train,.private\gate-control\train-safe-summary.json,local calculation,Internal measurement; not official jury score
+audit_packages,64,see metric name,train,train,.private\runtime-upgrade\audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+audit_affected_packages,0,see metric name,train,train,.private\runtime-upgrade\audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+audit_unique_advisory_ids,0,see metric name,train,train,.private\runtime-upgrade\audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+audit_skipped_packages,0,see metric name,train,train,.private\runtime-upgrade\audit\safe-summary.json,local calculation,Internal measurement; not official jury score
+audit-after-decoder_packages,64,see metric name,train,train,.private\runtime-upgrade\audit-after-decoder\safe-summary.json,local calculation,Internal measurement; not official jury score
+audit-after-decoder_affected_packages,0,see metric name,train,train,.private\runtime-upgrade\audit-after-decoder\safe-summary.json,local calculation,Internal measurement; not official jury score
+audit-after-decoder_unique_advisory_ids,0,see metric name,train,train,.private\runtime-upgrade\audit-after-decoder\safe-summary.json,local calculation,Internal measurement; not official jury score
+audit-after-decoder_skipped_packages,0,see metric name,train,train,.private\runtime-upgrade\audit-after-decoder\safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavutil_0,61,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavutil_1,1,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavutil_2,102,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavcodec_0,63,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavcodec_1,1,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavcodec_2,102,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavformat_0,63,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavformat_1,1,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavformat_2,102,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavdevice_0,63,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavdevice_1,1,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavdevice_2,102,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavfilter_0,12,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavfilter_1,1,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libavfilter_2,102,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libswscale_0,10,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libswscale_1,1,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libswscale_2,102,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libswresample_0,7,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libswresample_1,1,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+runtime-upgrade_ffmpeg_library_versions_libswresample_2,102,see metric name,train,train,.private\runtime-upgrade\component-safe-summary.json,local calculation,Internal measurement; not official jury score
+patched-tests-safe-summary_tests,44,see metric name,technical,not applicable,.private\patched-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+patched-tests-safe-summary_errors,0,see metric name,technical,not applicable,.private\patched-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+patched-tests-safe-summary_failures,0,see metric name,technical,not applicable,.private\patched-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+patched-tests-safe-summary_skipped,0,see metric name,technical,not applicable,.private\patched-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+patched-tests-safe-summary_time_sec,67.217,see metric name,technical,not applicable,.private\patched-tests-safe-summary.json,local calculation,Internal measurement; not official jury score
+budget_protocol_baseline_frames,12,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_baseline_max_new_tokens,512,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_baseline_max_side,448,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_baseline_threshold,0.8,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_coarse_frames,8,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_coarse_passes,1,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_refinements,1,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_refine_frames,4,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_refine_radius_sec,3,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_new_tokens_coarse,192,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_new_tokens_refine,128,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_side,384,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_processor_max_pixels,131072,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_threshold,0.8,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_events_coarse,2,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_max_events_refine,1,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_observation_max_chars,48,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_candidate_limitation_max_chars,32,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_technical_gate_train_probe_count,3,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_technical_gate_max_train_only_syntax_repairs,1,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_technical_gate_request_target_max_sec,240,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_technical_gate_absolute_api_deadline_sec,295,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_technical_gate_engine_analysis_deadline_sec,220,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+budget_protocol_quality_gate_tune_evaluations_per_configuration,1,configured value,BUDGET-01R1,not applicable,config/budget-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_selection_seed,26101731,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_selection_per_label,4,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_selection_total,8,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_decision_max_new_tokens,32,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_detail_coarse_frames,8,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_detail_refine_frames,4,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_detail_max_refinements,1,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_detail_max_events_coarse,2,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_detail_max_events_refine,1,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_detail_max_new_tokens_coarse,192,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_detail_max_new_tokens_refine,128,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_detail_engine_deadline_sec,220,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_detail_official_api_deadline_sec,295,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_control_acceptance_technical_failures,0,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_control_acceptance_coarse_gate_recall_min,1.0,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_control_acceptance_coarse_gate_specificity_min,0.5,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_control_acceptance_coarse_gate_balanced_accuracy_min,0.75,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_control_acceptance_final_recall_min,1.0,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_control_acceptance_final_specificity_min,0.5,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_control_acceptance_final_balanced_accuracy_min,0.75,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_control_acceptance_final_f1_min,0.8,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_control_acceptance_max_engine_latency_sec,220,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"
+gate_protocol_tune_maximum_runs,1,configured value,GATE-01,not applicable,config/gate-protocol.json,local calculation,"Pre-registered configuration/target, not a measured result"

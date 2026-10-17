@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 def ensure_idle():
     import psutil
     own_lineage={os.getpid(),*[p.pid for p in psutil.Process().parents()]}
-    names={'qa_model_api.py','benchmark_budget.py','evaluate.py','profile_baseline_stages.py','diagnose_synthetic_semantics.py'}
+    names={'qa_model_api.py','benchmark_budget.py','evaluate.py','evaluate_gate.py','profile_baseline_stages.py','diagnose_synthetic_semantics.py'}
     for p in psutil.process_iter():
         try:
             if p.pid not in own_lineage and Path(p.cwd()).resolve()==ROOT and any(Path(a).name in names for a in p.cmdline()[1:]):
@@ -123,7 +123,7 @@ def main():
     from safetensors import safe_open
     with safe_open(ROOT/'models/qwen3-vl-2b/model.safetensors',framework='pt',device='cpu') as f:weight_keys=set(f.keys())
     vision_keys=[k for k in weight_keys if 'visual.' in k]
-    report={'scope':'generated uniform gray RGB images only; no media or labels read','model_load_sec':load,
+    report={'scope':'generated uniform gray RGB images only; no media or labels read','model_load_sec':load,'runtime_torch':str(torch.__version__),
             'cases':len(records),'checks':checks,'image_count_per_case':8,'holdout_opened':False,'tune_opened':False,
             'model_class':type(engine.model).__name__,'processor_class':type(processor).__name__,
             'architectures':engine.model.config.architectures,'vision_weight_tensors':len(vision_keys),

@@ -23,7 +23,7 @@ if structured.exists() and json.loads(structured.read_text())['stage'] in ['stru
 import psutil
 for process in psutil.process_iter():
     try:
-        if Path(process.cwd()).resolve()==ROOT and any(Path(x).name in {'benchmark.py','evaluate.py','diagnose_synthetic_structure.py','qa_model_api.py','profile_baseline_stages.py','benchmark_budget.py'} for x in process.cmdline()[1:]):
+        if Path(process.cwd()).resolve()==ROOT and any(Path(x).name in {'benchmark.py','evaluate.py','evaluate_gate.py','diagnose_synthetic_structure.py','diagnose_synthetic_semantics.py','qa_model_api.py','profile_baseline_stages.py','benchmark_budget.py'} for x in process.cmdline()[1:]):
             raise RuntimeError('Owned model workload is active; no environment prepared')
     except (psutil.Error,OSError,ValueError):pass
 driver=ctypes.WinDLL('nvcuda.dll');version=ctypes.c_int()
@@ -36,12 +36,23 @@ for artifact in cfg['artifacts']:
     if path.resolve().parent!=out.resolve():raise RuntimeError('Unexpected wheel path')
     fetch(artifact['url'],path,artifact['bytes'],artifact['sha256'],progress=out/(path.name+'.progress.json'))
     wheels.append(path)
+decoder=cfg.get('native_decoder')
+if decoder:
+    if urllib.parse.urlsplit(decoder['url']).hostname!='files.pythonhosted.org':raise RuntimeError('Decoder must use the official PyPI wheel host')
+    path=out/decoder['filename']
+    if path.resolve().parent!=out.resolve():raise RuntimeError('Unexpected decoder wheel path')
+    fetch(decoder['url'],path,decoder['bytes'],decoder['sha256'],progress=out/(path.name+'.progress.json'))
+    wheels.append(path)
+requirements=ROOT/'requirements.txt'
+if decoder:
+    requirements=out/'requirements-patched.in'
+    requirements.write_text('\n'.join(line for line in (ROOT/'requirements.txt').read_text().splitlines() if not line.startswith('av=='))+'\n')
 uv=Path(r'C:\Users\gokusen\AppData\Local\Microsoft\WinGet\Packages\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\uv.exe')
 env=os.environ.copy();env.update(UV_CACHE_DIR=str(ROOT/'.cache'),UV_HTTP_TIMEOUT='600')
 with (out/'install.log').open('w') as log:
     if not target.exists():subprocess.run([str(uv),'venv','--python',sys._base_executable,str(target)],cwd=ROOT,env=env,stdout=log,stderr=log,check=True)
     if not (target/'pyvenv.cfg').is_file():raise RuntimeError('Existing target is not a venv; left untouched')
     python=target/'Scripts/python.exe'
-    subprocess.run([str(uv),'pip','install','--python',str(python),'-r',str(ROOT/'requirements.txt'),*[str(w) for w in wheels],'--no-progress'],cwd=ROOT,env=env,stdout=log,stderr=log,check=True)
+    subprocess.run([str(uv),'pip','install','--python',str(python),'-r',str(requirements),*[str(w) for w in wheels],'--no-progress'],cwd=ROOT,env=env,stdout=log,stderr=log,check=True)
 record={'status':'isolated_environment_prepared_not_validated','torch':cfg['torch'],'torchvision':cfg['torchvision'],'target':str(target),'active_environment_modified':False,'model_weights_reused':True,'checked_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}
 (out/'safe-summary.json').write_text(json.dumps(record,indent=2),encoding='utf-8');print(json.dumps(record))

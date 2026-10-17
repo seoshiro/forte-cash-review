@@ -3,6 +3,14 @@
   "torchvision": "0.29.1+cu130",
   "minimum_driver_api": 13000,
   "environment": ".venv-patched",
+  "native_decoder": {
+    "name": "av",
+    "version": "19.0.1",
+    "url": "https://files.pythonhosted.org/packages/e6/dc/a87a5a5e3ac462734f9befd8bad1447301e5802d8c111e22bf708fba7af3/av-19.0.1-cp312-abi3-win_amd64.whl",
+    "filename": "av-19.0.1-cp312-abi3-win_amd64.whl",
+    "bytes": 28149519,
+    "sha256": "906fc3db09288319a75ea23ffefb59961c7dbe0d1c074601507a89de7d8593d8"
+  },
   "sources": [
     "https://download.pytorch.org/whl/cu130/torch/",
     "https://download.pytorch.org/whl/cu130/torchvision/"

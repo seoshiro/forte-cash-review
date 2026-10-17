@@ -1,0 +1,59 @@
+{
+  "protocol_id": "GATE-01",
+  "registered_before_train_control": true,
+  "hypothesis": "A separate short observable-decision gate avoids priming an event narrative; detail extraction only follows a positive gate. Synthetic negatives passed; real-video quality remains unproven.",
+  "base_protocol": "BUDGET-01R1",
+  "selection": {
+    "split": "train",
+    "seed": 26101731,
+    "per_label": 4,
+    "total": 8,
+    "unique_auto_groups": true,
+    "method": "SHA256 seeded ordering of groups, then SHA256 seeded ordering of source hashes; one source per group; interleave by seeded source hash",
+    "label_used_for_selection_and_evaluation_only": true
+  },
+  "decision": {
+    "prompt_revision": "synthetic-short-domain-gate-1",
+    "output": "visible_violation boolean",
+    "max_new_tokens": 32,
+    "per_sequence": true,
+    "technical_failure_is_not_negative": true,
+    "negative_meaning": "No supported candidate in the sampled frames; not proof that the entire video is clear"
+  },
+  "detail": {
+    "positive_candidates_only": true,
+    "coarse_frames": 8,
+    "refine_frames": 4,
+    "max_refinements": 1,
+    "max_events_coarse": 2,
+    "max_events_refine": 1,
+    "max_new_tokens_coarse": 192,
+    "max_new_tokens_refine": 128,
+    "engine_deadline_sec": 220,
+    "official_api_deadline_sec": 295
+  },
+  "control_acceptance": {
+    "scope": "Initial useful-signal gate on this small balanced TRAIN control, not a deployment or independent generalization claim",
+    "technical_failures": 0,
+    "all_source_hashes_unchanged": true,
+    "coarse_gate_recall_min": 1.0,
+    "coarse_gate_specificity_min": 0.5,
+    "coarse_gate_balanced_accuracy_min": 0.75,
+    "final_recall_min": 1.0,
+    "final_specificity_min": 0.5,
+    "final_balanced_accuracy_min": 0.75,
+    "final_f1_min": 0.8,
+    "max_engine_latency_sec": 220,
+    "must_beat_both_constant_controls_balanced_accuracy": true
+  },
+  "tune": {
+    "maximum_runs": 1,
+    "only_after_train_control_passes": true,
+    "same_source_and_configuration_required": true,
+    "quality_denominator": "Completed videos; technical failures separately reported",
+    "required_reporting": ["confusion_matrix", "precision", "recall", "specificity", "balanced_accuracy", "f1", "timestamp_error", "latency", "constant_controls"]
+  },
+  "runtime": {"initial_torch": "2.8.0+cu128", "precision": "bf16", "security_upgrade_is_separate_comparison": true},
+  "stopping_rule": "No threshold, prompt or seed selection after observing the control; on failure do not run TUNE. Holdout remains closed.",
+  "limitations": ["Small TRAIN control is not held-out evidence", "Automatic groups await local human scene-family review", "Sparse frames may miss short actions", "Event types and evidence relevance lack independent annotations"]
+}

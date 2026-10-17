@@ -4,10 +4,14 @@ No skipped package is counted as clean. Local CUDA version labels are removed
 only for the upstream advisory query, never from the actual environment lock.
 """
 from pathlib import Path
-import importlib.metadata as metadata,urllib.request,urllib.parse,json,time
+import importlib.metadata as metadata,urllib.request,urllib.parse,json,time,argparse
 from concurrent.futures import ThreadPoolExecutor
 from packaging.version import Version
 ROOT=Path(__file__).resolve().parents[1]
+p=argparse.ArgumentParser();p.add_argument('--output-directory');a=p.parse_args()
+destination=(ROOT/a.output_directory).resolve() if a.output_directory else ROOT/'.private'
+if not destination.is_relative_to((ROOT/'.private').resolve()):raise RuntimeError('Audit output must remain private')
+destination.mkdir(parents=True,exist_ok=True)
 packages=sorted({(d.metadata['Name'],d.version) for d in metadata.distributions()})
 def check(package):
     name,installed=package;version=Version(installed).base_version
@@ -25,8 +29,9 @@ summary={'scanner':'project read-only installed-version lookup',
          'packages':len(records),'affected_packages':len(affected),
          'unique_advisory_ids':len(ids),'skipped_packages':len(failures),
          'checked_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),
-         'scope':'installed Python packages; no native codec audit or penetration test'}
-(ROOT/'.private/dependency-audit-structured.json').write_text(json.dumps(records,indent=2),encoding='utf-8')
-(ROOT/'.private/structured-security-safe-summary.json').write_text(json.dumps(summary,indent=2),encoding='utf-8')
+         'scope':'installed Python packages; no native codec audit or penetration test',
+         'result':'PASS' if not failures and not affected else 'FAIL'}
+(destination/('dependency-audit.json' if a.output_directory else 'dependency-audit-structured.json')).write_text(json.dumps(records,indent=2),encoding='utf-8')
+(destination/('safe-summary.json' if a.output_directory else 'structured-security-safe-summary.json')).write_text(json.dumps(summary,indent=2),encoding='utf-8')
 print(json.dumps(summary))
-raise SystemExit(bool(failures))
+raise SystemExit(bool(failures or affected))

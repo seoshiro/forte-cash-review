@@ -2,6 +2,14 @@
 
 ## Текущее состояние, 17 октября
 
+GATE-01 завершил фиксированный TRAIN-контроль: 8/8, 4+4, seed 26101731, восемь разных автоматических групп, ошибок 0, исходные SHA сохранены. Coarse gate и итоговый путь дали TN/FP/FN/TP = 4/0/4/0, recall 0, specificity 1, balanced accuracy 0.5, F1 0. Совпадает с always-negative контролем. Кандидат отклонён; условный TUNE не запущен, holdout закрыт. Порог/seed не изменялись после регистрации.
+
+Engine mean 23.9765 s / max 28.781 s; model load 4961.594 s пересекается с периодом недоступности компьютера. Этот запуск нельзя использовать как доказательство полного SLA. Прежний loopback max 63.172 s относится к BUDGET-01R1, cold worker и локальному API; внешний доступ и физическое отключение сети не проверены. Источник GATE: .private/gate-control/train-safe-summary.json. Новые детали не генерировались, поскольку все coarse gates отрицательны.
+
+Отдельная .venv-patched создана: Torch 2.14.1+cu130 / torchvision 0.29.1+cu130. Read-only PyPI audit: 64 packages, affected 0, skipped 0. Это не native audit: на момент проверки PyAV 16.0.1 / FFmpeg 8.0, обновление декодера и CUDA/model validation ещё не подтверждены. Рабочая .venv сохранена.
+
+Обновление отдельной среды завершено позднее: PyAV 19.0.1 / фактический FFmpeg 9.0.2, повторный PyPI audit 64/0 affected/0 skipped, 44 synthetic tests passed. Синтетический BF16 model check на Torch 2.14.1+cu130 прошёл input/decoding/negative checks; model load 49.609 s. Это не проверка качества реальных видео. Код рабочего API ещё использует прежнюю среду до явного переключения после validation.
+
 BUDGET-01R1 закончил три TRAIN-пробы: schema valid 3/3, технических ошибок нет, source checksums не изменились. Engine mean 31.281 s, max 33.812 s; model load 22.641 s отдельно. Пиковая allocated VRAM 4647.925 MiB, reserved 4722 MiB. Это не полный API latency и не сравнение скорости на одинаковой выборке с uniform TUNE.
 
 Качество не прошло gate: TN/FP/FN/TP = 0/2/0/1, specificity 0, balanced accuracy 0.5. Все три результата положительны. На сгенерированных пустых изображениях также получены два qualifying candidates. Нельзя считать это пригодным детектором или положительным результатом улучшения. Новый TUNE не запущен, holdout закрыт. Источник: .private/budget-benchmark/*/safe-summary.json; ledger воспроизводит численные claims.

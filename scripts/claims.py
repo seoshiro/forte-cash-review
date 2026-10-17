@@ -59,6 +59,11 @@ sources+=list(root.glob('empty-decoder-safe-summary.json'))
 sources+=list((root/'synthetic-semantics').glob('*/safe-summary.json'))
 sources+=list(root.glob('synthetic-format-safe-summary.json'))
 sources+=list(root.glob('test-suite-safe-summary.json'))
+sources+=list((root/'gate-control').glob('*-safe-summary.json'))
+sources+=list((root/'runtime-upgrade/audit').glob('safe-summary.json'))
+sources+=list((root/'runtime-upgrade/audit-after-decoder').glob('safe-summary.json'))
+sources+=list((root/'runtime-upgrade').glob('component-safe-summary.json'))
+sources+=list(root.glob('patched-tests-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
     elif isinstance(value,dict):
@@ -82,10 +87,11 @@ for f in sources:
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
 def configured(prefix,value,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):
-        add(prefix,value,'configured value','BUDGET-01',source,'Pre-registered configuration/target, not a measured result')
+        add(prefix,value,'configured value','GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
     elif isinstance(value,dict):
         for k,v in value.items():configured(prefix+'_'+k,v,source)
 configured('budget_protocol',json.loads(Path('config/budget-protocol.json').read_text()),'config/budget-protocol.json')
+configured('gate_protocol',json.loads(Path('config/gate-protocol.json').read_text()),'config/gate-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)
 print(json.dumps({'claim_rows':len(rows),'hardware':env}))
