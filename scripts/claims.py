@@ -73,6 +73,9 @@ sources+=list((root/'clarifications').glob('source-registration.json'))
 sources+=list((root/'clarifications').glob('asr-audit*/safe-summary.json'))
 sources+=list((root/'gguf-sequence-diagnostic').glob('safe-summary.json'))
 sources+=list((root/'gguf-sequence-diagnostic-2048').glob('safe-summary.json'))
+sources+=list((root/'panel-control').glob('*-safe-summary.json'))
+sources+=list(root.glob('panel-tests-safe-summary.json'))
+sources+=list(root.glob('panel-power-safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):add(prefix,value,'see metric name',sample,source,'Internal measurement; not official jury score')
     elif isinstance(value,dict):
@@ -86,8 +89,10 @@ for f in sources:
     if f.parent.name=='gguf-control' and f.name=='synthetic-safe-summary.json':sample='synthetic'
     if f.parent.name=='gguf-shape-diagnostic':sample='synthetic'
     if f.parent.name in ['gguf-sequence-diagnostic','gguf-sequence-diagnostic-2048']:sample='synthetic'
+    if f.parent.name=='panel-control' and f.name.startswith('synthetic'):sample='synthetic'
     if f.parent.name=='clarifications':sample='technical'
     prefix=f.stem if f.parent==root else f.parent.name
+    if f.parent.name=='panel-control':prefix+='_'+f.stem
     for k,v in record.items():
         if k not in ['results','reports']:numeric(prefix+'_'+k,v,sample,str(f))
     metrics=record.get('results',record.get('reports',{}))
@@ -100,12 +105,13 @@ for f in sources:
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
 def configured(prefix,value,source):
     if isinstance(value,(int,float)) and not isinstance(value,bool):
-        add(prefix,value,'configured value','GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
+        add(prefix,value,'configured value','PANEL-01' if prefix.startswith('panel_protocol') else 'GGUF-01' if prefix.startswith('gguf_protocol') else 'GATE-01' if prefix.startswith('gate_protocol') else 'BUDGET-01R1',source,'Pre-registered configuration/target, not a measured result')
     elif isinstance(value,dict):
         for k,v in value.items():configured(prefix+'_'+k,v,source)
 configured('budget_protocol',json.loads(Path('config/budget-protocol.json').read_text()),'config/budget-protocol.json')
 configured('gate_protocol',json.loads(Path('config/gate-protocol.json').read_text()),'config/gate-protocol.json')
 configured('gguf_protocol',json.loads(Path('config/gguf-protocol.json').read_text()),'config/gguf-protocol.json')
+configured('panel_protocol',json.loads(Path('config/panel-protocol.json').read_text()),'config/panel-protocol.json')
 with out.open('w',newline='',encoding='utf-8') as fp:
     w=csv.DictWriter(fp,fieldnames=['claim','value','unit','sample','split','calculation','evidence_type','limitation'],lineterminator='\n');w.writeheader();w.writerows(rows)
 print(json.dumps({'claim_rows':len(rows),'hardware':env}))

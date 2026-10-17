@@ -1,3 +1,5 @@
+Current checkpoint: PANEL-01 passed generated input controls but failed the frozen TRAIN quality control (always negative). It is rejected for deployment. TUNE was not run and HOLDOUT remains closed. See [the complete panel measurement](panel-candidate.md) and claim ledger. IMG_5448 review was cancelled; it is not an active blocker. The main blocker is useful event detection. A public URL and production API key remain unconfigured.
+
 # Измеренный checkpoint
 
 ## Текущее состояние, 17 октября

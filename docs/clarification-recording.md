@@ -1,3 +1,5 @@
+Current status: the user cancelled further review of IMG_5448. Do not spend more time on ASR, transcript review or extracting requirements. Existing private files remain local and untouched. No transcript-derived requirement was adopted. Transcript review is no longer a project blocker; detection quality and end-to-end service checks take priority.
+
 # Локальные разъяснения сотрудника
 
 Отдельная запись IMG_5448.MOV найдена в явно указанной пользователем папке Downloads/open. Source registration хранит локальный путь, размер и SHA. Исходник read-only; файл не является train/tune/holdout примером. Скачивание Drive не выполнялось.
