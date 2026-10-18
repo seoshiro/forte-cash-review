@@ -3,7 +3,8 @@ import pytest
 
 
 @pytest.mark.parametrize('name', ['scripts.summarize_temporal_learnability',
-                                  'scripts.summarize_xclip_temporal_recipe'])
+                                  'scripts.summarize_xclip_temporal_recipe',
+                                  'scripts.summarize_xclip_last_layer'])
 def test_failed_reverification_revokes_old_calculation_success(tmp_path, monkeypatch, name):
     module = importlib.import_module(name)
     monkeypatch.setattr(module, 'OUT', tmp_path)

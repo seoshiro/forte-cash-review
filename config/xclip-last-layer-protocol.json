@@ -1,0 +1,124 @@
+{
+  "protocol_id": "XCLIP-LAST-LAYER-01",
+  "scope": "One adaptive exploratory TRAIN-only last-layer adaptation; prior TRAIN results informed this hypothesis. Not independent validation or a semantic detector",
+  "inputs": {
+    "unique_videos": 26,
+    "automatic_groups": 24,
+    "positive": 14,
+    "negative": 12,
+    "windows": 678,
+    "split": "Original unchanged TRAIN only; exact contents deduplicated; all views/windows stay in source group"
+  },
+  "model": {
+    "source": "Existing verified commercial-use XCLIP artifact and unchanged pinned processor/windows",
+    "layer": "mit.encoder.layers[-1].mlp.fc2",
+    "rank": 2,
+    "alpha": 2.0,
+    "adapter_parameters": 5120,
+    "adapter_input_dropout": 0.0,
+    "initialization": "A normal std 1/sqrt(2048), B zero; fixed seed",
+    "frozen_backbone": true,
+    "prefix": "Capture fc2 input/output, pre-layer_norm2 residual and outer MIT input; reproduce fp16 residual additions and pooling before normalization",
+    "activation_recomputation": "Only final linear delta, two original residual additions, pooling, normalization and head; no approximated mean-input replacement"
+  },
+  "replay": {
+    "all_train_windows_all_views_required_before_training": true,
+    "same_forward_max_absolute_embedding_error": 1e-06,
+    "historical_original_max_absolute_embedding_error": 0.001,
+    "historical_original_minimum_cosine": 0.9999,
+    "times_max_absolute_error_sec": 1e-09,
+    "zero_adapter_required": true,
+    "failure_policy": "Stop before training. Preserve aggregate reproducibility failure. A repair requires a new source-registration revision and cannot be reported as ML quality"
+  },
+  "views": {
+    "count": 2,
+    "original": "Unchanged decoded chronological eight-frame windows",
+    "augmentation": "PIL Brightness 0.9 then Contrast 1.1, same factors on every frame; original PTS/order/labels preserved",
+    "train_sampling": "Alternate all original videos and all augmented videos by optimizer step; no per-video selection",
+    "evaluation": "Original view only"
+  },
+  "projection": {
+    "components": 8,
+    "fit": "Existing equal-video weighted PCA fitted solely to ORIGINAL historical features of train-fold videos; fixed during adapter training; no held group inputs"
+  },
+  "head": {
+    "channels": 8,
+    "dropout": 0.25,
+    "trainable_parameters": 209,
+    "seed": 26101747,
+    "steps": 500,
+    "optimizer": "AdamW",
+    "learning_rate": 0.003,
+    "weight_decay": 0.1,
+    "checkpoint": "Last iterate only; no early stopping, search, seed choice or rerun"
+  },
+  "adapter_optimizer": {
+    "learning_rate": 0.001,
+    "weight_decay": 0.1,
+    "anchor_strength": 10.0,
+    "anchor": "Equal-video mean squared L2 distance of normalized adapted embeddings from normalized zero-adapter embeddings; valid windows only; current training view only",
+    "gradient_clip_l2": 1.0
+  },
+  "supervision": {
+    "positive": "Existing BCE at nearest original center to nonexhaustive official point; other positive windows context only",
+    "negative": "Existing BCE on maximum valid logit of each negative video",
+    "class_loss_weights": [
+      0.5,
+      0.5
+    ],
+    "no_other_positive_windows_marked_negative": true
+  },
+  "evaluation": {
+    "method": "Leave one whole unchanged TRAIN group out",
+    "folds": 24,
+    "threshold_logit": 0.0,
+    "pooling": "max",
+    "argmax_tie": "earliest",
+    "comparators": [
+      "unchanged cosine baseline on historical original features",
+      "same regularized head/views/steps with zero adapter frozen"
+    ],
+    "primary": "LoRA plus temporal head",
+    "baseline_cm": [
+      [
+        6,
+        6
+      ],
+      [
+        2,
+        12
+      ]
+    ],
+    "baseline_f1": 0.75,
+    "private_predictions_outward": false
+  },
+  "gates": {
+    "fn_max": 2,
+    "fp_max": 5,
+    "f1_min": 0.8,
+    "must_improve_f1_over_matched_frozen_control": true,
+    "point": "Nonregression of all-positive candidate-point MAE and common-TP paired MAE versus cosine baseline, both separately; no comparison of different TP cohorts"
+  },
+  "budget": {
+    "owned_wall_sec": 1600,
+    "prefix_phase_wall_sec": 900,
+    "learning_phase_wall_sec": 600,
+    "cpu_threads": 2,
+    "gpu_device": 0,
+    "max_torch_reserved_mib": 5000,
+    "min_free_gpu_before_mib": 4096,
+    "min_free_gpu_during_mib": 256,
+    "max_peak_working_set_mib": 4096,
+    "min_available_ram_before_mib": 3072,
+    "min_available_ram_during_mib": 1024,
+    "batch_windows": 2,
+    "maximum_runs": 1,
+    "maximum_tune_runs": 0,
+    "maximum_holdout_runs": 0,
+    "worker_processes": 1,
+    "max_windows_per_video": 180
+  },
+  "retention": "New prefix/adapter artifacts and per-video outputs private; safe technical aggregates only outward. Preserve original videos, caches, split, baseline and research UI8768. No credentials, system changes or foreign process cleanup",
+  "final_fit": "One additional fixed fullTRAIN fit per matched control and adapter arm after all CV; save private adapter pack even if rejected, clearly in-sample and release_eligible=false; no service promotion",
+  "stop": "One registered bounded attempt. Any replay/resource failure stops before later phases. Failed quality gates preserved; no TUNE/HOLDOUT, cloud inference, audio, faces, filename answers, legal/type invention, or grid search"
+}
