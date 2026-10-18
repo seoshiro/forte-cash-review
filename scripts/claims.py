@@ -173,6 +173,10 @@ sources+=list((root/'last-layer-budget-checkpoint').glob('*safe-summary.json'))
 sources+=list((root/'xclip-last-layer-diagnostic').glob('*safe-summary.json'))
 sources+=list((root/'last-layer-lifetime-synthetic').glob('safe-summary.json'))
 sources+=list((root/'research-delivery-preparation').glob('*safe-summary.json'))
+sources+=list((root/'xclip-last-layer-recovery').glob('*safe-summary.json'))
+sources+=list((root/'research-access-live').glob('*safe-summary.json'))
+sources+=list((root/'research-handoff').glob('safe-summary.json'))
+sources+=list((root/'recovery-release-checkpoint').glob('*safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -212,6 +216,10 @@ def numeric(prefix,value,sample,source):
         if 'xclip-last-layer-diagnostic' in source:limitation='Single original-recipe TRAIN prefix candidate-boundary fit without predictions or quality metrics. Original counter leaves post-fit guard ambiguity. Successful isolated fit does not establish historical RuntimeError cause'
         if 'last-layer-lifetime-synthetic' in source:limitation='Four identical fits on generated random prefixes only. Small synthetic lifetime probe; no leaked model parameters observed here, not proof for every real fold or historical error cause'
         if 'research-delivery-preparation' in source:limitation='Source/synthetic gateway and regression preparation only; no new key, public origin/tunnel, model quality, full OOF or semantic readiness'
+        if 'xclip-last-layer-recovery' in source:limitation='One authorized identical checkpointed TRAIN recovery pass; all ML recipe/folds/thresholds unchanged. Exploratory reused TRAIN, not independent/type/rule/evidence/camera acceptance. Complete-fit checkpoint cost and training monitor are not new-input inference latency'
+        if 'research-access-live' in source:limitation='Expiring protected research access/security tests and generated MOV public transport checks only; no bank data or detector-quality/competition-ready claim; timestamps and session availability are session-specific'
+        if 'research-handoff' in source:limitation='Private synthetic/aggregate-only handoff inventory; no credentials/bank media/weights included; not readiness or model quality'
+        if 'recovery-release-checkpoint' in source:limitation='Source/synthetic regression and release integrity checks only; not model quality or submission acceptance'
         if 'learnability-checkpoint' in source:limitation='Source/synthetic regression checkpoint only; no new model evaluation, semantic acceptance or submission'
         if 'domain-checkpoint' in source:limitation='Engineering/synthetic regression and source-integrity checkpoint only; no accepted model-quality or submission claim'
         if 'geometry_first_prompt_rule_or_allowed_token_selection' in prefix:limitation+='; legacy metric name counts first-definition semantics only, not allowed-list selection'
@@ -230,6 +238,8 @@ for f in sources:
     if f.parent.name=='xclip-last-layer-budget1800':sample='train' if f.name=='safe-summary.json' else 'technical'
     if f.parent.name in ['xclip-last-layer-diagnostic','research-delivery-preparation']:sample='technical'
     if f.parent.name=='last-layer-lifetime-synthetic':sample='synthetic'
+    if f.parent.name in ['research-access-live','research-handoff','recovery-release-checkpoint']:sample='synthetic' if f.name=='synthetic-safe-summary.json' else 'technical'
+    if f.parent.name=='xclip-last-layer-recovery':sample='train' if f.name=='safe-summary.json' else 'technical'
     if f.parent.parent.name=='synthetic-semantics' or f.name=='synthetic-format-safe-summary.json':sample='synthetic'
     if f.parent.name=='gguf-control' and f.name=='synthetic-safe-summary.json':sample='synthetic'
     if f.parent.name=='gguf-shape-diagnostic':sample='synthetic'
@@ -291,6 +301,7 @@ for f in sources:
     if f.parent.name in ['xclip-temporal-control','train-preparation-audit','current-nb231','domain-checkpoint']:prefix+='_'+f.stem
     if f.parent.name in ['xclip-last-layer-budget1800','last-layer-budget-checkpoint']:prefix+='_'+f.stem
     if f.parent.name in ['xclip-last-layer-diagnostic','last-layer-lifetime-synthetic','research-delivery-preparation']:prefix+='_'+f.stem
+    if f.parent.name in ['xclip-last-layer-recovery','research-access-live','research-handoff','recovery-release-checkpoint']:prefix+='_'+f.stem
     if f.parent.name=='run' and f.parent.parent.name=='xclip-temporal-control':sample='technical';prefix='xclip-temporal-control_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='runtime-template-audit':sample='synthetic';prefix='runtime-template-audit_monitor'
     if f.parent.name=='run' and f.parent.parent.name=='qwen-text-discrimination':sample='synthetic';prefix='qwen-text-discrimination_monitor'
@@ -314,7 +325,7 @@ for f in sources:
         if f.parent.name=='xclip-hardneg-control':metric_split='train'
         if f.parent.name=='xclip-spatial-control':metric_split='train'
         if f.parent.name=='xclip-linear-control':metric_split='train'
-        if f.parent.name in ['xclip-temporal-control','xclip-temporal-recipe-control','xclip-last-layer-control','xclip-last-layer-budget1800']:metric_split='train'
+        if f.parent.name in ['xclip-temporal-control','xclip-temporal-recipe-control','xclip-last-layer-control','xclip-last-layer-budget1800','xclip-last-layer-recovery']:metric_split='train'
         if f.parent.name.startswith('hybrid-r22'):metric_split='train'
         numeric(f.parent.name+'_'+strategy,result,metric_split,str(f))
         cm=result.get('confusion_matrix_tn_fp_fn_tp')
@@ -328,7 +339,7 @@ for f in sources:
                 if f.parent.name=='xclip-linear-control':limitation='One frozen cache-only reused-TRAIN LOGO head; no independent/type/rule/evidence validation; original baseline preserved'
                 if f.parent.name=='xclip-temporal-control':limitation='One frozen post-TUNE exploratory TRAIN LOGO temporal head; all gates failed, original baseline preserved; no independent/type/rule/evidence validation'
                 if f.parent.name=='xclip-temporal-recipe-control':limitation='Adaptive TRAIN LOGO after recipe selection on four exposed groups; not independent validation. FullTRAIN fit is in-sample; all useful gates failed; no semantic or release claim'
-                if f.parent.name in ['xclip-last-layer-control','xclip-last-layer-budget1800']:limitation='Adaptive exploratory TRAIN grouped OOF with fixed matched control; identical authorized full restart changes wall caps only after technical timeout; fullTRAIN fit is in-sample. No independent, semantic/type/rule/evidence or release claim'
+                if f.parent.name in ['xclip-last-layer-control','xclip-last-layer-budget1800','xclip-last-layer-recovery']:limitation='Adaptive exploratory TRAIN grouped OOF with fixed matched control; authorized fixed recipe recovery with no partial selection; fullTRAIN fit is in-sample. No independent, semantic/type/rule/evidence or release claim'
                 if f.parent.name.startswith('hybrid-r22'):limitation='Limited R22 reused-TRAIN group OOF; binary labels cannot validate types or observations; cached-XCLIP Qwen-stage latency excludes feature extraction/API upload'
                 add(f.parent.name+'_'+strategy+'_'+k,v,'videos',metric_split,str(f),limitation)
 out=Path('docs/claim-ledger.csv');out.parent.mkdir(exist_ok=True)
@@ -370,6 +381,8 @@ def configured(prefix,value,source):
             add(prefix,value,'configured value','XCLIP-LAST-LAYER-01-BUDGET1800',source,'Authorized identical restart with increased wall cap only; all ML choices unchanged; configured values are not achieved quality or runtime');return
         if prefix.startswith('last_layer_diagnostic_protocol'):
             add(prefix,value,'configured value','LAST-LAYER-FAILURE-DIAGNOSTIC-01',source,'Fixed technical candidate-boundary diagnostic target/budget; no historical cause, quality or semantic acceptance');return
+        if prefix.startswith('last_layer_recovery_protocol'):
+            add(prefix,value,'configured value','LAST-LAYER-RECOVERY-01',source,'One authorized complete-fit checkpointed recovery configuration; unchanged ML recipe; configured budget/counts are not measured quality or inference cost');return
         if prefix.startswith(('temporal_learnability_protocol','xclip_temporal_recipe_protocol')):
             add(prefix,value,'configured value','adaptive TRAIN diagnosis',source,'Fixed diagnostic/recipe targets and budget, not measured quality or independent validation');return
         if prefix.startswith('xclip_temporal_protocol'):
@@ -409,6 +422,7 @@ configured('xclip_temporal_recipe_protocol',json.loads(Path('config/xclip-tempor
 configured('xclip_last_layer_protocol',json.loads(Path('config/xclip-last-layer-protocol.json').read_text()),'config/xclip-last-layer-protocol.json')
 configured('xclip_last_layer_budget_protocol',json.loads(Path('config/xclip-last-layer-budget1800.json').read_text()),'config/xclip-last-layer-budget1800.json')
 configured('last_layer_diagnostic_protocol',json.loads(Path('config/last-layer-diagnostic.json').read_text()),'config/last-layer-diagnostic.json')
+configured('last_layer_recovery_protocol',json.loads(Path('config/last-layer-recovery.json').read_text()),'config/last-layer-recovery.json')
 configured('hybrid_protocol',json.loads(Path('config/hybrid-protocol.json').read_text()),'config/hybrid-protocol.json')
 from ledger_chunks import write_parts
 parts=write_parts(out.parent,rows)

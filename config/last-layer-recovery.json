@@ -1,0 +1,15 @@
+{
+  "protocol_id": "LAST-LAYER-RECOVERY-01",
+  "prior_diagnostic_registration_sha256": "16463126a8297f504975c5b7aaaf05f400f47a8dcf85d7bed0196b51034fda30",
+  "owned_wall_sec": 1800,
+  "absolute_cutoff_utc": "2026-10-18T02:00:00+00:00",
+  "cv_fits": 48,
+  "fixed_full_train_fits": 2,
+  "maximum_attempts": 1,
+  "recipe": "Exact unchanged XCLIP-LAST-LAYER-01-BUDGET1800 recipe; no hyperparameter/threshold/fold/seed changes",
+  "checkpoint": "Atomic complete-fit weights/projection/post-fit CPU+CUDA RNG and provenance; no partial optimizer resume; interrupted fit restarts from original seed",
+  "prefix": "Reused hash-verified saved prefixes, all26/two-view zero-adapter replay before fit",
+  "output": "Private fitted states and OOF predictions; outward complete aggregate metrics only; no partial model selection",
+  "tune_runs": 0,
+  "holdout_runs": 0
+}

@@ -1,8 +1,8 @@
 # Контур
 
-[Latest diagnostic: isolated fit passes; historical RuntimeError remains unproven; protected research gateway prepared](docs/last-layer-failure-diagnosis.md).
+[Latest: full OOF complete; adapter rejected; verified protected research HTTPS and private handoff](docs/last-layer-recovery.md).
 
-[Latest stage: identical 1800-second restart failed after 37/48 fits; full OOF blocked, exact RuntimeError origin not recorded](docs/last-layer-budget-continuation.md).
+
 
 [Новый этап: точный zero-adapter replay, остановка адаптации по бюджету и финальные синтетические скриншоты](docs/last-layer-experiment.md).
 
