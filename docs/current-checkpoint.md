@@ -1,13 +1,11 @@
 # Current checkpoint
 
-The single authorized identical last-layer restart ran and failed with RuntimeError after 37/48 CV fits. It did not hit its 1800-second cap: complete monitor wall was 1064.078 seconds; exit 1, cleanup confirmed. Exact error origin was not persisted. This is neither another timeout nor an established model-quality failure. No second instance or extra repeat is running.
+The isolated candidate-boundary adapter fit completed all500 original steps with exact zero-adapter replay. The old RuntimeError did not reproduce there. A four-fit synthetic lifetime probe found no retained model parameters and exactly equal repeated-fit weights. The historical error cause remains unknown; no fictitious cleanup/numerical fix or blind full repeat was applied.
 
-Zero-adapter replay again matched exactly on 26 TRAIN videos / 678 windows / two views (embedding and PTS error zero; replay wall 252.094 seconds). Original registration, sources, cache, baseline and research UI8768 remain preserved. The integrity helper verified the saved failed attempt without further model evaluation.
+Full OOF remains blocked after the preserved earlier37/48 fit failure. There is no final adapter pack, new F1, independent validation, accepted type/rule detector, public competition API or submission acceptance. TUNE/HOLDOUT remain closed. Baseline and UI8768 remain preserved and healthy.
 
-No complete adapter OOF/F1, final adapter pack or quality-based comparison exists. Baseline remains in place; adapter is not promoted. TUNE/HOLDOUT remain closed in this stage. The three private synthetic presentation screenshots retain their previous hashes. No new credentials, network grants, OS settings or bank artifacts were published.
+Safe failure classification/code-stack locations, private traceback and periodic numeric resource logging are implemented. A separate expiring research gateway is prepared for8769 but not started; no new working/permanent key or tunnel was created.420 source/synthetic tests passed, zero failures/errors/skips; no detector-quality claim follows from them.
 
-[Detailed outcome and exact blocker](last-layer-budget-continuation.md) | [Original timeout](last-layer-experiment.md) | [Claim ledger](claim-ledger-index.md).
+[Diagnostic evidence and exact blocker](last-layer-failure-diagnosis.md) | [Research delivery runbook](research-delivery-runbook.md) | [Claim ledger](claim-ledger-index.md).
 
-The next narrow step is safe failure-origin/resource instrumentation and a fixed diagnostic/checkpoint plan, rather than ML parameter selection from incomplete folds. There is no accepted action/type/rule detector, independent camera assessment, live competition API or submission acceptance. Working target remains 06:00 UTC, feature freeze 02:00 UTC, delivery reserve 05:00-06:00 UTC.
-
-Regression: 407 source/synthetic tests passed, zero failures/errors/skips. These are implementation checks, not detector-quality evidence.
+Working target remains06:00UTC, feature freeze02:00UTC, delivery reserve05:00-06:00UTC. A broader sequence-level diagnostic with completed-fit checkpoints would need to be fixed explicitly before further real-data computation.

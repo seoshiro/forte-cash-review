@@ -1,0 +1,16 @@
+{
+  "protocol_id": "LAST-LAYER-FAILURE-DIAGNOSTIC-01",
+  "prior_registration_sha256": "66bd2c2ab9f49ee073c37e31b7379035e3e76bd0f64b5d6381b3efa1e6dcca36",
+  "completed_cv_fits": 37,
+  "candidate_next_fit_ordinal": 38,
+  "group_ordinal": 19,
+  "arm": "last_layer_adapter",
+  "historical_origin_ambiguity": "Original check runs immediately after completed-counter update: failure could precede next fit. Diagnose boundary/next fit, not an asserted historical cause",
+  "recipe": "Unchanged original registered 500-step model, optimizer, seed, views, loss, threshold and train-fold projection",
+  "owned_wall_sec": 180,
+  "maximum_attempts": 1,
+  "prefix_source": "Hash-verified saved prefixes and historical TRAIN feature cache only; no new decode or media inspection",
+  "outputs": "Technical cause category, code-only stack locations and numerical resources only; raw traceback local private only; no predictions or quality metrics",
+  "tune_runs": 0,
+  "holdout_runs": 0
+}
