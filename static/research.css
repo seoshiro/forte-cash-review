@@ -1,1 +1,19 @@
 .research-banner{margin:26px 0 0;padding:18px 22px;background:#fff2d9;border:1px solid #d9bd82;border-radius:8px;color:#70562b;line-height:1.6;font-size:12px;display:flex;gap:12px;flex-direction:column}.research-banner strong{font-size:13px}.research-banner span{max-width:1100px}.intro{padding-top:42px}#result-note{max-width:900px;margin-bottom:24px}.event h4{letter-spacing:1px}.local{white-space:nowrap}.frame img{aspect-ratio:16/9}#filename{overflow-wrap:anywhere;max-width:100%}#candidate-title{overflow-wrap:anywhere}#video-fallback{line-height:1.6}@media(max-width:800px){header{gap:8px}.brand{letter-spacing:1px}.local{font-size:9px}#access{padding:8px;font-size:10px}.research-banner{padding:15px}.context-controls .quiet{padding:9px 8px}.result-heading{display:block}.badge{display:inline-block;margin-top:12px}}
+
+/* TerenOi visual theme: burgundy/coral palette; no bank logo or affiliation claim. */
+:root{--ui-burgundy:#68183f;--ui-coral:#f2768c;--ui-ink:#38232e;--ui-muted:#6c5361;--ui-paper:#fcf8fa;--ui-line:#e3ced8}
+body{background:var(--ui-paper);color:var(--ui-ink)}
+header{background:var(--ui-burgundy);border-bottom-color:var(--ui-burgundy);color:#fff}.brand{color:#fff}.brand small,.local{color:#f5d9e4}
+button{background:var(--ui-burgundy);color:#fff}button:hover{background:var(--ui-coral);color:#47132e}
+.quiet{background:#fff;border-color:#c3a0b2;color:var(--ui-burgundy)}.quiet:hover{background:#fde5ec;color:#5b1235;border-color:#cc5471}
+header .quiet{background:transparent;border-color:#eaa7bf;color:#fff}header .quiet:hover{background:var(--ui-coral);color:#47132e}
+button:focus-visible,a:focus-visible,label:focus-within,input:focus{outline-color:#a63d67}header button:focus-visible{outline-color:#ffc5d2}
+.eyebrow,.step,.privacy,.caption,.principles,footer,.empty p,.empty>span,.event h4,.event .note{color:var(--ui-muted)}
+.lead,.event p,.event a,dialog p{color:#604651}.intro aside,.event,dialog{background:#fff;border-color:var(--ui-line);box-shadow:0 8px 32px #68183f05}
+#drop{background:#fdf5f8;border-color:#be91a6}#drop.drag{background:#fce1e9;border-color:var(--ui-burgundy)}.upload-icon{color:var(--ui-burgundy)}#drop span:last-of-type{color:var(--ui-muted)}
+.empty,footer,.limits{border-color:var(--ui-line)}.limits{color:var(--ui-muted)}.badge{background:#f8e9f0;border-color:#c89aae;color:var(--ui-burgundy)}
+.player,.frame img{background:#2e1121}.timeline{background:#e8d6df}.timeline button{background:var(--ui-burgundy);color:#fff}
+.frame{border-color:#c7a1b3;background:#fff;color:#5b2941}.frame:hover{background:#fde5ec;color:#5b2941}.event.selected{border-left-color:var(--ui-burgundy)}
+.statusbox{background:#f5e8ef;border-color:#d4aabd;color:#5b1235}.statusbox p{color:#604651}.spinner{border-color:#d9b7c7;border-top-color:var(--ui-burgundy)}
+.error{background:#fdeaea;border-color:#d28894;color:#8a1c2a}dialog{color:var(--ui-ink)}dialog::backdrop{background:#330b20a6}dialog input{border-color:#c3a0b2}
+/* Warning stays amber; error stays red, independently of the brand palette. */
