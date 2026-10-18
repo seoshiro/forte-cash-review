@@ -30,7 +30,8 @@ def validate_terminal(r, terminal):
             assert terminal['reason'] in {'deadline', 'invalid_worker_report', 'missing_worker_report', 'terminal_write_failed'}
 
 
-def verify_saved_replay(cfg, reg):
+def verify_saved_replay(cfg, reg, out=OUT):
+    OUT = out
     replay = json.loads((OUT / 'replay-safe-summary.json').read_text()); gate = cfg['replay']
     assert replay['status'] == 'PASS' and replay['videos'] == 26 and replay['windows'] == 678 and replay['views'] == 2
     assert not replay['training_started'] and replay['zero_adapter_replay_is_not_ml_quality']
@@ -48,18 +49,22 @@ def verify_saved_replay(cfg, reg):
     return replay
 
 
-def main():
-    destination = OUT / 'calculation-safe-summary.json'; destination.unlink(missing_ok=True)
-    r = json.loads((OUT / 'safe-summary.json').read_text()); terminal = json.loads((OUT / 'run/terminal-safe-summary.json').read_text())
-    cfg = json.loads((ROOT / 'config/xclip-last-layer-protocol.json').read_text())
-    reg = OUT / 'registration.json'
-    assert sha(reg) == EXPECTED_REGISTRATION
+def main(*, out=None, config_path='config/xclip-last-layer-protocol.json', expected_registration=EXPECTED_REGISTRATION, verifier=None):
+    if out is None: out = OUT
+    destination = out / 'calculation-safe-summary.json'; destination.unlink(missing_ok=True)
+    r = json.loads((out / 'safe-summary.json').read_text()); terminal = json.loads((out / 'run/terminal-safe-summary.json').read_text())
+    cfg = json.loads((ROOT / config_path).read_text())
+    reg = out / 'registration.json'
+    assert sha(reg) == expected_registration
     registered = json.loads(reg.read_text()); hashes = registered['code_sha256']
     assert all(sha(ROOT / name) == value for name, value in hashes.items())
-    from scripts.xclip_last_layer import verify
-    verify(registered)  # Original source/cache bytes and runtime identity; no decoding.
+    if verifier is None:
+        from scripts.xclip_last_layer import verify
+        verifier = verify
+    verifier(registered)  # Original source/cache bytes and runtime identity; no decoding.
     validate_terminal(r, terminal)
-    saved_replay = verify_saved_replay(cfg, reg) if (OUT / 'replay-safe-summary.json').exists() else None
+    assert terminal['budget_sec'] == cfg['budget']['owned_wall_sec']
+    saved_replay = verify_saved_replay(cfg, reg, out) if (out / 'replay-safe-summary.json').exists() else None
     if r['status'] == 'failed':
         if r.get('phase') == 'fixed_group_oof_and_full_train': assert saved_replay is not None
         report = {'status': 'PASS', 'scope': 'Verification of preserved failed technical attempt only', 'experiment_status': 'failed',
@@ -94,9 +99,10 @@ def main():
         assert r[key] is False
     assert r['source_split_baseline_and_research_ui_preserved'] and r['adaptive_exploratory_train']
     budget = cfg['budget']
+    assert terminal['elapsed_sec'] <= budget['owned_wall_sec']
     assert r['torch_peak_reserved_mib'] <= budget['max_torch_reserved_mib'] and r['process_peak_working_set_mib'] <= budget['max_peak_working_set_mib']
     assert r['learning_phase_wall_sec'] <= budget['learning_phase_wall_sec'] and replay['phase_wall_sec'] <= budget['prefix_phase_wall_sec']
-    folder = OUT / 'final-train-pack'; pack = json.loads((folder / 'metadata.json').read_text())
+    folder = out / 'final-train-pack'; pack = json.loads((folder / 'metadata.json').read_text())
     assert pack['registration_sha256'] == sha(reg) and not pack['release_eligible']
     assert sha(folder / 'projection.npz') == pack['projection_sha256'] and sha(folder / 'head-adapter.safetensors') == pack['head_adapter_sha256']
     report = {'status': 'PASS', 'experiment_status': 'completed', 'scope': 'Aggregate arithmetic, registered source and artifact verification only',

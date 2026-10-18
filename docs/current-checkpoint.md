@@ -1,18 +1,13 @@
-# Current checkpoint — TerenOi / Аудит
+# Current checkpoint
 
-The last-layer experiment stopped at its fixed training-time budget. Zero-adapter replay matched exactly, but only 27 of 48 CV fits completed. There is no complete adapter OOF score, final adapter pack, or promotion. See [measured result and remaining plan](last-layer-experiment.md).
+The single authorized identical last-layer restart ran and failed with RuntimeError after 37/48 CV fits. It did not hit its 1800-second cap: complete monitor wall was 1064.078 seconds; exit 1, cleanup confirmed. Exact error origin was not persisted. This is neither another timeout nor an established model-quality failure. No second instance or extra repeat is running.
 
-| Latest evidence | Limit |
-|---|---|
-| Replay | 26 TRAIN videos, 678 windows, two views; maximum embedding and PTS differences zero; technical reproducibility only |
-| Bounded adaptation | 600-second learning limit reached; 862.234-second complete monitor; owned cleanup confirmed; no automatic retry |
-| Previous full TRAIN comparisons | Original temporal OOF F1=0; learnability-control recipe OOF F1=0.466667; cosine baseline F1=0.75. Reused exploratory TRAIN, not independent validation |
-| Original one-time TUNE | Preserved F1=0.222222; not opened again. HOLDOUT closed |
-| Local product | Research UI at 127.0.0.1:8768 healthy; unverified type/rule, competition API closed |
-| Presentation | Three generated-geometric UI screenshots, permanently labeled synthetic, private files only; no detector-quality demonstration |
-| Regression | 392 source/synthetic tests passed; no domain quality or jury-readiness claim |
-| Privacy/source | Original source/cache/baseline/UI hashes preserved; no bank media/results or credentials in Git |
+Zero-adapter replay again matched exactly on 26 TRAIN videos / 678 windows / two views (embedding and PTS error zero; replay wall 252.094 seconds). Original registration, sources, cache, baseline and research UI8768 remain preserved. The integrity helper verified the saved failed attempt without further model evaluation.
 
-No accepted action/type/rule detector, independent camera quality, active public competition service, or submission acceptance is claimed. The permanent jury key remains uncreated and the form was not sent. User target is 18 October 06:00 UTC; supplied organizer deadline 07:00 UTC. Freeze at 02:00 UTC and reserve 05:00–06:00 UTC for delivery/availability.
+No complete adapter OOF/F1, final adapter pack or quality-based comparison exists. Baseline remains in place; adapter is not promoted. TUNE/HOLDOUT remain closed in this stage. The three private synthetic presentation screenshots retain their previous hashes. No new credentials, network grants, OS settings or bank artifacts were published.
 
-[Last-layer result](last-layer-experiment.md) · [Learnability diagnostic](learnability-and-prototype.md) · [Normative provenance](legal-source-provenance.md) · [TUNE](xclip-tune.md) · [Claim ledger](claim-ledger-index.md).
+[Detailed outcome and exact blocker](last-layer-budget-continuation.md) | [Original timeout](last-layer-experiment.md) | [Claim ledger](claim-ledger-index.md).
+
+The next narrow step is safe failure-origin/resource instrumentation and a fixed diagnostic/checkpoint plan, rather than ML parameter selection from incomplete folds. There is no accepted action/type/rule detector, independent camera assessment, live competition API or submission acceptance. Working target remains 06:00 UTC, feature freeze 02:00 UTC, delivery reserve 05:00-06:00 UTC.
+
+Regression: 407 source/synthetic tests passed, zero failures/errors/skips. These are implementation checks, not detector-quality evidence.
