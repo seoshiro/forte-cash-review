@@ -1,5 +1,7 @@
 # Контур
 
+[Latest: real baseline results through an opt-in partial competition API; classification and rule semantics remain incomplete](docs/partial-v1-contract.md).
+
 [Latest: full OOF complete; adapter rejected; verified protected research HTTPS and private handoff](docs/last-layer-recovery.md).
 
 
@@ -16,7 +18,7 @@
 
 Контур связывает момент на видео, контекст до и после, исходные кадры и проверяемое правило. Проверяющий может перейти к эпизоду и оценить основание вывода. Решение остаётся за человеком.
 
-> **Исследовательский прототип.** Загрузка, фоновые задания, интерфейс и API-контракт проверены на искусственных MOV. Есть локальная экспериментальная бинарная модель XCLIP. Принятого классификатора типов и применимости правил пока нет. Независимое качество и готовность к конкурсной проверке не подтверждены; публичный сервис не запущен.
+> **Исследовательский прототип.** Загрузка, фоновые задания, интерфейс и API-контракт проверены на искусственных MOV. Есть локальная экспериментальная бинарная модель XCLIP и временный защищённый публичный доступ. Отдельный partial-v1 профиль возвращает реальные бинарные результаты и таймкоды в обязательной JSON-схеме с явным неустановленным типом. Принятого классификатора типов и применимости правил пока нет. Независимое качество и готовность к конкурсной проверке не подтверждены. [Режимы, ограничения и срок доступа](docs/partial-v1-contract.md).
 
 [Запуск](#быстрый-запуск) · [Архитектура](#архитектура) · [API](#api) · [Измерения](#измерения) · [Ограничения](#ограничения) · [Лицензии](#лицензии)
 
@@ -106,7 +108,9 @@ curl.exe "$taskBase/api/v1/jobs/JOB_ID_FROM_POST" -H "X-API-Key: $taskKey"
 
 Замените **JOB_ID_FROM_POST** ответом первого запроса и опрашивайте до конечного статуса. При **done** допустимы только **violation** и **no_violation**. Для первого violations содержит тип, секунду, описание и 1–3 JPEG в обычном base64; для второго список пустой. Ссылка на правило может входить в description. [Контракт и проверки](docs/competition-contract.md).
 
-**Бинарный research API:** /api/experimental/xclip/analyze и /api/experimental/xclip/jobs/{job_id}. Хранилище отдельное; тип **unverified**, правило **not_assessed**. В этом режиме /api/v1/* возвращает 503. Он запускается только локально и требует приватного TRAIN-пакета, которого нет в чистом клоне. [Подготовка и запуск](docs/xclip-experimental-api.md).
+**Бинарный research API:** /api/experimental/xclip/analyze и /api/experimental/xclip/jobs/{job_id}. Хранилище отдельное; тип **unverified**, правило **not_assessed**. В базовом режиме /api/v1/* возвращает 503. Сам движок выполняется локально и требует приватного TRAIN-пакета, которого нет в чистом клоне. [Подготовка и запуск](docs/xclip-experimental-api.md).
+
+**Новый opt-in partial-v1 профиль:** отдельный защищённый публичный origin возвращает реальные бинарные результаты baseline, таймкоды и исходные candidate JPEG через /api/v1/*. Тип явно не классифицирован; применимая норма не установлена. Это частичный экспериментальный контракт. [Проверка, ограничения и доступ](docs/partial-v1-contract.md).
 
 ## Измерения
 
@@ -124,7 +128,7 @@ curl.exe "$taskBase/api/v1/jobs/JOB_ID_FROM_POST" -H "X-API-Key: $taskKey"
 | InternVL3.5-1B visual control | 3/6 верных последовательностей, 1/2 UNKNOWN без изображения | Gate не пройден; TRAIN не запускался |
 | Ресурсы InternVL control | Пик устройства 2367 МиБ; минимум доступной RAM 2.334 ГиБ; monitor 57.203 с | Только 4 искусственных кадра/blank; не fit реального видео |
 | Синтетический внешний HTTPS | 2 задания, 3 исходных JPEG проверены; auth/изоляция/rollback PASS | Искусственные MOV, задержка 10 с; туннель и сервер остановлены; не качество модели |
-| Последний checkpoint | 344 теста passed, без failures/errors/skips | Инженерные и synthetic проверки; не точность детектора |
+| Текущий checkpoint | 432 теста passed, без failures/errors/skips | Source/synthetic проверки; не точность детектора; см. docs/partial-v1-contract.md |
 
 Расчёты: [XCLIP](docs/xclip-candidate.md), [logistic head и paired point diagnostics](docs/xclip-linear-head.md), [research API](docs/xclip-experimental-api.md), [InternVL](docs/internvl-visual-control.md), [TUNE](docs/xclip-tune.md), [temporal learning](docs/xclip-temporal-head.md), [аудит подготовки](docs/train-preparation-audit.md), [claim ledger](docs/claim-ledger-index.md). Logistic head уменьшил MAE кандидатной точки с 9 до 8.928571 с на тех же 14 positive видео, но увеличил FN/FP; это не принято как преимущество. Полный cache-only CPU процесс занял 3.75 с, без декодирования и encoder inference. Неудачные опыты сохраняются; параметры после результата не подбираются.
 

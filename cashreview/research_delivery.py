@@ -17,19 +17,22 @@ def validate_credentials(record, now=None):
 
 
 class ResearchOrigin:
-    def __init__(self,app,keys,expires,clock=time.time):
-        self.app=app;self.keys=tuple(value.encode('ascii') for value in keys);self.expires=expires;self.clock=clock
+    def __init__(self,app,keys,expires,clock=time.time,partial_v1=False):
+        self.app=app;self.keys=tuple(value.encode('ascii') for value in keys);self.expires=expires;self.clock=clock;self.partial_v1=partial_v1
     async def __call__(self,scope,receive,send):
         if scope['type']!='http':return await self.app(scope,receive,send)
         if self.clock()>=self.expires:return await self.reject(scope,receive,send,503,'Research session expired')
         path=scope['path'];method=scope['method']
-        if path=='/healthz' and method=='GET':return await JSONResponse({'status':'ok','mode':'xclip_experimental','release_eligible':False},headers={'Cache-Control':'no-store'})(scope,receive,send)
+        if path=='/healthz' and method=='GET':
+            health={'status':'ok','mode':'xclip_experimental','release_eligible':False}
+            if self.partial_v1:health.update(partial_v1_enabled=True,transport_schema='v1-compatible',semantic_contract_complete=False,type_classification='unverified',rule_application='not_assessed')
+            return await JSONResponse(health,headers={'Cache-Control':'no-store'})(scope,receive,send)
         if path.startswith('/api/'):
             values=[value for key,value in scope['headers'] if key.lower()==b'x-api-key']
             if len(values)!=1 or not any(secrets.compare_digest(values[0],key) for key in self.keys):return await self.reject(scope,receive,send,401,'API key required')
         allowed=(method=='GET' and path in STATIC) or (method=='POST' and path=='/api/experimental/xclip/analyze')
         allowed=allowed or (method=='GET' and bool(re.fullmatch(r'/api/experimental/xclip/jobs/[0-9a-f]{32}',path)))
-        # Existing engine explicitly returns 503 for this contract in research mode.
+        # Optional inner bridge translates these routes; otherwise native mode returns503.
         allowed=allowed or (method=='POST' and path=='/api/v1/analyze') or (method=='GET' and bool(re.fullmatch(r'/api/v1/jobs/[0-9a-f]{32}',path)))
         if not allowed:return await self.reject(scope,receive,send,404,'Not found')
         return await self.app(scope,receive,send)

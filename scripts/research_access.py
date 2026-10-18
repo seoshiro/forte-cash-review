@@ -5,6 +5,18 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from cashreview.supervision import atomic_json,OwnedWindowsJob
 from cashreview.technical_diagnostics import safe_exception
 OUT=ROOT/'.private/research-access-live'
+PORT=8769
+PARTIAL_V1=False
+
+
+def configure(partial):
+    global OUT,PORT,PARTIAL_V1
+    PARTIAL_V1=partial
+    if partial:OUT=ROOT/'.private/partial-contract-access';PORT=8770
+
+
+def credentials_file():
+    return ROOT/'.private/research-access-live/credentials.dpapi' if PARTIAL_V1 else OUT/'credentials.dpapi'
 
 
 def clean_env():
@@ -22,7 +34,8 @@ def identities(proc):
 def start():
     if OUT.exists():raise RuntimeError('Research access has an existing owned session; inspect status first')
     OUT.mkdir()
-    process=subprocess.Popen([sys.executable,str(Path(__file__).resolve()),'supervisor'],cwd=ROOT,env=clean_env(),
+    command=[sys.executable,str(Path(__file__).resolve()),'supervisor']+(['--partial-v1'] if PARTIAL_V1 else [])
+    process=subprocess.Popen(command,cwd=ROOT,env=clean_env(),
                              stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,creationflags=subprocess.CREATE_NO_WINDOW)
     atomic_json(OUT/'launcher-identity.json',identities(process))
     print(json.dumps({'status':'starting','public_ready':False,'secrets_emitted':False,'new_persistent_grants':False}),flush=True)
@@ -30,7 +43,7 @@ def start():
 
 def supervisor():
     import httpx,psutil
-    from cashreview.local_secrets import save
+    from cashreview.local_secrets import save,load
     from cashreview.research_delivery import validate_credentials
     from xclip_candidate.experimental import load_prototypes,PACK_DIRECTORY
     phase='security_preflight';server=None;tunnel=None;job=None;reader=None;ready=False;url_box=[];discarded=[0]
@@ -39,16 +52,20 @@ def supervisor():
         load_prototypes(ROOT/PACK_DIRECTORY)
         cfg=json.loads((ROOT/'config/cloudflared-artifact.json').read_text());binary=ROOT/'.runtime/cloudflared/cloudflared.exe'
         if hashlib.sha256(binary.read_bytes()).hexdigest()!=cfg['sha256']:raise ValueError('Pinned connector changed')
-        with socket.socket() as probe:probe.bind(('127.0.0.1',8769))
-        expires=time.time()+7.5*3600
-        keys=validate_credentials({'purpose':'research-prototype-only','primary':secrets.token_urlsafe(48),'other_owner':secrets.token_urlsafe(48),'expires_unix':expires})
-        save(OUT/'credentials.dpapi',keys)
+        with socket.socket() as probe:probe.bind(('127.0.0.1',PORT))
+        if PARTIAL_V1:
+            keys=validate_credentials(load(credentials_file()));expires=keys['expires_unix']
+        else:
+            expires=time.time()+7.5*3600
+            keys=validate_credentials({'purpose':'research-prototype-only','primary':secrets.token_urlsafe(48),'other_owner':secrets.token_urlsafe(48),'expires_unix':expires})
+            save(credentials_file(),keys)
         env=clean_env();job=OwnedWindowsJob()
         phase='protected_origin_start'
-        server=subprocess.Popen([sys.executable,str(ROOT/'scripts/serve_research_delivery.py'),'--credentials-file',str(OUT/'credentials.dpapi')],
+        origin_command=[sys.executable,str(ROOT/'scripts/serve_research_delivery.py'),'--credentials-file',str(credentials_file()),'--port',str(PORT)]+(['--partial-v1'] if PARTIAL_V1 else [])
+        server=subprocess.Popen(origin_command,
                                 cwd=ROOT,env=env,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,creationflags=subprocess.CREATE_NO_WINDOW)
         job.assign(server);atomic_json(OUT/'origin-identity.json',identities(server))
-        local='http://127.0.0.1:8769';unknown='/api/experimental/xclip/jobs/'+'0'*32
+        local='http://127.0.0.1:'+str(PORT);unknown='/api/experimental/xclip/jobs/'+'0'*32
         def alive():
             if time.time()>=expires or server.poll() is not None:raise RuntimeError('Research origin unavailable or expired')
         with httpx.Client(timeout=10,trust_env=False,follow_redirects=False) as client:
@@ -65,11 +82,14 @@ def supervisor():
             assert client.get(local+unknown,headers={'X-API-Key':'incorrect'}).status_code==401
             assert client.get(local+unknown,headers=[('X-API-Key',keys['primary']),('X-API-Key',keys['other_owner'])]).status_code==401
             assert client.get(local+unknown,headers={'X-API-Key':keys['primary']}).status_code==404
-            assert client.post(local+'/api/v1/analyze',headers={'X-API-Key':keys['primary']}).status_code==503
+            assert client.post(local+'/api/v1/analyze',headers={'X-API-Key':keys['primary']}).status_code==(422 if PARTIAL_V1 else 503)
+            if PARTIAL_V1:
+                assert client.get(local+'/api/v1/jobs/'+'0'*32,headers={'X-API-Key':keys['primary']}).status_code==404
+                assert client.get(local+'/healthz').json().get('semantic_contract_complete') is False
             for path in ['/.git/HEAD','/.private/credentials.dpapi','/.env','/docs','/openapi.json','/static/app.js']:
                 assert client.get(local+path,headers={'X-API-Key':keys['primary']}).status_code==404
         atomic_json(OUT/'security-preflight-safe-summary.json',{'status':'PASS','local_auth_checked_before_public_forwarding':True,'duplicate_keys_rejected':True,
-                    'private_and_unapproved_routes_hidden':True,'competition_api_closed503':True,'baseline_artifact_verified':True,'connector_sha256_verified':True,
+                    'private_and_unapproved_routes_hidden':True,'competition_api_closed503':not PARTIAL_V1,'partial_v1_enabled':PARTIAL_V1,'semantic_contract_complete':False,'baseline_artifact_verified':True,'connector_sha256_verified':True,
                     'permanent_jury_key_created':False,'ephemeral_research_keys_dpapi_protected':True,'bank_data_used':False})
         empty=OUT/'empty-cloudflared-config.json';empty.write_text('{}');no_cert=OUT/'no-account-cert.pem'
         if no_cert.exists() or no_cert.is_symlink():raise RuntimeError('Explicit no-account certificate must not exist')
@@ -104,13 +124,16 @@ def supervisor():
             assert client.get(url+'/').status_code==200
             for headers in [{},{'X-API-Key':'incorrect'}]:assert client.get(url+unknown,headers=headers).status_code==401
             assert client.get(url+unknown,headers={'X-API-Key':keys['primary']}).status_code==404
-            assert client.post(url+'/api/v1/analyze',headers={'X-API-Key':keys['primary']}).status_code==503
+            assert client.post(url+'/api/v1/analyze',headers={'X-API-Key':keys['primary']}).status_code==(422 if PARTIAL_V1 else 503)
+            if PARTIAL_V1:
+                assert client.get(url+'/api/v1/jobs/'+'0'*32,headers={'X-API-Key':keys['primary']}).status_code==404
+                assert client.get(url+'/healthz').json().get('partial_v1_enabled') is True
             for path in ['/.git/HEAD','/.private/credentials.dpapi','/.env','/openapi.json','/static/app.js']:
                 assert client.get(url+path,headers={'X-API-Key':keys['primary']}).status_code==404
-        atomic_json(OUT/'endpoint.json',{'url':url,'expires_unix':expires,'purpose':'research-prototype-only','active_expected':True})
+        atomic_json(OUT/'endpoint.json',{'url':url,'expires_unix':expires,'purpose':'partial-v1-experimental' if PARTIAL_V1 else 'research-prototype-only','active_expected':True})
         summary={'status':'READY','url':url,'expires_utc':time.strftime('%Y-%m-%d %H:%M:%S UTC',time.gmtime(expires)),
                  'local_security_preflight_passed':True,'public_health_auth_paths_passed':True,'synthetic_full_cycle_verified':False,
-                 'mode':'xclip_experimental','release_eligible':False,'baseline_unchanged':True,'new_persistent_grants':False,
+                 'mode':'xclip_experimental','partial_v1_enabled':PARTIAL_V1,'semantic_contract_complete':False,'release_eligible':False,'baseline_unchanged':True,'new_persistent_grants':False,
                  'permanent_jury_key_created':False,'temporary_keys_dpapi_protected':True,'secrets_or_raw_logs_emitted':False,'bank_data_used_in_checks':False,
                  'paid_resources_used':False,'os_firewall_dns_warp_or_service_changed':False}
         atomic_json(OUT/'safe-summary.json',summary);ready=True;phase='serving'
@@ -149,30 +172,62 @@ def verify_synthetic():
     from xclip_candidate.experimental import BinaryResearchResult
     from cashreview.video import sample
     from io import BytesIO
-    keys=load(OUT/'credentials.dpapi');endpoint=json.loads((OUT/'endpoint.json').read_text())
+    keys=load(credentials_file());endpoint=json.loads((OUT/'endpoint.json').read_text())
     if not endpoint['active_expected'] or time.time()>=keys['expires_unix']:raise RuntimeError('Research session inactive')
     fixtures=OUT/'fixtures';fixtures.mkdir(exist_ok=True);media=generate(fixtures/'safe.mov');url=endpoint['url'];headers={'X-API-Key':keys['primary']};started=time.monotonic();jpeg_checks=0
+    prefix='/api/v1' if PARTIAL_V1 else '/api/experimental/xclip'
     with httpx.Client(timeout=20,trust_env=False,follow_redirects=False) as client:
-        with media.open('rb') as stream:response=client.post(url+'/api/experimental/xclip/analyze',headers=headers,files={'file':('safe.mov',stream,'video/quicktime')})
+        with media.open('rb') as stream:response=client.post(url+prefix+'/analyze',headers=headers,files={'file':('safe.mov',stream,'video/quicktime')})
         assert response.status_code==200;job=response.json()['job_id'];until=time.monotonic()+290
         while time.monotonic()<until:
-            response=client.get(url+'/api/experimental/xclip/jobs/'+job,headers=headers);assert response.status_code==200;value=response.json()
+            response=client.get(url+prefix+'/jobs/'+job,headers=headers);assert response.status_code==200;value=response.json()
             if value['status']!='processing':break
             time.sleep(.5)
-        result=BinaryResearchResult.model_validate(value);done_elapsed=time.monotonic()-started
-        assert client.get(url+'/api/experimental/xclip/jobs/'+job,headers={'X-API-Key':keys['other_owner']}).status_code==404
-        for evidence in result.candidate_frames:
+        done_elapsed=time.monotonic()-started
+        if PARTIAL_V1:
+            from cashreview.schemas import Done
+            from cashreview.partial_contract import transport_result
+            result=Done.model_validate(value)
+            assert response.headers.get('X-Experimental-Mode')=='unclassified-baseline-v1'
+            native=BinaryResearchResult.model_validate(client.get(url+'/api/experimental/xclip/jobs/'+job,headers=headers).json())
+            assert result.model_dump()==transport_result(native)
+            evidence_list=[frame for event in result.violations for frame in event.evidence_frames]
+        else:result=BinaryResearchResult.model_validate(value);evidence_list=result.candidate_frames
+        assert client.get(url+prefix+'/jobs/'+job,headers={'X-API-Key':keys['other_owner']}).status_code==404
+        for evidence in evidence_list:
             frames=sample(media,[evidence.timestamp_sec],max_side=768);assert frames and abs(frames[0].sec-evidence.timestamp_sec)<1e-6
             buffer=BytesIO();frames[0].image.save(buffer,'JPEG',quality=90);assert buffer.getvalue()==base64.b64decode(evidence.image_base64,validate=True);jpeg_checks+=1
     report={'status':'PASS','scope':'Public upload-to-done of generated safe.mov through preserved local research model only; no bank or detector-quality claim',
             'synthetic_jobs_completed':1,'cross_owner_job_hidden':True,'schema_valid':True,'source_jpeg_checks':jpeg_checks,'public_upload_to_done_wall_sec':done_elapsed,'total_verification_wall_sec':time.monotonic()-started,
-            'bank_data_used':False,'predictions_or_frames_emitted':False,'release_eligible':False,'jury_key_created':False}
+            'bank_data_used':False,'predictions_or_frames_emitted':False,'partial_v1_enabled':PARTIAL_V1,'native_binary_time_evidence_preserved':True,'semantic_contract_complete':False,'release_eligible':False,'jury_key_created':False}
     atomic_json(OUT/'synthetic-safe-summary.json',report)
     summary=json.loads((OUT/'safe-summary.json').read_text());summary['synthetic_full_cycle_verified']=True;atomic_json(OUT/'safe-summary.json',summary)
     print(json.dumps(report),flush=True)
 
 
+def verify_invalid_input():
+    """Generated invalid bytes only; no raw result, key or media output."""
+    import httpx
+    from cashreview.local_secrets import load
+    keys=load(credentials_file());endpoint=json.loads((OUT/'endpoint.json').read_text())
+    if not endpoint['active_expected'] or time.time()>=keys['expires_unix']:raise RuntimeError('Research session inactive')
+    url=endpoint['url'];headers={'X-API-Key':keys['primary']};prefix='/api/v1' if PARTIAL_V1 else '/api/experimental/xclip';started=time.monotonic()
+    with httpx.Client(timeout=20,trust_env=False,follow_redirects=False) as client:
+        response=client.post(url+prefix+'/analyze',headers=headers,files={'file':('generated-invalid.mov',b'Generated invalid container; no video content.','video/quicktime')})
+        assert response.status_code==200;job=response.json()['job_id'];until=time.monotonic()+290
+        while time.monotonic()<until:
+            response=client.get(url+prefix+'/jobs/'+job,headers=headers);assert response.status_code==200;value=response.json()
+            if value.get('status')!='processing':break
+            time.sleep(.5)
+        assert value=={'job_id':job,'status':'failed'} and 'verdict' not in value
+        assert client.get(url+prefix+'/jobs/'+job,headers={'X-API-Key':keys['other_owner']}).status_code==404
+    report={'status':'PASS','scope':'Generated invalid MOV public technical-failure transport; no model-quality claim',
+            'generated_invalid_jobs_failed':1,'technical_failure_not_negative_verdict':True,'cross_owner_job_hidden':True,
+            'verification_wall_sec':time.monotonic()-started,'partial_v1_enabled':PARTIAL_V1,'bank_data_used':False,'predictions_or_frames_emitted':False}
+    atomic_json(OUT/'invalid-input-safe-summary.json',report);print(json.dumps(report),flush=True)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('action',choices=['start','supervisor','verify-synthetic']);args=parser.parse_args()
-    try:globals()[args.action.replace('-','_')]()
+    parser=argparse.ArgumentParser();parser.add_argument('action',choices=['start','supervisor','verify-synthetic','verify-invalid-input']);parser.add_argument('--partial-v1',action='store_true');args=parser.parse_args()
+    try:configure(args.partial_v1);globals()[args.action.replace('-','_')]()
     except Exception as error:print(json.dumps({'status':'failed','diagnostic':safe_exception(error,ROOT),'secrets_emitted':False}));sys.exit(1)

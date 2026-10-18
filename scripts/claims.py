@@ -177,6 +177,8 @@ sources+=list((root/'xclip-last-layer-recovery').glob('*safe-summary.json'))
 sources+=list((root/'research-access-live').glob('*safe-summary.json'))
 sources+=list((root/'research-handoff').glob('safe-summary.json'))
 sources+=list((root/'recovery-release-checkpoint').glob('*safe-summary.json'))
+sources+=list((root/'partial-contract-access').glob('*safe-summary.json'))
+sources+=list((root/'partial-contract-checkpoint').glob('*safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -220,6 +222,10 @@ def numeric(prefix,value,sample,source):
         if 'research-access-live' in source:limitation='Expiring protected research access/security tests and generated MOV public transport checks only; no bank data or detector-quality/competition-ready claim; timestamps and session availability are session-specific'
         if 'research-handoff' in source:limitation='Private synthetic/aggregate-only handoff inventory; no credentials/bank media/weights included; not readiness or model quality'
         if 'recovery-release-checkpoint' in source:limitation='Source/synthetic regression and release integrity checks only; not model quality or submission acceptance'
+        if 'partial-contract-access' in source:limitation='Experimental structural v1 transport of unchanged native baseline only; generated MOV/invalid bytes and authenticated technical checks. Missing action types/rule semantics; no bank quality, public positive-evidence relevance or contest-readiness claim'
+        if 'partial-contract-checkpoint' in source:limitation='Source/synthetic regression or separately saved generated screenshot inventory only; local Library xattrs unsupported. No new model evaluation, bank media, legal applicability or submission claim'
+        if 'quick-tunnel-limit-safe-summary' in source:limitation='Official provider documentation limit only; not measured throughput or an availability guarantee for this service'
+        if 'configured_ports' in prefix:limitation='Reviewed loopback port assignments only; not a runtime or quality measurement'
         if 'learnability-checkpoint' in source:limitation='Source/synthetic regression checkpoint only; no new model evaluation, semantic acceptance or submission'
         if 'domain-checkpoint' in source:limitation='Engineering/synthetic regression and source-integrity checkpoint only; no accepted model-quality or submission claim'
         if 'geometry_first_prompt_rule_or_allowed_token_selection' in prefix:limitation+='; legacy metric name counts first-definition semantics only, not allowed-list selection'
@@ -239,6 +245,7 @@ for f in sources:
     if f.parent.name in ['xclip-last-layer-diagnostic','research-delivery-preparation']:sample='technical'
     if f.parent.name=='last-layer-lifetime-synthetic':sample='synthetic'
     if f.parent.name in ['research-access-live','research-handoff','recovery-release-checkpoint']:sample='synthetic' if f.name=='synthetic-safe-summary.json' else 'technical'
+    if f.parent.name in ['partial-contract-access','partial-contract-checkpoint']:sample='synthetic' if f.name in ['synthetic-safe-summary.json','invalid-input-safe-summary.json'] else 'technical'
     if f.parent.name=='xclip-last-layer-recovery':sample='train' if f.name=='safe-summary.json' else 'technical'
     if f.parent.parent.name=='synthetic-semantics' or f.name=='synthetic-format-safe-summary.json':sample='synthetic'
     if f.parent.name=='gguf-control' and f.name=='synthetic-safe-summary.json':sample='synthetic'
