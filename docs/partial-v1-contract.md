@@ -1,5 +1,7 @@
 # Experimental partial competition transport
 
+**Historical profile: retired.** The current deployment retains this transport with a separately expiring/revocable jury session. Use [final handoff](final-handoff.md) for the sole current URL, actual limits and restart instructions. Earlier profile details below are historical.
+
 The supplied official JSON contract makes `type` a free text string. It has no separate normative-source field: a verified source can be included in `description`. This permits structural serialization of the preserved real binary/time result, but does not waive the brief's requirements to classify a visible action and justify it against an applicable rule.
 
 The opt-in `--partial-v1` origin therefore exposes `POST /api/v1/analyze` and `GET /api/v1/jobs/{job_id}` using the unchanged local cosine baseline. Upload, model execution, queue limits, owner authentication, private job storage, expiry and failure handling still belong to the native service. The outer bridge changes the response representation only. The original research origin keeps its default behavior, including authenticated v1 503.

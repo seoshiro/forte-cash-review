@@ -1,5 +1,7 @@
 # Verified temporary research access
 
+**Historical session: retired.** Its owned origin/connector have been stopped. Use the single current entry and separate temporary jury key in [final handoff](final-handoff.md). The following records describe the earlier verified session, including its original expiry.
+
 The protected loopback 8769 research origin and a free Quick Tunnel are running in this verified session. Current URL/expiry are stored in `.private/research-access-live/endpoint.json` and `.private/research-handoff/README.txt`; the private user archive is `.private/TerenOi-research-handoff.zip`. Session expires 2026-10-18 08:38:41 UTC. Keep the selected Windows computer and internet connection running; no sleep/security/firewall/VPN/DNS/autostart settings were changed. Quick Tunnel has a temporary address and no uptime guarantee.
 
 The original port 8769 service uses the preserved cosine baseline, not the rejected adapter. Research results have unverified type and not_assessed rule application. Its `/api/v1` deliberately returns 503 with valid authentication. A separate opt-in port 8770 profile now exposes [experimental partial v1 transport](partial-v1-contract.md), preserving the actual baseline binary/time/evidence fields while disclosing missing type/rule semantics. There is no competition-readiness, semantic, jury-key or formal-submission claim for either profile.

@@ -1,14 +1,8 @@
 # Контур
 
-[Latest: real baseline results through an opt-in partial competition API; classification and rule semantics remain incomplete](docs/partial-v1-contract.md).
+**Experimental prototype.** Frontend и API работают. Единственный актуальный вход: [UI / API](https://sword-fire-sim-conversion.trycloudflare.com). Отдельный временный ключ жюри доступен только в локальном окне; expiry — **18 октября 2026, 18:59:59 UTC / 23:59:59 Астаны**. [Получение ключа, отзыв, перезапуск и комплект сдачи](docs/final-handoff.md).
 
-[Latest: full OOF complete; adapter rejected; verified protected research HTTPS and private handoff](docs/last-layer-recovery.md).
-
-
-
-[Новый этап: точный zero-adapter replay, остановка адаптации по бюджету и финальные синтетические скриншоты](docs/last-layer-experiment.md).
-
-[Новый результат: диагностика обучаемости, отклонённое улучшение и честный локальный research UI](docs/learnability-and-prototype.md).
+**Качество детектора:** сохранённая оценка TUNE — **TP 1 / FN 4 / FP 3 / TN 1; F1 = 0.222222…**. Типизация действий и применимость правил неподтверждены. Это частичный экспериментальный контракт; успешные software/synthetic тесты не являются accuracy модели. Новых запросов к TUNE/HOLDOUT не было.
 
 **От записи — к проверяемому эпизоду.** Локальное рабочее место для проверки визуальных признаков возможных нарушений кассовой дисциплины.
 
@@ -16,7 +10,7 @@
 
 [Приватный репозиторий исходного кода](https://github.com/seoshiro/forte-cash-review) · доступ по правам GitHub
 
-Контур связывает момент на видео, контекст до и после, исходные кадры и проверяемое правило. Проверяющий может перейти к эпизоду и оценить основание вывода. Решение остаётся за человеком.
+Проверяющий может перейти к предложенному моменту, посмотреть контекст до и после и исходные candidate-кадры. Бинарная модель предлагает кандидат; его действие, тип и применимое правило не установлены. Решение остаётся за человеком.
 
 > **Исследовательский прототип.** Загрузка, фоновые задания, интерфейс и API-контракт проверены на искусственных MOV. Есть локальная экспериментальная бинарная модель XCLIP и временный защищённый публичный доступ. Отдельный partial-v1 профиль возвращает реальные бинарные результаты и таймкоды в обязательной JSON-схеме с явным неустановленным типом. Принятого классификатора типов и применимости правил пока нет. Независимое качество и готовность к конкурсной проверке не подтверждены. [Режимы, ограничения и срок доступа](docs/partial-v1-contract.md).
 
@@ -128,7 +122,7 @@ curl.exe "$taskBase/api/v1/jobs/JOB_ID_FROM_POST" -H "X-API-Key: $taskKey"
 | InternVL3.5-1B visual control | 3/6 верных последовательностей, 1/2 UNKNOWN без изображения | Gate не пройден; TRAIN не запускался |
 | Ресурсы InternVL control | Пик устройства 2367 МиБ; минимум доступной RAM 2.334 ГиБ; monitor 57.203 с | Только 4 искусственных кадра/blank; не fit реального видео |
 | Синтетический внешний HTTPS | 2 задания, 3 исходных JPEG проверены; auth/изоляция/rollback PASS | Искусственные MOV, задержка 10 с; туннель и сервер остановлены; не качество модели |
-| Текущий checkpoint | 432 теста passed, без failures/errors/skips | Source/synthetic проверки; не точность детектора; см. docs/partial-v1-contract.md |
+| Текущий checkpoint | 438 тестов passed, без failures/errors/skips | Source/synthetic проверки; не точность детектора; см. docs/final-handoff.md |
 
 Расчёты: [XCLIP](docs/xclip-candidate.md), [logistic head и paired point diagnostics](docs/xclip-linear-head.md), [research API](docs/xclip-experimental-api.md), [InternVL](docs/internvl-visual-control.md), [TUNE](docs/xclip-tune.md), [temporal learning](docs/xclip-temporal-head.md), [аудит подготовки](docs/train-preparation-audit.md), [claim ledger](docs/claim-ledger-index.md). Logistic head уменьшил MAE кандидатной точки с 9 до 8.928571 с на тех же 14 positive видео, но увеличил FN/FP; это не принято как преимущество. Полный cache-only CPU процесс занял 3.75 с, без декодирования и encoder inference. Неудачные опыты сохраняются; параметры после результата не подбираются.
 

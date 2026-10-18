@@ -179,6 +179,8 @@ sources+=list((root/'research-handoff').glob('safe-summary.json'))
 sources+=list((root/'recovery-release-checkpoint').glob('*safe-summary.json'))
 sources+=list((root/'partial-contract-access').glob('*safe-summary.json'))
 sources+=list((root/'partial-contract-checkpoint').glob('*safe-summary.json'))
+for directory in ['final-access','final-positive-harness','final-runtime-qa','final-ui-live-qa','final-ui-live-qa-02','final-ui-live-qa-03','final-fault-qa-02','final-long-synthetic-qa','final-delivery-checkpoint']:
+    sources+=list((root/directory).glob('*safe-summary.json'))
 def numeric(prefix,value,sample,source):
     if 'configured_limits' in prefix and isinstance(value,(int,float)) and not isinstance(value,bool):
         add(prefix,value,'configured value',sample,source,'Reviewed configuration, not measured throughput or performance');return
@@ -226,6 +228,13 @@ def numeric(prefix,value,sample,source):
         if 'partial-contract-checkpoint' in source:limitation='Source/synthetic regression or separately saved generated screenshot inventory only; local Library xattrs unsupported. No new model evaluation, bank media, legal applicability or submission claim'
         if 'quick-tunnel-limit-safe-summary' in source:limitation='Official provider documentation limit only; not measured throughput or an availability guarantee for this service'
         if 'configured_ports' in prefix:limitation='Reviewed loopback port assignments only; not a runtime or quality measurement'
+        if 'final-access' in source:limitation='Day-bounded revocable jury delivery configuration and technical availability only; no permanent credential, model-quality or formal submission claim'
+        if 'final-positive-harness' in source:limitation='Separate public hash-allowlisted generated positive/negative fixture-worker; exact JPEG/PTS/auth/isolation/rollback plumbing only. Real model inference unchanged; not detection quality'
+        if 'final-runtime-qa' in source:limitation='Frozen real baseline on generated MOV via final public API only; rename, restart and aged-fixture TTL checks. No bank quality, TUNE/HOLDOUT or all-input latency guarantee'
+        if 'final-ui-live-qa' in source:limitation='Actual final browser-to-local-baseline flow with generated MOV and locally loaded jury key only. No captures or semantic prediction output; not model accuracy'
+        if 'final-fault-qa-02' in source:limitation='Separate generated loopback short-deadline/crash fault fixture only; verifies timeout/reaping/recovery mechanism, not real-video inference latency'
+        if 'final-long-synthetic-qa' in source:limitation='One 145sec 960x540 generated geometric MOV through frozen baseline; technical latency only. Not complex bank-video performance, detection quality or SLA'
+        if 'final-delivery-checkpoint' in source:limitation='Software/source/synthetic release checkpoint only; test counts are not model accuracy, independent evaluation or submission acceptance'
         if 'learnability-checkpoint' in source:limitation='Source/synthetic regression checkpoint only; no new model evaluation, semantic acceptance or submission'
         if 'domain-checkpoint' in source:limitation='Engineering/synthetic regression and source-integrity checkpoint only; no accepted model-quality or submission claim'
         if 'geometry_first_prompt_rule_or_allowed_token_selection' in prefix:limitation+='; legacy metric name counts first-definition semantics only, not allowed-list selection'
@@ -246,6 +255,8 @@ for f in sources:
     if f.parent.name=='last-layer-lifetime-synthetic':sample='synthetic'
     if f.parent.name in ['research-access-live','research-handoff','recovery-release-checkpoint']:sample='synthetic' if f.name=='synthetic-safe-summary.json' else 'technical'
     if f.parent.name in ['partial-contract-access','partial-contract-checkpoint']:sample='synthetic' if f.name in ['synthetic-safe-summary.json','invalid-input-safe-summary.json'] else 'technical'
+    if f.parent.name in ['final-access','final-delivery-checkpoint']:sample='technical'
+    if f.parent.name in ['final-positive-harness','final-runtime-qa','final-ui-live-qa','final-ui-live-qa-02','final-ui-live-qa-03','final-fault-qa-02','final-long-synthetic-qa']:sample='synthetic'
     if f.parent.name=='xclip-last-layer-recovery':sample='train' if f.name=='safe-summary.json' else 'technical'
     if f.parent.parent.name=='synthetic-semantics' or f.name=='synthetic-format-safe-summary.json':sample='synthetic'
     if f.parent.name=='gguf-control' and f.name=='synthetic-safe-summary.json':sample='synthetic'
